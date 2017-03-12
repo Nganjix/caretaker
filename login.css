@@ -1,0 +1,33 @@
+.navbar {
+	background-color: #222222;
+}
+.midpanels {
+	top: 20px;
+	/* background: url("livingroom.jpg") no-repeat center;
+	background-size: cover;
+	background-position: bottom;
+	background-repeat: no-repeat;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	position: relative;
+	bottom: 60px;
+	min-height:720px;
+	*/
+}
+
+
+.sidebar {
+	top: 200px;
+	
+}
+.footer{
+	padding-left: 5px;
+}
+ul.help{
+	padding-right: 5px;
+}
+#errmsg
+{
+	color: #FF0000;
+}
