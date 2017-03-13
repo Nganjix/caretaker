@@ -2,8 +2,8 @@ $(document).ready(
 function()
 {
     var usrfields = ['usrnm','password1','confirmpassword'];
-    $("#usrnm").attr("autocomplete","off");
 
+     $('#confirmpassword').hide();
     //clear fields
 
     //click events part
