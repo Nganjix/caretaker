@@ -18,8 +18,7 @@ $('#users').addClass("active");
 <div class="col-sm-6">
 <button id="new" class="btn btn-success glyphicon glyphicon-plus-sign" disabled="true"> New</button>
 <button id="edit" class="btn btn-success glyphicon glyphicon-edit" disabled="true"> Edit</button>
-<button id="save" class="btn btn-success glyphicon glyphicon-save"> Save</button>
-<button id="refresh" class="btn btn-info glyphicon glyphicon-refresh"> Refresh</button>
+<button id="save" class="btn btn-info glyphicon glyphicon-save"> Save</button>
 <button id="delete" class="btn btn-danger glyphicon glyphicon-trash" disabled="true"> Delete</button>
 <div id="requiredError" data-role="popup" ></div>     
 </div>
@@ -27,6 +26,13 @@ $('#users').addClass("active");
   <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Are you sure you want to delete this record ?</p>
 </div>
 <div class="col-sm-6">
+   <row>
+   
+
+     <div class="col-md-4"></div>
+     <div class="col-md-4"><button id="resetbtn" class="btn btn-info" disabled="true">Reset Password</button></div>
+     <div class="col-md-4"></div>
+   </row>
 </div>
 </div>
 <hr />
@@ -45,9 +51,11 @@ $('#users').addClass("active");
     </div>
     <div id="confirmpassword" class="form-group">
        <label id="confirmpassword">Confirm Password: </label>
-        <input id="confirmpassword" class="form-control" type="password" value="">
+        <input id="confirmpassrd" class="form-control" type="password" value="" disabled="true">
     </div>
-    <button id="resetbtn" class="form-control btn btn-info">Reset Password</button>
+    <div id='passwordMatchError'></div>
+    
+
 
 </div>
 <div class="col-md-5">

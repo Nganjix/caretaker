@@ -33,7 +33,7 @@ else
     {
 	  if(!empty($_POST['username']) && !empty($_POST['password']))
 	   {
-		$usrname = $_POST['username'];
+		    $usrname = $_POST['username'];
         $pssword = $_POST['password'];
         
         $sql = 'select userid, username, password from users where username ='.'"'.$usrname.'"';
@@ -42,7 +42,7 @@ else
         if($query->rowCount() == 1)
         {
            $data = $query->fetch();
-           if ($usrname == $data['username'] && $pssword == $data['password']) {
+           if ($usrname == $data['username'] && password_verify($pssword, $data['password'])) {
            	# code...
           
            if(isset($_SESSION['userid']))

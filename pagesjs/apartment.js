@@ -1,7 +1,7 @@
 
 $(document).ready( function(){
 //autocomplete for page dropdowns
-$('#searchApartment, #apartmentname').autocomplete({
+$('#searchApartment').autocomplete({
     source : 'autocomplete.php?page=apartments',
     autoFocus : true
 });

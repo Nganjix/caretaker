@@ -15,10 +15,12 @@ $rs = 'lol';
 $d = 'haha ';
 $d =  $d.$rs;
 echo $d;
-echo('<br/>');
+
 echo 'loooooooooooooooooooooool';
 echo('<br/>');
-$t = password_hash("rasmuslerdorf", PASSWORD_BCRYPT);
+$t = password_hash("james", PASSWORD_BCRYPT);
+echo $t;
+echo('<br/>');
 echo $t == password_verify("rasmuslerdorf", $t);
 ?>
 

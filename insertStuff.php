@@ -147,8 +147,36 @@ class Apartment
     
     
 }
+class Users
+{
+    var $username;
+    var $password;
+    function __contruct($formData)
+    {
+        $this->username = $formData['usernm'];
+        $this->password = $formData['password1'];
+
+    }
+    function createStmt()
+    {
+        return 'insert into users (username, password) values (?, ?)';
+    }
+    function runUsers()
+    {
+        if(($this->username == '' || $this->username == None || $this->username == ' ')  ||  ($this->password == '' || $this->password == None || $this->password == ' '))
+        {
+            echo '400';
+        }
+        {
+
+            InsertData(createStmt(), [trim($this->username), password_hash($this->password, PASSWORD_BCRYPT)]);
+        }
+        
+    }
+}
 if(isset($_GET['page']) && !empty($_GET['page']))
 {
+    
     $verifyData = new VerifyFormData($_POST);
     if($verifyData->returnVerifiedData())
     {
@@ -161,6 +189,13 @@ if(isset($_GET['page']) && !empty($_GET['page']))
          {
             $newApartment = new Apartment($_POST);
             $newApartment->runApartment();
+         }
+         if($_GET['page'] == 'users')
+         {
+            echo json_encode($_REQUEST); 
+            //$newUser = new Users($_POST);
+            //$newUser->runUsers();
+
          }
     }
     else

@@ -36,3 +36,17 @@ function setFieldStatus(allfields, status)
        $('#'+key).prop('disabled', status); 
     });
 }
+function ajaxSendReceive(url, info, datastatus)
+{
+  console.log('saving data in ajax');
+  $.ajax(
+  {
+    url : url,
+    type : 'POST',
+    data : info,
+    Success : function(data){
+      console.log(data);
+    }
+  });
+  
+}
