@@ -36,17 +36,49 @@ function setFieldStatus(allfields, status)
        $('#'+key).prop('disabled', status); 
     });
 }
-function ajaxSendReceive(url, info, datastatus)
-{
-  console.log('saving data in ajax');
-  $.ajax(
-  {
-    url : url,
-    type : 'POST',
-    data : info,
-    Success : function(data){
-      console.log(data);
-    }
+function ajaxSendReceive(urlname, info, datastatus)
+    {
+        $.ajax({
+             url : urlname,
+             type : 'POST',
+             data : info,
+             success : function(datar)
+                 {
+                      defineErrorCodes(datar, datastatus);
+                 },
+             error : function(thiserror){ 
+              defineErrorCodes('500', "Network error data couldn't be sent");
+            }
   });
+    
   
-}
+  }
+  function defineErrorCodes(datar, dtstatus)
+  {
+                      if(datar == '200')
+                      {
+                        msgNotifier('success', dtstatus+' operation successful');
+                      }
+                      else if (datar == '300')
+                      {
+                        msgNotifier('warning', dtstatus+' operation not successful');
+                      }
+                      else
+                      {
+                        if(datar == '400')
+                        {
+                          msgNotifier('error', 'Fatal error during '+dtstatus);
+                        }
+                        else
+                        {
+                          msgNotifier('error', datastatus);
+                        }
+                        
+                      }
+
+  }
+
+  function msgNotifier(status, notiMsg)
+  {
+    $.notify(notiMsg, status);
+  }

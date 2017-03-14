@@ -1,7 +1,7 @@
 $(document).ready(
 function()
 {
-    var usrfields = {'usrnm':'','password1':'','confirmpassrd':''};
+    var usrfields = {'usernm':'','password1':'','confirmpassrd':''};
     var currentdataset;
     //clear fields
 
@@ -20,13 +20,12 @@ function()
         
         if(!checkPasswordMatch() && $('#password1').val() != '')
         {
-            $('#passwordMatchError').addClass('alert alert-danger');
-            $('#passwordMatchError').html('password do not match')
+            setErrorMsg('password do not match', 'addClass');
+           
         }
         else
         {
-            $('#passwordMatchError').removeClass('alert alert-danger');
-            $('#passwordMatchError').html('')
+            setErrorMsg('', 'removeClass');
         }
     });
     function checkPasswordMatch()
@@ -34,6 +33,9 @@ function()
         return $('#password1').val() == $('#confirmpassrd').val();
         
     }
+    function checkPasswordLength(){
+        return ($('#password1').val()).length >= 4; 
+     }
     //&& $('#usrnm').val() != '' && $('#usrnm').val() != ' '
      //show confirm password field when password is in focus
      $('#password1').focus(function(event){  
@@ -45,17 +47,47 @@ function()
      //
       $('#resetbtn').click(function(event){   disableconfirmpassrd(false);  });
      //save
-     $('#save').click(function(event){
+     $('#save').click(function(event)
+     {
         if($('#usrnm').val() != '' && $('#usrnm').val() != ' ' && checkPasswordMatch())
         {
-            console.log('in saving data');
-            saveRecord();
+        
+            if(checkPasswordLength() && $('#usrnm').val() != $('#password1').val())
+            {
+                saveRecord();
+            }
+            else
+            {
+
+                setErrorMsg('Passwd should be more than 4 characters or should not match username', 'addClass');
+            }
+
+            
         } 
         else
         {
-
+            setErrorMsg('invalid settings', 'addClass');
         }
      });
+     function setErrorMsg(errormsg, classStatus){
+        if(classStatus == 'addClass')
+        {
+            if($('#passwordMatchError').hasClass('alert alert-danger'))
+            {
+                $('#passwordMatchError').html(errormsg)
+            }
+            else
+            {
+                $('#passwordMatchError').addClass('alert alert-danger');
+                $('#passwordMatchError').html(errormsg)
+            }
+            
+        }
+    else{
+        $('#passwordMatchError').removeClass('alert alert-danger');
+        $('#passwordMatchError').html('')
+         }
+     }
      //edit
      $('#edit').click(function(event){
         
@@ -69,19 +101,22 @@ function()
         
      });
      //functions  save, update, delete data
+     
      function saveRecord()
      {
-        console.log('in ajax save data');
+        
         ajaxSendReceive('insertStuff.php?page=users', returnFieldVals(), "Insert");
      }
 
      function returnFieldVals()
      {
-        usrfields['usernm'] = $('#usrnm').val();
+        usrfields['usernm'] = ($('#usernm').val()).trim();
         usrfields['password1'] = $('#password1').val();
         usrfields['confirmpassrd'] = $('#confirmpassrd').val();
         return usrfields;
      }
      
+    
+
     
 });

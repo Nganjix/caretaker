@@ -1,7 +1,9 @@
 <?php
+
 session_start();
 if(isset($_SESSION['user']) && !empty($_SESSION['user']))
 {
+
 require_once('includes/dbconnection.php');
 $tenantconn = DbConnector::returnconnection();
 
@@ -151,10 +153,12 @@ class Users
 {
     var $username;
     var $password;
-    function __contruct($formData)
+    function __construct($fData)
     {
-        $this->username = $formData['usernm'];
-        $this->password = $formData['password1'];
+
+        
+        $this->username = $_POST['usernm'];
+        $this->password = $_POST['password1'];
 
     }
     function createStmt()
@@ -163,20 +167,22 @@ class Users
     }
     function runUsers()
     {
-        if(($this->username == '' || $this->username == None || $this->username == ' ')  ||  ($this->password == '' || $this->password == None || $this->password == ' '))
+        if(($this->username == '' || $this->username == 'undefined' || $this->username == ' ')  ||  ($this->password == '' || $this->password == 'undefined' || $this->password == ' '))
         {
+            
             echo '400';
+
         }
+        else
         {
 
-            InsertData(createStmt(), [trim($this->username), password_hash($this->password, PASSWORD_BCRYPT)]);
+            new InsertData($this->createStmt(), [trim($this->username), password_hash($this->password, PASSWORD_BCRYPT)]);
         }
         
     }
 }
 if(isset($_GET['page']) && !empty($_GET['page']))
 {
-    
     $verifyData = new VerifyFormData($_POST);
     if($verifyData->returnVerifiedData())
     {
@@ -191,10 +197,10 @@ if(isset($_GET['page']) && !empty($_GET['page']))
             $newApartment->runApartment();
          }
          if($_GET['page'] == 'users')
-         {
-            echo json_encode($_REQUEST); 
-            //$newUser = new Users($_POST);
-            //$newUser->runUsers();
+         { 
+
+            $newUser = new Users($_POST);
+            $newUser->runUsers();
 
          }
     }
@@ -205,11 +211,6 @@ if(isset($_GET['page']) && !empty($_GET['page']))
 }
 }
 
-else
-{
-    echo('400');
-
-}
 
 
 

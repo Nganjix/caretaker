@@ -9,7 +9,7 @@ class DbConnector
 	{
 		try 
 		{
-		$handler = new PDO('mysql:host=localhost;dbname=caretaker', 'root', '');
+		$handler = new PDO('mysql:host=localhost;dbname=caretaker', 'root', 'P@$$w0rd');
 		$handler->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		 if($handler)
          {
