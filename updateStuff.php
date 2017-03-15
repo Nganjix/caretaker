@@ -76,6 +76,20 @@ $conn =  DbConnector::returnconnection();
             return $this->aprtmappings;
         }
     }
+    class Users
+    {
+      var $usersmappings;
+      function __construct()
+      {
+        $this->usersmappings = array('username' => 'usernm', 'password' => 'password1');
+
+      }
+      function returnUsersFields()
+      {
+        return $this->usersmappings;
+
+      }
+    }
     class Update
     {
         var $sqlstmt;
@@ -112,6 +126,12 @@ $conn =  DbConnector::returnconnection();
                 {
                  $updatetb = $_REQUEST['page'];
                  $currentid =  $_REQUEST['id'];
+                 if($_REQUEST['page'] == 'users')
+                  {
+                    $password = $_REQUEST['password1'];
+                    $_REQUEST['password1'] = password_hash($password, PASSWORD_BCRYPT);
+                    
+                  }
                  $vals = '';
                   foreach($_REQUEST as $key => $value)
                    {
@@ -119,6 +139,7 @@ $conn =  DbConnector::returnconnection();
                       {
                         if ($key == $jscript && $key != 'id')
                          {
+
                             if($vals == '')
                             {
                                 $vals = $db." = '".$value."'";
@@ -162,7 +183,11 @@ $conn =  DbConnector::returnconnection();
             $aprtObj = new Apartment();
             executeUpdate($aprtObj->returnAprtFields(), 'aprtName');            
         }
-        
+        if($page == 'users')
+        {
+          $usrObj = new Users();
+          executeUpdate($usrObj->returnUsersFields(), 'username');
+        }
      }
      
 }

@@ -2,7 +2,8 @@ $(document).ready(
 function()
 {
     var usrfields = {'usernm':'','password1':'','confirmpassrd':''};
-    var currentdataset;
+    var currentdataset = {'name' : undefined, 'password' : undefined};
+
     //clear fields
 
     //click events part
@@ -10,12 +11,38 @@ function()
     {
         $('#confirmpassrd').prop("disabled", status);
    
-    }
+    }//edit
+    $('#edit').click(function(event)
+    {
+        $('#password1, #confirmpassrd').val('');
+        $('#password1, #confirmpassrd').prop('disabled', false);
+
+    });
     //autocomplete for page dropdowns
     $('#usernm').autocomplete({
     source : 'autocomplete.php?page=users',
-    autoFocus : true
-     });
+    autoFocus : true,
+    select : function(event, ui)
+    {
+        setValueFields(event, ui);
+    }
+    });
+    function setValueFields(event, ui)
+    {
+        $.getJSON(
+            'sendBackStuff.php?page=users', {'id' : ui.item.value}, function(data){
+                $('#password1').val(data[1].substring(0,10));
+                $('#confirmpassrd').val(data[1].substring(0,10));
+                currentdataset.name = ui.item.value;
+
+            }
+            );
+        $('#password1').prop('disabled', true);
+        loadButtonStatuses(false)
+    }
+
+
+
     $('#confirmpassrd').on('blur',function(){ 
         
         if(!checkPasswordMatch() && $('#password1').val() != '')
@@ -45,10 +72,28 @@ function()
             
          }});
      //
-      $('#resetbtn').click(function(event){   disableconfirmpassrd(false);  });
+      
      //save
      $('#save').click(function(event)
      {
+      if(currentdataset.name != undefined)
+       {
+        //update
+        if(checkPasswordLength() && checkPasswordMatch() && $('#usernm').val() != '' && $('#usernm').val() != ' ' && currentdataset.password != $('#password1').val()  && $('#password1').val()  != '')
+        {
+          ajaxSendReceive('updateStuff.php?page=users&id='+currentdataset.name, {'usernm' : ($('#usernm').val()).trim(), 'password1': $('#password1').val()}, 'Update'); 
+          $('#password1, #confirmpassrd').val('');
+          $('#password1, #confirmpassrd').prop('disabled', true); 
+        }
+        else
+        {
+            setErrorMsg('error while updating user, check credentails', 'addClass');
+        }
+        
+
+        }
+    else
+    {
         if($('#usrnm').val() != '' && $('#usrnm').val() != ' ' && checkPasswordMatch())
         {
         
@@ -68,7 +113,9 @@ function()
         {
             setErrorMsg('invalid settings', 'addClass');
         }
+    }
      });
+
      function setErrorMsg(errormsg, classStatus){
         if(classStatus == 'addClass')
         {
@@ -89,16 +136,21 @@ function()
          }
      }
      //edit
-     $('#edit').click(function(event){
-        
-     });
+
      //delete
      $('#delete').click(function(event){
+        if(($('#usernm').val()).trim() != '' && $('#usernm').val() != undefined)
+        {
+            ajaxSendReceive('deleteStuff.php?page=users&id='+($('#usernm').val()).trim(),'', 'Delete');
+            $('#password1, #confirmpassrd').val('');
+            $('#password1, #confirmpassrd').prop('disabled', true); 
+
+        }
         
      });
      //new
      $('#new').click(function(event){
-        
+        $('#password1, #confirmpassrd').val('');
      });
      //functions  save, update, delete data
      
@@ -106,6 +158,8 @@ function()
      {
         
         ajaxSendReceive('insertStuff.php?page=users', returnFieldVals(), "Insert");
+        $('#password1, #confirmpassrd').val('');
+        $('#password1, #confirmpassrd').prop('disabled', true); 
      }
 
      function returnFieldVals()

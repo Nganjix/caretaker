@@ -38,7 +38,17 @@ $("#searchTenant").autocomplete({
 	    //response: function( event, ui ) {
 	    //	console.log(ui);
 	    //},
-        autoFocus:true
+        autoFocus:true,
+        select : function(event, ui){
+          $.ajax({
+            url: 'sendBackStuff.php?page=tenant&id='+getID(ui.item.value),
+            success: function(data){ 
+                setValueInFields(data);
+             
+            } 
+            
+            });
+        }
     });
 $('#boardingDate').datepicker();
 $("#save").click(function(event) {
@@ -47,7 +57,6 @@ $("#save").click(function(event) {
 	getValues();
     if(currentID == "" || currentID == null)
     {
-    console.log("current id does not have value");
 	if(validateData() == true)
     {
         warnUser(); //reconfirm and warn user for all required values
@@ -381,23 +390,7 @@ function getID(idWithName)
     //returns the id from the name on the search bar
     return idWithName.split(".")[0];
 }
-$('#searchTenant').keydown(function(e){
-    
-    if(e.originalEvent.key == "Enter")
-    {
-        if(e.currentTarget.value != '' && e.currentTarget.value != undefined){
-            $.ajax({
-            url: 'sendBackStuff.php?page=tenant&id='+getID(e.currentTarget.value),
-            success: function(data){ 
-                setValueInFields(data);
-             
-            } 
-            
-            });
-        }
-        
-    }
-});
+
 //set values in fields
 function setValueInFields(data){
     if(data == 300)

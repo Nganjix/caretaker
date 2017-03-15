@@ -38,9 +38,10 @@ function setFieldStatus(allfields, status)
 }
 function ajaxSendReceive(urlname, info, datastatus)
     {
+        var sendtype = datastatus == 'Update' ? 'GET' : 'POST';
         $.ajax({
              url : urlname,
-             type : 'POST',
+             type : sendtype,
              data : info,
              success : function(datar)
                  {
@@ -71,7 +72,7 @@ function ajaxSendReceive(urlname, info, datastatus)
                         }
                         else
                         {
-                          msgNotifier('error', datastatus);
+                          msgNotifier('error', dtstatus);
                         }
                         
                       }

@@ -30,6 +30,10 @@ if(isset($_GET) && !empty($_GET))
          = '".$this->varID."'"; */
      
         return "select aprtName, costPerMonth, aprtDesc,accId, tenantId, additionalCost, blockId from apartment where aprtName = '".$this->varID."'";
+    }
+    public function returnUsersSql()
+    {
+        return "select username, password from users where username = '".$this->varID."'";
     } 
       
     }
@@ -151,6 +155,12 @@ if(isset($_GET) && !empty($_GET))
        
        
     }
+    if($_GET['page'] == 'users')
+    {
+        $newSendData = new SendBackData($newTableSetup->returnUsersSql());
+        $newSendData->returnJsonData();
+    }
+    
 }
 }
 ?>

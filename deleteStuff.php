@@ -30,6 +30,18 @@ class Apartment
     }
     
 }
+class Users
+{
+    var $username;
+    function __construct($id){
+        $this->username = $id;
+    }
+    function returnUsersSqlStmt()
+    {
+        return 'delete from users where username ="'.$this->username.'"';
+    }
+
+}
 class DeleteItem
 {
     function delete($sql)
@@ -74,6 +86,11 @@ if($_REQUEST['page'] == 'apartment')
 {
    $newAprtDel = new Apartment($getId);
    sendObjToDelete($newAprtDel->returnSqlStmt()); 
+}
+if($_REQUEST['page'] == 'users')
+{
+    $newUsrDel = new Users($getId);
+    sendObjToDelete($newUsrDel->returnUsersSqlStmt());
 }
 }
 

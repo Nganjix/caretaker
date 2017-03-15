@@ -17,7 +17,6 @@ $('#users').addClass("active");
 <div class="row top-header container-fluid">
 <div class="col-sm-6">
 <button id="new" class="btn btn-success glyphicon glyphicon-plus-sign" disabled="true"> New</button>
-<button id="edit" class="btn btn-success glyphicon glyphicon-edit" disabled="true"> Edit</button>
 <button id="save" class="btn btn-info glyphicon glyphicon-save"> Save</button>
 <button id="delete" class="btn btn-danger glyphicon glyphicon-trash" disabled="true"> Delete</button>
 <div id="requiredError" data-role="popup" ></div>     
@@ -30,7 +29,7 @@ $('#users').addClass("active");
    
 
      <div class="col-md-4"></div>
-     <div class="col-md-4"><button id="resetbtn" class="btn btn-info" disabled="true">Reset Password</button></div>
+     <div class="col-md-4"><button id="edit" class="btn btn-info" disabled="true">Reset Password</button></div>
      <div class="col-md-4"></div>
    </row>
 </div>

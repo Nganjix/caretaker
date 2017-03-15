@@ -3,7 +3,17 @@ $(document).ready( function(){
 //autocomplete for page dropdowns
 $('#searchApartment').autocomplete({
     source : 'autocomplete.php?page=apartments',
-    autoFocus : true
+    autoFocus : true,
+    select : function(event, ui){
+        $.ajax({
+            url: 'sendBackStuff.php?page=apartments&id='+getID(ui.item.value),
+            success: function(data){ 
+                setValueInFields(data);
+             
+            } 
+            
+            });
+    }
 });
 
 var url = "dropdowns.php";
@@ -249,23 +259,7 @@ function getID(idWithName)
     return idWithName.split(" ")[0];
 }
 
-$('#searchApartment').keydown(function(e){
-    
-    if(e.originalEvent.key == "Enter")
-    {
-        if(e.currentTarget.value != '' && e.currentTarget.value != undefined){
-            $.ajax({
-            url: 'sendBackStuff.php?page=apartments&id='+getID(e.currentTarget.value),
-            success: function(data){ 
-                setValueInFields(data);
-             
-            } 
-            
-            });
-        }
-        
-    }
-});
+
 
 //display
 function setValueInFields(dat)
@@ -348,7 +342,6 @@ function updateApartment(AllData)
 
 
 //conversion functions
-
 
 
 

@@ -6,7 +6,8 @@ $referrer = $_SERVER['HTTP_REFERER'];
 $regex = '/\w*\.php$/';
 preg_match($regex, $referrer, $array);
 //separate the loggin in with logout-check which page requested validate.php
-if ($array[0] == 'index.php' || $array[0] == 'tenant.php' || $array[0] == 'apartment.php' || $array[0] == 'profile.php' || $array[0] == 'users.php')
+$pgs = array('index.php','tenant.php','apartment.php','profile.php','users.php');
+if (in_array($array[0], $pgs))
   { 
     //register logging out
     function logOutUser()
