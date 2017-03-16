@@ -41,8 +41,10 @@ $('#ProfileTab').addClass("active");
     <div class="col-md-1"></div>
 	<div class="col-md-3">
 	<div class="form-group">
-		<img src="images/profileplaceholder.png">
-		<input type="file" name="uploadprofileimg">
+		<img src="images/profileplaceholder.png"/>
+		<input type="file" name="uploadprofileimg" id="uploadprofileimg"/>
+        <br />
+        <div id="imgmessage" class="text-warning"></div>
 	</div>
 	
 	</div>
@@ -62,11 +64,11 @@ $('#ProfileTab').addClass("active");
 	  	<input type="text" name="lastName" id='lname' class="form form-control "/>
 	  </div>
 	  <div class="form form-group">
-	    <label>Email </label>
+	    <label>Email* </label>
 	  	<input type="email" name="email" id='email' class="form form-control "/>
 	  </div>
 	  <div class="form form-group">
-	    <label>Phone</label>
+	    <label>Phone *</label>
 	  	<input type="text" name="phoneno" id='phoneno' class="form form-control "/>
 	  </div>
 	 </div>
@@ -87,20 +89,20 @@ $('#ProfileTab').addClass("active");
 	  	      </select>
 	  	     </div>
 	  	     <div class="col-md-2">
-	  	     	<button id="addRole"> + </button>
+	  	     	<button id="addRole">+</button>
 	  	     </div>
 	  	  
 	  	  </div>
 	    </div>
 	    <div class="form form-group">
-	  	  <label>User</label>
+	  	  <label>User *</label>
 	  	  <div class="row">
 	  	    <div class="col-md-10">
-	  	      <select class="form form-control" id='user'>	
+	  	      <select class="form form-control" id='userid'>	
 	  	      </select>
 	  	    </div>
 	  	    <div class="col-md-2">
-	  	    	<button id="addUser"> + </button>
+	  	    	<button id="addUser">+</button>
 	  	    </div>
 	  	  
 	    </div>
@@ -129,6 +131,7 @@ $('#ProfileTab').addClass("active");
 </div>
 <script type="text/javascript" src="pagesjs/profile.js"></script>
 <script type="text/javascript" src="pagesjs/shared.js"></script>
+<script type="text/javascript" src="myjs/notify.min.js"></script>
 <?php
 
 

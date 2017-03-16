@@ -304,10 +304,7 @@ function setValueInFields(dat)
     
 }
 
-function openWindow(page)
-{
-    window.open(page,'PopupWindow','width=1250, height=500, scrollbars=yes, resizable=no');
-}
+
 //$('#apartmentacc').click(function(){  
         
 //});

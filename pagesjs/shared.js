@@ -83,3 +83,7 @@ function ajaxSendReceive(urlname, info, datastatus)
   {
     $.notify(notiMsg, status);
   }
+  function openWindow(page)
+{
+    window.open(page,'PopupWindow','width=1250, height=500, scrollbars=yes, resizable=no');
+}

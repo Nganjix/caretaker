@@ -203,6 +203,10 @@ if(isset($_GET['page']) && !empty($_GET['page']))
             $newUser->runUsers();
 
          }
+         if($_GET['page'] == 'profile')
+         {
+            print_r($_REQUEST);
+         }
     }
     else
     {

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author gencyolcu
- * @copyright 2017
- */
-
 session_start();
 if(isset($_SESSION['user']))
 {
@@ -72,6 +67,7 @@ if(isset($_SESSION['user']))
         var $dropdown;
         function __construct($requestObj)
         {
+            //sets table name
            $this->dropdown = $requestObj;
         }
         function returnTenant()
@@ -97,11 +93,44 @@ if(isset($_SESSION['user']))
             
         }   
     }
+    class Roles
+    {
+        var $tablename;
+        function __construct()
+        {
+            $this->tablename = 'roles';
+            
+        }
+        function returnRoles()
+        {
+            $fields = 'id, name';
+            $db = new databaseops($this->tablename, $fields, 'None');
+            echo(json_encode($db->returnData()));
+            
+        } 
+    }
+    class Users
+    {
+        var $tablename;
+        function __construct()
+        {
+            $this->tablename = 'users';
+            
+        }
+        function returnUsers()
+        {
+            $fields = 'userid, username';
+            $db = new databaseops($this->tablename, $fields, 'None');
+            echo(json_encode($db->returnData()));
+            
+        } 
+    }
     if(!empty($_REQUEST["page"]) && isset($_REQUEST["page"]))
     {
         if(isset($_REQUEST['dropdownid']) && !empty($_REQUEST['dropdownid']))
         {
-            if($_REQUEST["page"] == 'apartments')
+            $pagesarray = array('apartments', 'profile');
+            if(in_array($_REQUEST["page"],$pagesarray))
             {
                 if($_REQUEST["dropdownid"] == 'accounts')
                 {
@@ -119,7 +148,18 @@ if(isset($_SESSION['user']))
                 {
                     $block = new blocks($_REQUEST["dropdownid"]);
                     $block->returnBlocks();
-                }   
+                }  
+                if($_REQUEST["dropdownid"] == 'roleid')
+                {
+                    $role = new Roles($_REQUEST["dropdownid"]);
+                    $role->returnRoles();
+                } 
+                if($_REQUEST["dropdownid"] == 'userid')
+                {
+                    
+                    $user = new Users($_REQUEST["dropdownid"]);
+                    $user->returnUsers();
+                }  
                 
             }
             
