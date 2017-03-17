@@ -1,4 +1,6 @@
 //validate data
+
+
 function validateData(fieldname) {
     $('#requiredError').text("Fields marked with red have to be filled");
     $('#'+fieldname).addClass("alert alert-danger");
@@ -36,6 +38,21 @@ function setFieldStatus(allfields, status)
        $('#'+key).prop('disabled', status); 
     });
 }
+//for autocomplete
+function autocompleter(tagname, geturl, callbackfunction)
+{
+    $('#'+tagname).autocomplete(
+    {
+        source : geturl,
+        autoFocus  : true,
+        select : function(event, ui)
+        {
+            callbackfunction(event, ui);
+        }
+    }
+    )
+}
+//general ajax works
 function ajaxSendReceive(urlname, info, datastatus)
     {
         var sendtype = datastatus == 'Update' ? 'GET' : 'POST';
@@ -72,7 +89,7 @@ function ajaxSendReceive(urlname, info, datastatus)
                         }
                         else
                         {
-                          msgNotifier('error', dtstatus);
+                          msgNotifier('error', 'unknown error:'+dtstatus);
                         }
                         
                       }

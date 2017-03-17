@@ -19,14 +19,11 @@ function()
 
     });
     //autocomplete for page dropdowns
-    $('#usernm').autocomplete({
-    source : 'autocomplete.php?page=users',
-    autoFocus : true,
-    select : function(event, ui)
-    {
-        setValueFields(event, ui);
-    }
-    });
+
+    autocompleter('usernm', 'autocomplete.php?page=users', setValueFields);
+    
+    
+    //set value on fields on search
     function setValueFields(event, ui)
     {
         $.getJSON(

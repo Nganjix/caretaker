@@ -1,4 +1,9 @@
 <?php
+echo __dir__;
+echo('helllo');
+$_SERVER['DOCUMENT_ROOT'];
+echo $pathInPieces = explode(DIRECTORY_SEPARATOR , __FILE__);
+echo $pathInPieces[0].DIRECTORY_SEPARATOR;
 if($_FILES)
 {
     $upload_dir = './images/profile/';

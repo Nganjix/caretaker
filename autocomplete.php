@@ -63,7 +63,21 @@ if(isset($_GET['page']) && !empty($_GET['page']))
             }
             echo json_encode($usrarray);
         }
-    }    
+    }
+    if($_GET['page'] == 'profile')
+    {
+        if(isset($_GET['term']))
+        {
+            $sqlstmt = 'select detailsId, firstName, lastName from userdetails where firstName like "%'.$termRequest.'%" order by firstName asc limit 10';
+            $profarray = array();
+            $profdtvar = getTermInDb($sqlstmt);
+            while($row = $profdtvar->fetch())
+            {
+                array_push($profarray, $row[0].' '.$row[1].' '.$row[2]);
+            }
+            echo json_encode($profarray);
+        }
+    }        
     }
     
 }

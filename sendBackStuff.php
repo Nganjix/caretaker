@@ -34,7 +34,11 @@ if(isset($_GET) && !empty($_GET))
     public function returnUsersSql()
     {
         return "select username, password from users where username = '".$this->varID."'";
-    } 
+    }
+    public function returnProfileSql()
+    {
+        return 'select firstName,secondName,lastName,email,phone,postalAddress,idNo,roleId,userID,isActive, profilePhoto from userdetails where detailsid = "'.$this->varID.'"';
+    }
       
     }
     
@@ -86,32 +90,34 @@ if(isset($_GET) && !empty($_GET))
         if(isset($_GET['statusPN']))
         {  
             //send data when Prev, Next button clicked
+            $seltedqry = '';
             if($_GET['id'] != 'NoID') //check if id given
             {
                 //if id exists return next record that matches
                 if ($_GET['statusPN'] == 'Next')
                 {
-                $newsql = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
+                $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
         nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount from ".$_GET['page']." where id > ".$_GET['id']." order by id limit 1";
-                  runQueries($newsql);
+             
                   
                 }
                else
                {
                 //else return previous record
-                $newsql = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
+                $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
         nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount from ".$_GET['page']." where id < ".$_GET['id']." order by id limit 1";
-                  runQueries($newsql);
+        
                }
         
            }
         else {
             //else return 1st record
             
-               $newsql = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
+               $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
         nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount from ".$_GET['page']." order by id limit 1";
-                  runQueries($newsql);
+                  
              }
+             runQueries($seltedqry);
             
             
         }
@@ -159,6 +165,19 @@ if(isset($_GET) && !empty($_GET))
     {
         $newSendData = new SendBackData($newTableSetup->returnUsersSql());
         $newSendData->returnJsonData();
+    }
+    if($_GET['page'] == 'profile')
+    {
+        if(isset($_REQUEST['statusPN']))
+        {
+            
+        }
+        else
+        {
+            $newSendData = new SendBackData($newTableSetup->returnProfileSql());
+            $newSendData->returnJsonData();
+        }
+        
     }
     
 }

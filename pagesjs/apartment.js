@@ -1,11 +1,14 @@
 
 $(document).ready( function(){
 //autocomplete for page dropdowns
-$('#searchApartment').autocomplete({
-    source : 'autocomplete.php?page=apartments',
-    autoFocus : true,
-    select : function(event, ui){
-        $.ajax({
+var url = "dropdowns.php";
+var currentDataSet = [];//stores current array dataset
+var dropdowns = {'#apartmentacc':'accounts', "#tenantname":"tenant", "#blockname":"blocks"};
+var dropdownnames = ['apartmentacc','tenantname','blockname']; 
+
+var implementautocomplete = function(event, ui)
+{
+    $.ajax({
             url: 'sendBackStuff.php?page=apartments&id='+getID(ui.item.value),
             success: function(data){ 
                 setValueInFields(data);
@@ -13,13 +16,10 @@ $('#searchApartment').autocomplete({
             } 
             
             });
-    }
-});
+}
+autocompleter('searchApartment','autocomplete.php?page=apartments', implementautocomplete);// call autocompletion code
 
-var url = "dropdowns.php";
-var currentDataSet = [];//stores current array dataset
-var dropdowns = {'#apartmentacc':'accounts', "#tenantname":"tenant", "#blockname":"blocks"};
-var dropdownnames = ['apartmentacc','tenantname','blockname']; 
+
 $.each(dropdowns, function(key, val)
 {
     callEachDropdown(key, val);

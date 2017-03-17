@@ -1,4 +1,11 @@
 <?php
+$stri = 'pisa reg details';
+$newstr = str_replace(' ', '_', $stri);
+echo($newstr);
+
+
+
+
 ?>
 <script src="js/vendor/jquery.min.js"></script>
 <!DOCTYPE html>
@@ -7,13 +14,13 @@
 	<title>test</title>
 </head>
 <body>
-<div id="txt"></div>
+pisa reg details<div id="txt"></div>
 <input type="file" name="filen" id="filename">
 <button id="submit" >submit</button>
 <script type="text/javascript">
-/*
+
 	$(document).ready(function(){
-       $('#filename').bind('change', function()
+       /* $('#filename').bind('change', function()
        {
         var formData = new FormData();
            formData.append('filename', $('#filename')[0].files[0]);
@@ -31,17 +38,13 @@
         
        });
        
-       
+       */
 	   $('#submit').click(function(event){
-	       
+	       console.log('looooooooooool')
+          
+           console.log($('#filename')[0].files[0])
            
 	   });
 	});
- */
+
 </script>
-</body>
-</html>
-
-
-
-

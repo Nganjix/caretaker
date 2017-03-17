@@ -67,10 +67,14 @@ if(isset($_SESSION))
     }
     
  }
- if(isset($_FILES) && $_FILES['filename']['name'] != '')
+ if(isset($_FILES))
  {
-    $runObj = new Run();
-    $runObj->verifyImg();
+    if($_FILES['filename']['name'] != '')
+    {
+      $runObj = new Run();
+      $runObj->verifyImg();  
+    }
+    
  }
  else
  {

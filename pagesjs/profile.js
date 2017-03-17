@@ -1,5 +1,8 @@
 $(document).ready(function(){
 var validimg = false; 
+var curdataid = '';//set unique id
+var profcurrentdataset = [];
+var currentprofimg  = '';
 var dropdowns = {'roleid' : '', 'userid' : ''};
 var profilefields = { 'fname' : 'required', 'sname' : 'notrequired', 'lname' : 'required', 'email' : 'required', 'phoneno' : 'required',
 'postaladdr' : 'notrequired', 'idno' : 'notrequired', 'roleid' : 'notrequired', 'userid' : 'required', 'useractive' : 'notrequired'}
@@ -47,7 +50,7 @@ function populateDropdowns()
                 {
                     if(key == 'roleid')
                     {
-                        options += '<option value="guest" selected>Guest</option>'+'<option value="'+val[0]+'">'+val[1]+'</option>';
+                        options += '<option value="1" selected>Guest</option>'+'<option value="'+val[0]+'">'+val[1]+'</option>';
                     }
                     else
                     {
@@ -68,7 +71,7 @@ function populateDropdowns()
                 if(key == 'roleid')
                 
                 {
-                   $('#'+key).append('<option value="guest" selected>Guest</option>');
+                   $('#'+key).append('<option value="1" selected>Guest</option>');
                 }
                 else
                 {
@@ -149,39 +152,141 @@ function getData()
    
     
 }
+//autocomplete
+autocompleter('searchProfile','autocomplete.php?page=profile', receiveId)
+//receive autocomplete id and start populating the fields
+function receiveId(event, ui)
+{
+     curdataid = ((ui.item.value).trim()).split(' ')[0];
+     $.getJSON('sendBackStuff.php?page=profile', {'id' : curdataid}, function(receiveddata)
+     {
+        setValueInFields(receiveddata);
+     }
+    );
+     
+    
+}
+function setValueInFields(datareceived)
+{
+    var i = 0;
+    $.each(profilefields, function(key, value)
+    {
+         if(i != datareceived.length - 1 && key != 'useractive')
+         {
+            $('#'+key).val(datareceived[i]);
+         }
+         if(key == 'useractive')
+         {
+            $('#'+key).prop('checked', datareceived[i] == '1' ? true : false);
+         }
+          var datalength = datareceived.length - 1;
+           if(datareceived[datalength] != '' || datareceived[datalength] != undefined)
+           {
+            $('#imgplace').attr('src', './images/profile/'+datareceived[datalength]);
+            currentprofimg = './images/profile/'+datareceived[datalength];
+            
+            
+           }
+         
+        
+        i++;
+    });
+    profcurrentdataset = datareceived;
+    setFieldStatus(profilefields, true)
+    $('#uploadprofileimg,#save').prop('disabled', true);
+    loadButtonStatuses(false);
+}
+
 //events
 //save
 $('#save').click(function(event)
 {
     
+    if(profcurrentdataset.length != 0 && curdataid != '')
+    {
+          var newformdata = new FormData();
+          var i = 0;
+          var requiresUpdate = false;
+         $.each(profilefields, function(key, value){
+            if($('#'+key).val() != profcurrentdataset[i] && key != 'useractive')
+            {
+                newformdata.append(key , $('#'+key).val());
+                requiresUpdate = true;
+            }
+            if(key == 'useractive')
+            {
+                var checkusera = $('#useractive').is(':checked') ? 1 : 0;
+                if(profcurrentdataset[i] != checkusera)
+                {
+                    newformdata.append(key , checkusera);
+                    requiresUpdate = true;
+                }
+            }
+            var imgchange = profcurrentdataset.length - 1;
+            if($('#uploadprofileimg').val() != '')
+            {
+                newformdata.append('filename', $('#uploadprofileimg')[0].files[0]);
+                requiresUpdate = true;
+            }
+            i++;
+         });
+         if(requiresUpdate)
+         {
+            profCustomeAjax('updateStuff.php?page=profile&id='+curdataid, newformdata);
+         }
+    }
+    else
+    {
     var dt = getData();
     if(Object.prototype.toString.call(dt) == "[object FormData]")
     {
-        console.log('expected to work');
-        $.ajax(
+        profCustomeAjax('insertStuff.php?page=profile', dt);
+    } 
+    }
+    
+    
+});
+//custom ajax code for form data - cant use shared.js
+function profCustomeAjax(profurl, formdatat)
+{
+    $.ajax(
         {
-            url : 'insertStuff.php?page=profile',
+            url : profurl,
             contentType : false,
             processData : false,
             cache : false,
-            data : dt,
+            data : formdatat,
             type : 'POST',
             success : function (datat)
             {
                 console.log(datat);
+                
+                //defineErrorCodes(datat, 'Insert');
             },
             error : function(error)
             {
-               console.log(datat);
+                console.log(error);
+               //defineErrorCodes(datat, 'Insert');
                 
             }
             
             
         
         });
-    }
+}
+//edit /update
+$('#edit').click(
+function(event){
+    
+    setFieldStatus(profilefields, false)
+    $('#uploadprofileimg,#save').prop('disabled', false);
     
 });
+$('#clearimg').click(function(event)
+{
+    $('#imgplace').attr('src', 'images/profileplaceholder.png');
+});
+
 $('#addRole').click(function(event){  openWindow('roles.php'); });
 $('#addUser').click(function(event){  openWindow('users.php'); });
 $('#userid, #fname, #lname, #email, #phoneno').click(

@@ -188,6 +188,12 @@ $conn =  DbConnector::returnconnection();
           $usrObj = new Users();
           executeUpdate($usrObj->returnUsersFields(), 'username');
         }
+        if($page == 'profile')
+        {
+            print_r($_REQUEST);
+          //$usrObj = new Users();
+          //executeUpdate($usrObj->returnUsersFields(), 'username');
+        }
      }
      
 }

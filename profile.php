@@ -28,7 +28,7 @@ $('#ProfileTab').addClass("active");
 <div class="col-sm-6">
 <div class="input-group">
     <div class="ui-widget">
-         <input type="text" id="searchApartment" class="form-control" placeholder="search with name.."/>
+         <input type="text" id="searchProfile" class="form-control" placeholder="search with name.."/>
     </div>
 <span class="input-group-btn">
         <button id= "search" class="btn btn-default" type="button" disabled="true">Search</button>
@@ -41,8 +41,8 @@ $('#ProfileTab').addClass("active");
     <div class="col-md-1"></div>
 	<div class="col-md-3">
 	<div class="form-group">
-		<img src="images/profileplaceholder.png"/>
-		<input type="file" name="uploadprofileimg" id="uploadprofileimg"/>
+		<img id= 'imgplace' src="images/profileplaceholder.png" width="172" height="215">
+		<input type="file" name="uploadprofileimg" id="uploadprofileimg"/><br /><button id="clearimg">Clear Img</button>
         <br />
         <div id="imgmessage" class="text-warning"></div>
 	</div>
@@ -69,7 +69,7 @@ $('#ProfileTab').addClass("active");
 	  </div>
 	  <div class="form form-group">
 	    <label>Phone *</label>
-	  	<input type="text" name="phoneno" id='phoneno' class="form form-control "/>
+	  	<input type="number" name="phoneno" id='phoneno' class="form form-control "/>
 	  </div>
 	 </div>
 	 <div class="col-md-6">
@@ -79,7 +79,7 @@ $('#ProfileTab').addClass("active");
 	    </div>
 	    <div class="form form-group">
 	  	  <label>ID No</label>
-	  	  <input type="text" name="idno" id='idno' class="form form-control "/>
+	  	  <input type="number" name="idno" id='idno' class="form form-control "/>
 	    </div>
 	    <div class="form form-group">
 	  	  <label>Role *</label>

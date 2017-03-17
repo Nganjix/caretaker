@@ -5,6 +5,7 @@ if(isset($_SESSION['user']) && !empty($_SESSION['user']))
 {
 
 require_once('includes/dbconnection.php');
+require_once('includes/processimage.php');
 $tenantconn = DbConnector::returnconnection();
 
 class Tenant
@@ -65,7 +66,7 @@ function getData(){
 }  
 function runTenant()
 {
-    $insertdata = new InsertData($this->insertTenantSql(), $this->getData());
+    $insertdata = new InsertData($this->insertTenantSql(), $this->getData(), '');
 }  
 }
 class VerifyFormData
@@ -89,12 +90,19 @@ class VerifyFormData
 }
 class InsertData
 {
-    function __construct($stmt, $data){
+    function __construct($stmt, $data, $profileimg){
         global $tenantconn;
         $query = $tenantconn->prepare($stmt);
         try{
         $query->execute($data);
         echo '200';
+        if($profileimg != '' && isset($_REQUEST['page']))
+        {           
+           $imgprocess = new ProcessImage($_FILES, $profileimg);
+           $imgprocess->moveImg(); 
+        }
+        
+         
         }
         catch(exception $e){
          echo $e -> getMessage();   
@@ -103,6 +111,27 @@ class InsertData
         
   } 
 }
+
+function createInsertQuestionMarks($darray)
+{
+            //create question marks for sql
+            $qstr = '';
+            $arraycount = count($darray);
+            for ($i = 0; $i < $arraycount; $i++)
+            {
+             if($i != ($arraycount - 1))
+             {
+                $qstr .= '?, ';
+             }
+             else
+             {
+                $qstr .= '?';
+             }   
+            }
+            return $qstr;
+        
+}
+
 class Apartment
 {
     var $mappings = array("apartmentname"=>"aprtName", "apartmentbill"=>"costPerMonth", "apartmentdesc"=>"aprtDesc", "apartmentacc"=>"accId","tenantname"=>"tenantId", 
@@ -123,27 +152,10 @@ class Apartment
     }
     function runApartment() 
     {
-        $valsstr = function()
-        {
-            //create question mark screen
-            $qstr = '';
-            $arraycount = count($this->datarray);
-            for ($i = 0; $i < $arraycount; $i++)
-            {
-             if($i != ($arraycount - 1))
-             {
-                $qstr .= '?, ';
-             }
-             else
-             {
-                $qstr .= '?';
-             }   
-            }
-            return $qstr;
-        };
+        
         $fieldstr = implode(',', $this->fieldsarray);
-        $stmt = 'insert into apartment ( '.$fieldstr.' ) values ( '.$valsstr().' )';
-        $insertdata = new InsertData($stmt, $this->datarray);
+        $stmt = 'insert into apartment ( '.$fieldstr.' ) values ( '.createInsertQuestionMarks($this->datarray).' )';
+        new InsertData($stmt, $this->datarray, '');
  
     }
     
@@ -176,10 +188,47 @@ class Users
         else
         {
 
-            new InsertData($this->createStmt(), [trim($this->username), password_hash($this->password, PASSWORD_BCRYPT)]);
+            new InsertData($this->createStmt(), [trim($this->username), password_hash($this->password, PASSWORD_BCRYPT)], '');
         }
         
     }
+}
+class Profile
+{
+    var $dataarray = array();
+    var $fieldsarray = array();
+    var $profilephoto;
+    var $profilemappings = array('fname'=>'firstName','sname'=>'secondName','lname'=>'lastName','email'=>'email','phoneno'=>'phone','postaladdr'=>'postalAddress','idno'=>'idNo','roleid'=>'roleId','userid'=>'userID','useractive'=>'isActive');
+    function __construct()
+    {
+         
+         $this->profilephoto =  isset($_FILES['filename']['name']) && $_FILES['filename']['name'] != '' ? time().'_'.str_replace(' ', '_',$_FILES['filename']['name']) : '';
+        
+    }
+    function setUpdateFields()
+    {
+        //check fields with value and add them to array
+        foreach($this->profilemappings as $key => $value)
+        {
+            if($_REQUEST[$key] != '' && $_REQUEST[$key] != 'None')
+            {
+                array_push($this->dataarray, $_REQUEST[$key]);
+                array_push($this->fieldsarray, $value);
+            }
+        }
+        
+    }
+    function runProfileSql()
+    {
+        $this->setUpdateFields();
+        $fieldstr = implode(',', $this->fieldsarray);
+        $fieldstr .= ', profilePhoto';
+        $stmt = 'insert into userdetails ( '.$fieldstr.' ) values ( '.createInsertQuestionMarks($this->dataarray).', ?)';
+        array_push($this->dataarray, $this->profilephoto);
+        
+        new InsertData($stmt, $this->dataarray, $this->profilephoto);
+    }
+    
 }
 if(isset($_GET['page']) && !empty($_GET['page']))
 {
@@ -205,7 +254,8 @@ if(isset($_GET['page']) && !empty($_GET['page']))
          }
          if($_GET['page'] == 'profile')
          {
-            print_r($_REQUEST);
+            $newprofile = new Profile();
+            $newprofile->runProfileSql();
          }
     }
     else
