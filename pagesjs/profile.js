@@ -157,6 +157,7 @@ autocompleter('searchProfile','autocomplete.php?page=profile', receiveId)
 //receive autocomplete id and start populating the fields
 function receiveId(event, ui)
 {
+    $('#searchProfile').val('');
      curdataid = ((ui.item.value).trim()).split(' ')[0];
      $.getJSON('sendBackStuff.php?page=profile', {'id' : curdataid}, function(receiveddata)
      {
@@ -193,7 +194,7 @@ function setValueInFields(datareceived)
     });
     profcurrentdataset = datareceived;
     setFieldStatus(profilefields, true)
-    $('#uploadprofileimg,#save').prop('disabled', true);
+    $('#uploadprofileimg,#save, #clearimg').prop('disabled', true);
     loadButtonStatuses(false);
 }
 
@@ -246,6 +247,28 @@ $('#save').click(function(event)
     
     
 });
+$('#new').click(function(event){
+    $.each(profilefields, function(key, value){
+        if(key != 'useractive' && $.inArray(key, dropdowns) == -1)
+        {
+            $('#'+key).val('');
+        }
+        if(key == 'useractive')
+        {
+            $('#'+key).prop('checked', false);
+        }
+        if(key == 'roleid')
+        {
+            $('#'+key).val('1');
+        }
+        if(key == 'userid')
+        {
+           $('#'+key).val('None'); 
+        }
+        
+    });
+    $('#imgplace').attr('src', 'images/profileplaceholder.png');
+});
 //custom ajax code for form data - cant use shared.js
 function profCustomeAjax(profurl, formdatat)
 {
@@ -279,7 +302,7 @@ $('#edit').click(
 function(event){
     
     setFieldStatus(profilefields, false)
-    $('#uploadprofileimg,#save').prop('disabled', false);
+    $('#uploadprofileimg,#save, #clearimg').prop('disabled', false);
     
 });
 $('#clearimg').click(function(event)

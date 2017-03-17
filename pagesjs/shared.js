@@ -48,6 +48,7 @@ function autocompleter(tagname, geturl, callbackfunction)
         select : function(event, ui)
         {
             callbackfunction(event, ui);
+            
         }
     }
     )
