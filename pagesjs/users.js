@@ -78,7 +78,7 @@ function()
         //update
         if(checkPasswordLength() && checkPasswordMatch() && $('#usernm').val() != '' && $('#usernm').val() != ' ' && currentdataset.password != $('#password1').val()  && $('#password1').val()  != '')
         {
-          ajaxSendReceive('updateStuff.php?page=users&id='+currentdataset.name, {'usernm' : ($('#usernm').val()).trim(), 'password1': $('#password1').val()}, 'Update'); 
+          ajaxSendReceive('updateStuff.php?page=users&id='+currentdataset.name, {'usernm' : ($('#usernm').val()).trim(), 'password1': $('#password1').val()}, 'Update', ''); 
           $('#password1, #confirmpassrd').val('');
           $('#password1, #confirmpassrd').prop('disabled', true); 
         }
@@ -138,10 +138,7 @@ function()
      $('#delete').click(function(event){
         if(($('#usernm').val()).trim() != '' && $('#usernm').val() != undefined)
         {
-            ajaxSendReceive('deleteStuff.php?page=users&id='+($('#usernm').val()).trim(),'', 'Delete');
-            $('#password1, #confirmpassrd').val('');
-            $('#password1, #confirmpassrd').prop('disabled', true); 
-
+            deleteRecord('deleteStuff.php?page=users', ($('#usernm').val()).trim(), confirmUserDel)
         }
         
      });
@@ -150,11 +147,18 @@ function()
         $('#password1, #confirmpassrd').val('');
      });
      //functions  save, update, delete data
-     
+     function confirmUserDel()
+     {
+       $('#usernm').val(' ');
+        $('#password1, #confirmpassrd').val('');
+        $('#usernm, #password1').prop('disabled', false);
+        $('#confirmpassrd').prop('disabled', true);
+        currentdataset = []
+     }
      function saveRecord()
      {
         
-        ajaxSendReceive('insertStuff.php?page=users', returnFieldVals(), "Insert");
+        ajaxSendReceive('insertStuff.php?page=users', returnFieldVals(), "Insert", '');
         $('#password1, #confirmpassrd').val('');
         $('#password1, #confirmpassrd').prop('disabled', true); 
      }

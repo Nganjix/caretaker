@@ -6,11 +6,7 @@ if(!isset($_SESSION['user']))
 }
 include_once('top.php');
 ?>
-<script type="text/javascript">
 
-$('#accountsTab').addClass("active"); 
-
-</script>
 <!-- content area-->
 
 

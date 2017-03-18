@@ -8,7 +8,7 @@ include_once('top.php');
 ?>
 <script type="text/javascript">
 
-$('#accountsTab').addClass("active"); 
+$('#blocksTab').addClass("active"); 
 
 </script>
 <!-- content area-->

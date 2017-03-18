@@ -41,7 +41,7 @@ $('#ProfileTab').addClass("active");
     <div class="col-md-1"></div>
 	<div class="col-md-3">
 	<div class="form-group">
-		<img id= 'imgplace' src="images/profileplaceholder.png" width="172" height="215">
+		<img id= 'imgplace' src="images/profileplaceholder.png" width="172" height="215" class="img-responsive img-rounded">
 		<input type="file" name="uploadprofileimg" id="uploadprofileimg"/><br /><button id="clearimg">Clear Img</button>
         <br />
         <div id="imgmessage" class="text-warning"></div>
@@ -121,6 +121,7 @@ $('#ProfileTab').addClass("active");
 	  </div>		
 	</div>
 </div>
+<!--
 <div class="row">
 <nav aria-label="...">
 <ul class="pager">
@@ -128,7 +129,7 @@ $('#ProfileTab').addClass("active");
 <li class="next" id="getNext"><a href="#">Next</a></li>
 </ul>
 </nav>
-</div>
+</div> -->
 <script type="text/javascript" src="pagesjs/profile.js"></script>
 <script type="text/javascript" src="pagesjs/shared.js"></script>
 <script type="text/javascript" src="myjs/notify.min.js"></script>

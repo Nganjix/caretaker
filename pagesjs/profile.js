@@ -157,7 +157,7 @@ autocompleter('searchProfile','autocomplete.php?page=profile', receiveId)
 //receive autocomplete id and start populating the fields
 function receiveId(event, ui)
 {
-    $('#searchProfile').val('');
+    
      curdataid = ((ui.item.value).trim()).split(' ')[0];
      $.getJSON('sendBackStuff.php?page=profile', {'id' : curdataid}, function(receiveddata)
      {
@@ -169,6 +169,7 @@ function receiveId(event, ui)
 }
 function setValueInFields(datareceived)
 {
+    $('#searchProfile').val('');
     var i = 0;
     $.each(profilefields, function(key, value)
     {
@@ -181,12 +182,16 @@ function setValueInFields(datareceived)
             $('#'+key).prop('checked', datareceived[i] == '1' ? true : false);
          }
           var datalength = datareceived.length - 1;
-           if(datareceived[datalength] != '' || datareceived[datalength] != undefined)
+           if(datareceived[datalength].length != 0 )
            {
             $('#imgplace').attr('src', './images/profile/'+datareceived[datalength]);
             currentprofimg = './images/profile/'+datareceived[datalength];
-            
-            
+           
+           }
+           else
+           {
+            $('#imgplace').attr('src', './images/profileplaceholder.png');
+            currentprofimg = './images/profileplaceholder.png';
            }
          
         
@@ -228,12 +233,24 @@ $('#save').click(function(event)
             {
                 newformdata.append('filename', $('#uploadprofileimg')[0].files[0]);
                 requiresUpdate = true;
+                $('#uploadprofileimg').val('')
             }
+            else
+            {
+                if($('#imgplace').attr('src') != currentprofimg)
+                {
+                 newformdata.append('profPhoto', '');
+                 requiresUpdate = true;   
+                }
+            }
+            
             i++;
          });
          if(requiresUpdate)
          {
-            profCustomeAjax('updateStuff.php?page=profile&id='+curdataid, newformdata);
+            
+            profCustomeAjax('updateStuff.php?page=userdetails&id='+curdataid, newformdata, 'Update');
+            
          }
     }
     else
@@ -241,13 +258,19 @@ $('#save').click(function(event)
     var dt = getData();
     if(Object.prototype.toString.call(dt) == "[object FormData]")
     {
-        profCustomeAjax('insertStuff.php?page=profile', dt);
+        profCustomeAjax('insertStuff.php?page=profile', dt, 'Insert');
     } 
     }
     
     
 });
 $('#new').click(function(event){
+    setFieldStatus(profilefields, false);
+    clearProfile();
+    
+});
+function clearProfile()
+{
     $.each(profilefields, function(key, value){
         if(key != 'useractive' && $.inArray(key, dropdowns) == -1)
         {
@@ -268,9 +291,9 @@ $('#new').click(function(event){
         
     });
     $('#imgplace').attr('src', 'images/profileplaceholder.png');
-});
+}
 //custom ajax code for form data - cant use shared.js
-function profCustomeAjax(profurl, formdatat)
+function profCustomeAjax(profurl, formdatat, status)
 {
     $.ajax(
         {
@@ -282,14 +305,11 @@ function profCustomeAjax(profurl, formdatat)
             type : 'POST',
             success : function (datat)
             {
-                console.log(datat);
-                
-                //defineErrorCodes(datat, 'Insert');
+                defineErrorCodes(datat, status);
             },
             error : function(error)
             {
-                console.log(error);
-               //defineErrorCodes(datat, 'Insert');
+                defineErrorCodes(datat, status);
                 
             }
             
@@ -305,6 +325,21 @@ function(event){
     $('#uploadprofileimg,#save, #clearimg').prop('disabled', false);
     
 });
+$('#delete').click(
+function(event)
+{
+    deleteRecord('deleteStuff.php?page=profile', curdataid, deletionConfirmed);
+});
+function deletionConfirmed()
+{
+    clearProfile();
+    $("#searchProfile").val("");
+     curdataid = '';//set unique id
+     profcurrentdataset = [];
+     currentprofimg = ''
+     loadButtonStatuses(true);
+     setFieldStatus(profilefields, false);
+}
 $('#clearimg').click(function(event)
 {
     $('#imgplace').attr('src', 'images/profileplaceholder.png');

@@ -54,7 +54,7 @@ function autocompleter(tagname, geturl, callbackfunction)
     )
 }
 //general ajax works
-function ajaxSendReceive(urlname, info, datastatus)
+function ajaxSendReceive(urlname, info, datastatus, deletecallback)
     {
         var sendtype = datastatus == 'Update' ? 'GET' : 'POST';
         $.ajax({
@@ -63,20 +63,24 @@ function ajaxSendReceive(urlname, info, datastatus)
              data : info,
              success : function(datar)
                  {
-                      defineErrorCodes(datar, datastatus);
+                      defineErrorCodes(datar, datastatus, deletecallback);
                  },
              error : function(thiserror){ 
-              defineErrorCodes('500', "Network error data couldn't be sent");
+              defineErrorCodes('500', "Network error data couldn't be sent", deletecallback);
             }
   });
     
   
   }
-  function defineErrorCodes(datar, dtstatus)
+  function defineErrorCodes(datar, dtstatus, deletecallback)
   {
                       if(datar == '200')
                       {
                         msgNotifier('success', dtstatus+' operation successful');
+                        if(dtstatus == 'Delete')
+                        {
+                           deletecallback();
+                         }
                       }
                       else if (datar == '300')
                       {
@@ -90,7 +94,8 @@ function ajaxSendReceive(urlname, info, datastatus)
                         }
                         else
                         {
-                          msgNotifier('error', 'unknown error:'+dtstatus);
+                            console.log(datar);
+                          //msgNotifier('error', 'unknown error:'+dtstatus);
                         }
                         
                       }
@@ -104,4 +109,32 @@ function ajaxSendReceive(urlname, info, datastatus)
   function openWindow(page)
 {
     window.open(page,'PopupWindow','width=1250, height=500, scrollbars=yes, resizable=no');
+}
+function deleteRecord(delurl,currid, deletecallback)
+{
+    $( function() { 
+    $( "#dialog-confirm" ).dialog({
+      resizable: false,
+      height: "auto",
+      width: 400,
+      modal: true,
+      buttons: {
+        "Delete": function() {
+            $( this ).dialog( "close" );
+          if(currid != '' && currid != null)
+          {
+            var curid = {'id' : currid};
+            ajaxSendReceive(delurl, curid, 'Delete', deletecallback);
+    }
+     else
+    {
+        $.notify('No records to delete', "info");
+    }
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  } );
 }

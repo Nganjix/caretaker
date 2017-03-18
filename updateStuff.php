@@ -3,6 +3,7 @@ session_start();
 if (isset($_SESSION['user']) && !empty($_SESSION['user']))
 {  
 require_once('includes/dbconnection.php');
+require_once('includes/processimage.php');
 $conn =  DbConnector::returnconnection();
     
     class Tenant
@@ -90,12 +91,27 @@ $conn =  DbConnector::returnconnection();
 
       }
     }
+    class Profile
+    {
+        var $profilemappings;
+        function __construct()
+        {
+            $this->profilemappings = array('firstName'=>'fname','secondName'=>'sname','lastName'=>'lname','email'=>'email','phone'=>'phoneno','postalAddress'=>'postaladdr','idNo'=>'idno','roleId'=>'roleid','userID'=>'userid','isActive'=>'useractive', 'profilePhoto'=> 'profPhoto');
+        }
+        function returnProfileFields()
+        {
+            return $this->profilemappings;
+        }
+        
+    }
     class Update
     {
         var $sqlstmt;
-        function __construct($sqlscript)
+        var $profimg;
+        function __construct($sqlscript, $profileimgname)
         {
             $this->sqlstmt = $sqlscript;
+            $this->profimg = $profileimgname;
         }
         function inserttodb()
         {
@@ -105,6 +121,11 @@ $conn =  DbConnector::returnconnection();
               $querystmt = $conn->query($this->sqlstmt);
               $querystmt->execute();
               echo '200';
+              if($this->profimg != '' && isset($_FILES['filename']['name']))
+               {           
+                 $imgprocess = new ProcessImage($_FILES, $this->profimg);
+                 $imgprocess->moveImg(); 
+                }      
               }
               catch(exception $e)
               {
@@ -118,7 +139,7 @@ $conn =  DbConnector::returnconnection();
     {
         var $wholesqlstr;
         var $fieldmappings;
-        
+        var $profileimg = '';
         function __construct($getDbFields, $primarycd)
         {
             $this->fieldmappings = $getDbFields;
@@ -153,13 +174,35 @@ $conn =  DbConnector::returnconnection();
                       }
                       
                    }
+                   //append photphane to the values to be updated
+                   if(isset($_FILES['filename']['name']))
+                   {
+                     $profilephoto = $_FILES['filename']['name'] != '' ? time().'_'.str_replace(' ', '_',$_FILES['filename']['name']) : '';
+                     $this->profileimg = $profilephoto;
+                     if(count($_REQUEST) == 2)
+                     {
+                        $vals .= " profilePhoto ='".$this->profileimg."'";
+                      }
+                      else
+                     { 
+                       $vals .= ", profilePhoto ='".$this->profileimg."'";
+                      }
+                   }
+                   
+                   
+
                   $this->wholesqlstr =  "update $updatetb set $vals where ".$primarycd." = '".$currentid."'";
+                  
                  }
          }
          function returnSqlQuery()
          {
             return $this->wholesqlstr;
-         } 
+         }
+         function returnProfileImgName()
+         {
+            return $this->profileimg;
+         }  
     
      }
      //dashboard
@@ -168,7 +211,7 @@ $conn =  DbConnector::returnconnection();
         function executeUpdate($executeObj, $primarykey)
         {
             $processObj = new ProcessUpdateRequest($executeObj, $primarykey);
-            $updateObj = new Update($processObj->returnSqlQuery());
+            $updateObj = new Update($processObj->returnSqlQuery(), $processObj->returnProfileImgName());
             $updateObj->inserttodb();
         }
         $page = $_REQUEST['page'];
@@ -188,11 +231,11 @@ $conn =  DbConnector::returnconnection();
           $usrObj = new Users();
           executeUpdate($usrObj->returnUsersFields(), 'username');
         }
-        if($page == 'profile')
+        if($page == 'userdetails')
         {
-            print_r($_REQUEST);
-          //$usrObj = new Users();
-          //executeUpdate($usrObj->returnUsersFields(), 'username');
+          
+          $profileObj = new Profile();
+          executeUpdate($profileObj->returnProfileFields(), 'detailsId');
         }
      }
      

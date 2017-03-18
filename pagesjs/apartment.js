@@ -187,31 +187,17 @@ $('#edit').click(function(event){
 //delete
 $('#delete').click(function(event)
 {
-    $( function() { $( "#dialog-confirm" ).dialog({
-      resizable: false,
-      height: "auto",
-      width: 400,
-      modal: true,
-      buttons: {
-        "Delete": function() {
-            $( this ).dialog( "close" );
-          if(currentDataSet[0] != '' && currentDataSet[0] != null)
-          {
-            var curid = {'id' : currentDataSet[0]};
-            sendGetData('deleteStuff.php?page=apartment', curid, 'Delete');
-    }
-     else
-    {
-        $.notify('No records to delete', "info");
-    }
-        },
-        Cancel: function() {
-          $( this ).dialog( "close" );
-        }
-      }
-    });
-  } );
+    deleteRecord('deleteStuff.php?page=apartment', currentDataSet[0], aprtDelConfirmed);
+    
 });
+function aprtDelConfirmed()
+{
+    clearFields();
+    $("#searchApartment").val("");
+    currentDataSet = [];
+    loadButtonStatuses(true);
+    setFieldStatus(apartmentfields, false);
+}
 function PrevNextBtns(Statuses)
 {
     var currID = currentDataSet[0] ? currentDataSet[0] : 'NoID';

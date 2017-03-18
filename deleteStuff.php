@@ -42,6 +42,18 @@ class Users
     }
 
 }
+class Profile
+{
+    var $profid;
+    function __construct($id)
+    {
+        $this->profid = $id;
+    }
+    function returnProfileSqlstmt()
+    {
+        return 'delete from userdetails where detailsid = "'.$this->profid.'"';
+    }
+}
 class DeleteItem
 {
     function delete($sql)
@@ -89,9 +101,20 @@ if($_REQUEST['page'] == 'apartment')
 }
 if($_REQUEST['page'] == 'users')
 {
+    
     $newUsrDel = new Users($getId);
     sendObjToDelete($newUsrDel->returnUsersSqlStmt());
 }
+if($_REQUEST['page'] == 'profile')
+{
+    
+    $newProfDel = new Profile($getId);
+    sendObjToDelete($newProfDel->returnProfileSqlstmt());
+}
+
+
+
+
 }
 
 

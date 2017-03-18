@@ -8,7 +8,7 @@ include_once('top.php');
 ?>
 <script type="text/javascript">
 
-$('#accountsTab').addClass("active"); 
+$('#transTab').addClass("active"); 
 
 </script>
 <!-- content area-->
@@ -22,3 +22,6 @@ $('#accountsTab').addClass("active");
 
 include_once('bottom.php');
 ?>
+
+
+

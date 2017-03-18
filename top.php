@@ -75,26 +75,26 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="index.php">Overview <span class="sr-only">(current)</span></a></li>
+            <li id="indexTab"><a href="index.php">Overview <span class="sr-only">(current)</span></a></li>
+            <li id="transTab"><a href="transactions.php">Transactions<span class="sr-only">(current)</span></a></li>
             <li id="tenantTab"><a href="tenant.php">Tenant <span class="sr-only">(current)</span></a></li>
             <li id="apartmentTab"><a href="apartment.php">Apartment</a></li>
             <li id="ProfileTab"><a href="profile.php">Profile<span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Notifications</a></li>
-            <li><a href="">Reports</a></li>
+            <li id="rolesTab"><a href="roles.php">Roles<span class="sr-only">(current)</span></a></li>
+            <li id="accountsTab"><a href="accounts.php">Accounts<span class="sr-only">(current)</span></a></li>
+            <li id="estatesTab"><a href="estates.php">Estates<span class="sr-only">(current)</span></a></li>
+            <li id="blocksTab"><a href="blocks.php">Blocks<span class="sr-only">(current)</span></a></li>
+            <li id="reportsTab"><a href="reports.php">Reports<span class="sr-only">(current)</span></a></li>
             <li class="dropdown">
                <a class="dropdown-toggle" data-toggle="dropdown" href="">Miscellenous <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="">Payment Periods</a></li>
                   <li class="divider"></li>
-                  <li><a href="">Estates</a></li>
-                  <li class="divider"></li>
                   <li><a href="users.php" id="users">Users</span></a></li>
                   <li class="divider"></li>
-                  <li><a href="">Blocks</a></li>
-                  <li class="divider"></li>
-                  <li><a href="">Accounts</a></li>
-                  <li class="divider"></li>
                   <li><a href="">Company</li>
+                  <li class="divider"></li>
+                  <li id="notificationsTab"><a href="">Notifications</a></li>
                   <li class="divider"></li>
                   <li><a href="">Notification Templates</a></li>
 
