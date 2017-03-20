@@ -29,7 +29,7 @@ $('#estatesTab').addClass("active");
 <div class="col-sm-6">
 <div class="input-group">
     <div class="ui-widget">
-         <input type="text" id="searchProfile" class="form-control" placeholder="search with name.."/>
+         <input type="text" id="searchEstate" class="form-control" placeholder="search with name.."/>
     </div>
 <span class="input-group-btn">
         <button id= "search" class="btn btn-default" type="button" disabled="true">Search</button>

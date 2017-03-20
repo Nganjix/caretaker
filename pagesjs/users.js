@@ -138,7 +138,7 @@ function()
      $('#delete').click(function(event){
         if(($('#usernm').val()).trim() != '' && $('#usernm').val() != undefined)
         {
-            deleteRecord('deleteStuff.php?page=users', ($('#usernm').val()).trim(), confirmUserDel)
+            deleteRecord('deleteStuff.php?page=users', ($('#usernm').val()).trim(), confirmUserDel);
         }
         
      });

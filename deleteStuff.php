@@ -54,6 +54,30 @@ class Profile
         return 'delete from userdetails where detailsid = "'.$this->profid.'"';
     }
 }
+class Estate
+{
+    var $estateid;
+    function __construct($id)
+    {
+        $this->estateid = $id;
+    }
+    function returnEstateSqlstmt()
+    {
+        return 'delete from estates where estateId = "'.$this->estateid.'"';
+    }
+}
+class Block
+{
+    var $blockid;
+    function __construct($id)
+    {
+        $this->blockid = $id;
+    }
+    function returnBlockSqlstmt()
+    {
+        return 'delete from blocks where blockId = "'.$this->blockid.'"';
+    }
+}
 class DeleteItem
 {
     function delete($sql)
@@ -110,6 +134,18 @@ if($_REQUEST['page'] == 'profile')
     
     $newProfDel = new Profile($getId);
     sendObjToDelete($newProfDel->returnProfileSqlstmt());
+}
+if($_REQUEST['page'] == 'estates')
+{
+    
+    $newEstateDel = new Estate($getId);
+    sendObjToDelete($newEstateDel->returnEstateSqlstmt());
+}
+if($_REQUEST['page'] == 'blocks')
+{
+    
+    $newBlockDel = new Block($getId);
+    sendObjToDelete($newBlockDel->returnBlockSqlstmt());
 }
 
 

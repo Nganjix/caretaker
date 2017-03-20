@@ -98,7 +98,7 @@ class InsertData
         echo '200';
         if($profileimg != '' && isset($_REQUEST['page']))
         {           
-           $imgprocess = new ProcessImage($_FILES, $profileimg);
+           $imgprocess = new ProcessImage($_FILES, $profileimg, './images/profile/');
            $imgprocess->moveImg(); 
         }
         
@@ -165,7 +165,7 @@ class Users
 {
     var $username;
     var $password;
-    function __construct($fData)
+    function __construct()
     {
 
         
@@ -230,6 +230,64 @@ class Profile
     }
     
 }
+class Estates
+{
+    var $estateName;
+    var $estateDesc;
+    var $location;
+    function __construct()
+    {
+        if(isset($_POST['estateName']) && isset($_POST['location']))
+        {
+            $this->estateName = $_POST['estateName'];
+            $this->location = $_POST['location'];
+            $this->estateDesc = isset($_POST['estateDesc']) ? $_POST['estateDesc'] : ''; 
+        }
+        else
+        {
+            echo '400';
+        }
+        
+        
+    }
+    function estatesSqlStmt()
+    {
+        return 'insert into estates (estateName, estateDesc, estateLocation) values ( ?, ?, ?)';
+    }
+    function runEstates()
+    {
+        new InsertData($this->estatesSqlStmt(), [$this->estateName, $this->estateDesc, $this->location], '');
+    }
+}
+class Blocks
+{
+    var $blockName;
+    var $blockDesc;
+    var $estateId;
+    function __construct()
+    {
+        if(isset($_POST['blockname']) && isset($_POST['estateid']))
+        {
+            $this->blockName = $_POST['blockname'];
+            $this->blockDesc = isset($_POST['blockdesc']) ? $_POST['blockdesc'] : '' ;
+            $this->estateid = $_POST['estateid']; 
+        }
+        else
+        {
+            echo '400';
+        }
+        
+        
+    }
+    function blocksSqlStmt()
+    {
+        return 'insert into blocks (blockName, blockDesc, estateid) values ( ?, ?, ?)';
+    }
+    function runBlocks()
+    {
+        new InsertData($this->blocksSqlStmt(), [$this->blockName, $this->blockDesc, $this->estateid], '');
+    }
+}
 if(isset($_GET['page']) && !empty($_GET['page']))
 {
     $verifyData = new VerifyFormData($_POST);
@@ -248,7 +306,7 @@ if(isset($_GET['page']) && !empty($_GET['page']))
          if($_GET['page'] == 'users')
          { 
 
-            $newUser = new Users($_POST);
+            $newUser = new Users();
             $newUser->runUsers();
 
          }
@@ -256,6 +314,18 @@ if(isset($_GET['page']) && !empty($_GET['page']))
          {
             $newprofile = new Profile();
             $newprofile->runProfileSql();
+         }
+         if($_GET['page'] == 'estates')
+         {
+            
+            $newestates = new Estates();
+            $newestates->runEstates();
+         }
+         if($_GET['page'] == 'blocks')
+         {
+            
+            $newblock = new Blocks();
+            $newblock->runBlocks();
          }
     }
     else

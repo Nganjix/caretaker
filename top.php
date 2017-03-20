@@ -76,6 +76,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li id="indexTab"><a href="index.php">Overview <span class="sr-only">(current)</span></a></li>
+            <li class="divider"></li>
             <li id="transTab"><a href="transactions.php">Transactions<span class="sr-only">(current)</span></a></li>
             <li id="tenantTab"><a href="tenant.php">Tenant <span class="sr-only">(current)</span></a></li>
             <li id="apartmentTab"><a href="apartment.php">Apartment</a></li>
@@ -92,7 +93,7 @@
                   <li class="divider"></li>
                   <li><a href="users.php" id="users">Users</span></a></li>
                   <li class="divider"></li>
-                  <li><a href="">Company</li>
+                  <li><a href="company.php" id="company">Company</li>
                   <li class="divider"></li>
                   <li id="notificationsTab"><a href="">Notifications</a></li>
                   <li class="divider"></li>

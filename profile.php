@@ -41,8 +41,8 @@ $('#ProfileTab').addClass("active");
     <div class="col-md-1"></div>
 	<div class="col-md-3">
 	<div class="form-group">
-		<img id= 'imgplace' src="images/profileplaceholder.png" width="172" height="215" class="img-responsive img-rounded">
-		<input type="file" name="uploadprofileimg" id="uploadprofileimg"/><br /><button id="clearimg">Clear Img</button>
+		<img id= 'imgplace' src="images/profileplaceholder.png" width="172" height="215" class="img-rounded"></img>
+		<input type="file" name="uploadprofileimg" id="uploadprofileimg" class="form form-control"/><br /><button id="clearimg">Clear Img</button>
         <br />
         <div id="imgmessage" class="text-warning"></div>
 	</div>
@@ -89,7 +89,7 @@ $('#ProfileTab').addClass("active");
 	  	      </select>
 	  	     </div>
 	  	     <div class="col-md-2">
-	  	     	<button id="addRole">+</button>
+	  	     	<button id="addRole" class="glyphicon glyphicon-edit"></button>
 	  	     </div>
 	  	  
 	  	  </div>
@@ -102,7 +102,7 @@ $('#ProfileTab').addClass("active");
 	  	      </select>
 	  	    </div>
 	  	    <div class="col-md-2">
-	  	    	<button id="addUser">+</button>
+	  	    	<button id="addUser" class="glyphicon glyphicon-edit"></button>
 	  	    </div>
 	  	  
 	    </div>

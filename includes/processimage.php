@@ -3,10 +3,11 @@
 class ProcessImage
 {
     var $profileimg;
-    var $upload_dir = './images/profile/';
+    var $upload_dir;
     var $temp_file;
-    function __construct($fileobj, $filename)
+    function __construct($fileobj, $filename, $uploaddir)
     {
+        $this->upload_dir = $uploaddir;
         $this->profileimg = $filename;
         $this->temp_file = $fileobj['filename']['tmp_name'];
         

@@ -125,11 +125,27 @@ if(isset($_SESSION['user']))
             
         } 
     }
+    class Estates
+    {
+        var $tablename;
+        function __construct()
+        {
+            $this->tablename = 'estates';
+            
+        }
+        function returnEstates()
+        {
+            $fields = 'estateId, estateName';
+            $db = new databaseops($this->tablename, $fields, 'None');
+            echo(json_encode($db->returnData()));
+            
+        } 
+    }
     if(!empty($_REQUEST["page"]) && isset($_REQUEST["page"]))
     {
         if(isset($_REQUEST['dropdownid']) && !empty($_REQUEST['dropdownid']))
         {
-            $pagesarray = array('apartments', 'profile');
+            $pagesarray = array('apartments', 'profile', 'blocks');
             if(in_array($_REQUEST["page"],$pagesarray))
             {
                 if($_REQUEST["dropdownid"] == 'accounts')
@@ -151,15 +167,21 @@ if(isset($_SESSION['user']))
                 }  
                 if($_REQUEST["dropdownid"] == 'roleid')
                 {
-                    $role = new Roles($_REQUEST["dropdownid"]);
+                    $role = new Roles();
                     $role->returnRoles();
                 } 
                 if($_REQUEST["dropdownid"] == 'userid')
                 {
                     
-                    $user = new Users($_REQUEST["dropdownid"]);
+                    $user = new Users();
                     $user->returnUsers();
-                }  
+                }
+                if($_REQUEST["dropdownid"] == 'estateId')
+                {
+                    
+                    $estate = new Estates();
+                    $estate->returnEstates();
+                }    
                 
             }
             

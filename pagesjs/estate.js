@@ -1,48 +1,109 @@
 $(document).ready(
 function()
 {
+    var estateDataSet = [];
+    var estateId = '';
     var estatefields =  {"estateName" : "required", "estateDesc" : "notrequired", "location" : "required"};
     
 
 //events
 $('#save').click(function(event){
-    validateFields();
-});
-
-$('#edit').click(function(event){
-    
-});
-$('#delete').click(function(event){
-    
-});
-$('#new').click(function(event){
-    
-});
-function validateFields(){
-    var isRequiredEmpty = false;
-    $(['estateName', 'location'], function(key, value)
+    if(estateId != '' && estateDataSet.length != 0)
     {
-        if($('#'+key).val() == '')
+        if(!genValidateFields(estatefields))
         {
-            isRequiredEmpty = true;
-        }
-        else
-        {
-            if($('#'+key).hasClass('alert alert-danger'))
+           var updatingVals = {};
+           if($('#estateName').val() != estateDataSet[0])
             {
-                $('#'+key).removeClass('alert alert-danger');
+               updatingVals['estateName'] = $('#estateName').val();
+               
+               
+            } 
+            if($('#estateDesc').val() != estateDataSet[1])
+            {
+               updatingVals['estateDesc'] = $('#estateDesc').val();
             }
+            if($('#location').val() != estateDataSet[2])
+            {
+                updatingVals['location'] = $('#location').val();
+
+            }
+            if(Object.keys(updatingVals).length > 0)
+            {
+               ajaxSendReceive('updateStuff.php?page=estates&id='+estateId, updatingVals, 'Update', '');
+            }
+        
+        
         }
-    });
-    
-    if(!isRequiredEmpty)
-    {
-       $('#estateName, #location').addClass('alert alert-danger'); 
+        
+        
     }
     else
     {
+    if(!genValidateFields(estatefields))
+    {
+        ajaxSendReceive('insertStuff.php?page=estates', {'estateName' : $('#estateName').val(), 'estateDesc' : $('#estateDesc').val(), 'location' : $('#location').val()}, 'Insert', '');
         
     }
-    return isRequiredEmpty;
+    }
+    
+});
+
+$('#edit').click(function(event){
+    setFieldStatus(estatefields, false);
+});
+$('#delete').click(function(event){
+    if(estateId != '')
+    {
+        deleteRecord('deleteStuff.php?page=estates', estateId, deleteEstate);
+    }
+});
+function deleteEstate()
+{
+    estateDataSet = [];
+    estateId = '';
+    clearFields();
+    loadButtonStatuses(true);
+    setFieldStatus(estatefields, false);
+    
+    
 }
+$('#new').click(function(event){
+    clearFields();
+    loadButtonStatuses(true);
+    setFieldStatus(estatefields, false);
+});
+autocompleter('searchEstate', 'autocomplete.php?page=estates', setFieldValues);
+
+function setFieldValues(event, ui)
+{
+    var idget = (ui.item.value).split(' ')[0];
+    estateId = idget;
+    
+    $.getJSON('sendBackStuff.php?page=estates', {'id' : idget}, function(datareceiv){
+        
+        estateDataSet = datareceiv;
+        $('#estateName').val(datareceiv[0]);
+        $('#estateDesc').val(datareceiv[1]);
+        $('#location').val(datareceiv[2]);
+        setFieldStatus(estatefields, true);
+        loadButtonStatuses(false);
+        $('#requiredError').html('');
+        $('#searchEstate').val('');
+        
+    });
+}
+function clearFields()
+{
+    $('#estateName,#estateDesc, #location').val('');
+}
+
+$('#estateName, #location').click(function(event){
+   if($('#'+event.target.id).hasClass('alert alert-danger'))
+            {
+                $('#'+event.target.id).removeClass('alert alert-danger');
+                $('#requiredError').html('');
+            }
+            
+});
 });

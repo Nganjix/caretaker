@@ -12,6 +12,36 @@ $('#accountsTab').addClass("active");
 
 </script>
 <!-- content area-->
+<!-- header -->
+<link href="apartment.css" rel="stylesheet"/>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="row top-header container-fluid">
+<div class="col-sm-6">
+<button id="new" class="btn btn-success glyphicon glyphicon-plus-sign" disabled="true"> New</button>
+<button id="edit" class="btn btn-success glyphicon glyphicon-edit" disabled="true"> Edit</button>
+<button id="save" class="btn btn-success glyphicon glyphicon-save"> Save</button>
+<button id="refresh" class="btn btn-info glyphicon glyphicon-refresh"> Refresh</button>
+<button id="delete" class="btn btn-danger glyphicon glyphicon-trash" disabled="true"> Delete</button>
+<div id="requiredError" data-role="popup" ></div>     
+</div>
+<div id="dialog-confirm" title="Deleting Record" style="display: none;">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Are you sure you want to delete this record ?</p>
+</div>
+<div class="col-sm-6">
+<div class="input-group">
+    <div class="ui-widget">
+         <input type="text" id="searchaccounts" class="form-control" placeholder="search with account name.."/>
+    </div>
+<span class="input-group-btn">
+        <button id= "search" class="btn btn-default" type="button" disabled="true">Search</button>
+</span>
+</div>
+</div>
+</div>
+<hr />
+<!-- end header -->
+
+
 
 
 <!-- end of content area-->

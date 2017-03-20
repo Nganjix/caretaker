@@ -5,6 +5,22 @@ function validateData(fieldname) {
     $('#requiredError').text("Fields marked with red have to be filled");
     $('#'+fieldname).addClass("alert alert-danger");
 }
+//update of above function
+function genValidateFields(genFields){
+    var isRequiredEmpty = false;
+    $.each(genFields, function(key, value)
+    {
+        if(($('#'+key).val() == '' || $('#'+key).val() == 'None') && value != 'notrequired')
+        {
+            isRequiredEmpty = true;
+             $('#'+key).addClass('alert alert-danger');
+             $('#requiredError').html('Fields marked with red must have values !!');
+        }
+    
+    });
+    
+    return isRequiredEmpty;
+}
 var codes = {"200":"Success", "300":"Data not found", "400":"Error"}
 function setDeleteStatus(delstatus)
 {
@@ -63,6 +79,7 @@ function ajaxSendReceive(urlname, info, datastatus, deletecallback)
              data : info,
              success : function(datar)
                  {
+                   
                       defineErrorCodes(datar, datastatus, deletecallback);
                  },
              error : function(thiserror){ 

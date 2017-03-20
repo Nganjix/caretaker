@@ -39,6 +39,14 @@ if(isset($_GET) && !empty($_GET))
     {
         return 'select firstName,secondName,lastName,email,phone,postalAddress,idNo,roleId,userID,isActive, profilePhoto from userdetails where detailsid = "'.$this->varID.'"';
     }
+    public function returnEstatesSql()
+    {
+        return 'select estateName, estateDesc, estateLocation from estates where estateId ="'.$this->varID.'"';
+    }
+    public function returnBlocksSql()
+    {
+        return 'select blockName, blockDesc, estateId from blocks where blockId ="'.$this->varID.'"';
+    }  
       
     }
     
@@ -175,6 +183,32 @@ if(isset($_GET) && !empty($_GET))
         else
         {
             $newSendData = new SendBackData($newTableSetup->returnProfileSql());
+            $newSendData->returnJsonData();
+        }
+        
+    }
+    if($_GET['page'] == 'estates')
+    {
+        if(isset($_REQUEST['statusPN']))
+        {
+            
+        }
+        else
+        {
+            $newSendData = new SendBackData($newTableSetup->returnEstatesSql());
+            $newSendData->returnJsonData();
+        }
+        
+    }
+    if($_GET['page'] == 'blocks')
+    {
+        if(isset($_REQUEST['statusPN']))
+        {
+            
+        }
+        else
+        {
+            $newSendData = new SendBackData($newTableSetup->returnBlocksSql());
             $newSendData->returnJsonData();
         }
         

@@ -77,7 +77,38 @@ if(isset($_GET['page']) && !empty($_GET['page']))
             }
             echo json_encode($profarray);
         }
-    }        
+    } 
+    if($_GET['page'] == 'estates')
+    {
+        if(isset($_GET['term']))
+        {
+            $essqlstmt = 'select estateId, estateName from estates where estateName like "%'.$termRequest.'%" order by estateName asc limit 10';
+            $estatesarray = array();
+            $estatesdtvar = getTermInDb($essqlstmt);
+            while($row = $estatesdtvar->fetch())
+            {
+                array_push($estatesarray, $row[0].' '.$row[1]);
+            }
+            echo json_encode($estatesarray);
+        }
+    }
+    if($_GET['page'] == 'blocks')
+    {
+        if(isset($_GET['term']))
+        {
+            $essqlstmt = 'select blockId, blockName from blocks where blockName like "%'.$termRequest.'%" order by blockName asc limit 10';
+            $estatesarray = array();
+            $estatesdtvar = getTermInDb($essqlstmt);
+            while($row = $estatesdtvar->fetch())
+            {
+                array_push($estatesarray, $row[0].' '.$row[1]);
+            }
+            echo json_encode($estatesarray);
+        }
+    }  
+    
+    
+           
     }
     
 }

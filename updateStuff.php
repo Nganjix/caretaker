@@ -104,6 +104,30 @@ $conn =  DbConnector::returnconnection();
         }
         
     }
+    class Estate
+    {
+        var $estateMapping;
+        function __construct()
+        {
+            $this->estateMapping = array('estateName'=>'estateName', 'estateDesc'=>'estateDesc', 'estateLocation'=>'location');
+        }
+        function returnEstateFields()
+        {
+            return $this->estateMapping;
+        }
+    }
+    class Block
+    {
+        var $blockMapping;
+        function __construct()
+        {
+            $this->blockMapping = array('blockName'=>'blockname', 'blockDesc'=>'blockdesc', 'estateId'=>'estateid');
+        }
+        function returnBlockFields()
+        {
+            return $this->blockMapping;
+        }
+    }
     class Update
     {
         var $sqlstmt;
@@ -123,7 +147,7 @@ $conn =  DbConnector::returnconnection();
               echo '200';
               if($this->profimg != '' && isset($_FILES['filename']['name']))
                {           
-                 $imgprocess = new ProcessImage($_FILES, $this->profimg);
+                 $imgprocess = new ProcessImage($_FILES, $this->profimg, './images/profile/');
                  $imgprocess->moveImg(); 
                 }      
               }
@@ -175,7 +199,7 @@ $conn =  DbConnector::returnconnection();
                       
                    }
                    //append photphane to the values to be updated
-                   if(isset($_FILES['filename']['name']))
+                   if(isset($_FILES['filename']['name']) && $_REQUEST['page'] == 'userdetails')
                    {
                      $profilephoto = $_FILES['filename']['name'] != '' ? time().'_'.str_replace(' ', '_',$_FILES['filename']['name']) : '';
                      $this->profileimg = $profilephoto;
@@ -236,6 +260,16 @@ $conn =  DbConnector::returnconnection();
           
           $profileObj = new Profile();
           executeUpdate($profileObj->returnProfileFields(), 'detailsId');
+        }
+        if($page == 'estates')
+        {
+          $estatesObj = new Estate();
+          executeUpdate($estatesObj->returnEstateFields(), 'estateId');
+        }
+        if($page == 'blocks')
+        {
+          $blockObj = new Block();
+          executeUpdate($blockObj->returnBlockFields(), 'blockId');
         }
      }
      

@@ -133,7 +133,7 @@ $('#edittenant').click(function(event){
     
 });
 $('#editblock').click(function(event){
-    openWindow('block.php');
+    openWindow('blocks.php');
     
 });
 //toggle delete, edit and save buttons 
