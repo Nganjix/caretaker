@@ -1,0 +1,2 @@
+
+insert into screens (name, langtype) values ('accounts', 'php'),('apartment', 'php'),('blocks', 'php'),('company', 'php'),('estates', 'php'),('index', 'php'),('validate', 'php'),('notifications', 'php'),('notificationtemplates', 'php'),('paymentperiods', 'php'),('profile', 'php'),('reports', 'php'),('roles', 'php'),('template', 'php'),('tenant', 'php'),('transactions', 'php'),('users', 'php')

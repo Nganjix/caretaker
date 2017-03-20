@@ -13,22 +13,80 @@
 
 
 ?>
-<script src="js/vendor/jquery.min.js"></script>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>test</title>
+	<script src="js/vendor/jquery.min.js"></script>
+	<script src="myjs/jquery.bootstrap-duallistbox.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="myjs/bootstrap-duallistbox.min.css">
+	<link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="bootstrap/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+
+    <link href="sticky-footer.css" rel="stylesheet">
+    <!--  <script src="js/vendor/jquery.min.js"></script> -->
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="bootstrap/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="bootstrap/assets/js/ie-emulation-modes-warning.js"></script>
+
 </head>
 <body>
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+	<select id="selecttest" name = 'duallistbox_demo1[]' multiple="true">
+	<option value="opt1">opt 1</option>
+	<option value='opt2'>opt 2</option>
+	<option value='opt3'>opt 3</option>
+	<option value='opt4'>opt 4</option>
+</select>
+</div>
+<div class="col-md-3">
+	
+</div>
+
+
+</div>
+<div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-3"></div>
+<div class="col-md-3">
+    <br/>
+	<button id="test" class="btn btn-info">test</button>
+</div>
+<div class="col-md-3"></div>	
+</div>
+<script type="text/javascript">
+    var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox(
+    	{
+    		nonSelectedListLabel: 'All screens',
+            selectedListLabel: 'Selected screens',
+    		moveOnSelect : false,
+    		selectorMinimalHeight : 300
+    	});
+     $('#test').click(function(event){
+     	console.log(demo1.val());
+     });
+</script>
+
+</body>
+</html>
+
 <!--
 pisa reg details<div id="txt"></div>
 <input type="file" name="filen" id="filename">
 <button id="submit" >submit</button>
 -->
-<script type="text/javascript">
 
-	$(document).ready(function(){
-       /* $('#filename').bind('change', function()
+<script type="text/javascript">
+	/*$(document).ready(function(){
+        $('#filename').bind('change', function()
        {
         var formData = new FormData();
            formData.append('filename', $('#filename')[0].files[0]);
@@ -46,7 +104,7 @@ pisa reg details<div id="txt"></div>
         
        });
        
-       */
+       
 	   $('#submit').click(function(event){
 	       console.log('looooooooooool')
           
@@ -54,30 +112,6 @@ pisa reg details<div id="txt"></div>
            
 	   });
 	});
-
+*/
 </script>
-<br />
-<font size='1'><table class='xdebug-error xe-warning' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
-<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Warning: move_uploaded_file(./images/company/1490001481_pisa_reg_details.PNG): failed to open stream: No such file or directory in C:\wamp\www\docs\examples\dashboard\includes\processimage.php on line <i>17</i></th></tr>
-<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
-<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
-<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.0010</td><td bgcolor='#eeeeec' align='right'>278664</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>0</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.0050</td><td bgcolor='#eeeeec' align='right'>292648</td><td bgcolor='#eeeeec'>Company->__construct(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>167</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.0250</td><td bgcolor='#eeeeec' align='right'>304048</td><td bgcolor='#eeeeec'>Company->updateCompany(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>48</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>0.1140</td><td bgcolor='#eeeeec' align='right'>305904</td><td bgcolor='#eeeeec'>ProcessImage->moveImg(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>95</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>5</td><td bgcolor='#eeeeec' align='center'>0.1140</td><td bgcolor='#eeeeec' align='right'>306072</td><td bgcolor='#eeeeec'><a href='http://www.php.net/function.move-uploaded-file' target='_new'>move_uploaded_file</a>
-(  )</td><td title='C:\wamp\www\docs\examples\dashboard\includes\processimage.php' bgcolor='#eeeeec'>...\processimage.php<b>:</b>17</td></tr>
-</table></font>
-<br />
-<font size='1'><table class='xdebug-error xe-warning' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
-<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Warning: move_uploaded_file(): Unable to move 'C:\wamp\tmp\php7F17.tmp' to './images/company/1490001481_pisa_reg_details.PNG' in C:\wamp\www\docs\examples\dashboard\includes\processimage.php on line <i>17</i></th></tr>
-<tr><th align='left' bgcolor='#e9b96e' colspan='5'>Call Stack</th></tr>
-<tr><th align='center' bgcolor='#eeeeec'>#</th><th align='left' bgcolor='#eeeeec'>Time</th><th align='left' bgcolor='#eeeeec'>Memory</th><th align='left' bgcolor='#eeeeec'>Function</th><th align='left' bgcolor='#eeeeec'>Location</th></tr>
-<tr><td bgcolor='#eeeeec' align='center'>1</td><td bgcolor='#eeeeec' align='center'>0.0010</td><td bgcolor='#eeeeec' align='right'>278664</td><td bgcolor='#eeeeec'>{main}(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>0</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>2</td><td bgcolor='#eeeeec' align='center'>0.0050</td><td bgcolor='#eeeeec' align='right'>292648</td><td bgcolor='#eeeeec'>Company->__construct(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>167</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>3</td><td bgcolor='#eeeeec' align='center'>0.0250</td><td bgcolor='#eeeeec' align='right'>304048</td><td bgcolor='#eeeeec'>Company->updateCompany(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>48</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>4</td><td bgcolor='#eeeeec' align='center'>0.1140</td><td bgcolor='#eeeeec' align='right'>305904</td><td bgcolor='#eeeeec'>ProcessImage->moveImg(  )</td><td title='C:\wamp\www\docs\examples\dashboard\aside\companyops.php' bgcolor='#eeeeec'>...\companyops.php<b>:</b>95</td></tr>
-<tr><td bgcolor='#eeeeec' align='center'>5</td><td bgcolor='#eeeeec' align='center'>0.1140</td><td bgcolor='#eeeeec' align='right'>306072</td><td bgcolor='#eeeeec'><a href='http://www.php.net/function.move-uploaded-file' target='_new'>move_uploaded_file</a>
-(  )</td><td title='C:\wamp\www\docs\examples\dashboard\includes\processimage.php' bgcolor='#eeeeec'>...\processimage.php<b>:</b>17</td></tr>
-</table></font>
 
