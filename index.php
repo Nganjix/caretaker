@@ -1,9 +1,9 @@
 <?php
-session_start();
-if(!isset($_SESSION['user']))
+
+/*if(!isset($_SESSION['user']))
 {
   header('Location:login.php');
-}
+}*/
 include_once('top.php');
 ?>
 <script type="text/javascript">
@@ -65,22 +65,6 @@ $('#indexTab').addClass("active");
                   <td>adipiscing</td>
                   <td>elit</td>
                 </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>Integer</td>
-                  <td>nec</td>
-                  <td>odio</td>
-                  <td>Praesent</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>libero</td>
-                  <td>Sed</td>
-                  <td>cursus</td>
-                  <td>ante</td>
-                </tr>
-                <tr>
-          
                
               </tbody>
             </table>

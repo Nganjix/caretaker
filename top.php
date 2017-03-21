@@ -1,3 +1,16 @@
+<?php
+require_once('aside/sessionsmanager.php');
+$page = $_SERVER['SCRIPT_FILENAME'];$regex = '/\w*\.php$/';preg_match($regex, $page, $pagearray);
+ $finalpg = trim(explode('.', $pagearray[0])[0]); 
+ if($finalpg != 'default')
+ {
+  
+  $sessionHandler = new SessionManager();
+  $sessionHandler->runForce();  
+ }
+ echo('blah');
+  
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -59,7 +72,7 @@
               <span class="badge">4</span>
             </a>
                <ul class="dropdown-menu">
-                 <li><a href="validate.php">Logout</a></li>             
+<li><a href="validate.php?page=<?php echo $finalpg ?>">Logout</a></li>             
                </ul>
             </li>
             <li><a href="#">Help</a></li>

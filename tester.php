@@ -1,16 +1,27 @@
 <?php
-//include_once('includes/dbconnection.php');                                                                                                                                                                                  
-//$conn = Dbconnector::returnconnection();
-//$row = $conn->query('select * from company');
+require_once('aside/sessionsmanager.php');
+/*
+include_once('includes/dbconnection.php');                                                                                                                                                                                  
+$conn = Dbconnector::returnconnection();
+$row = $conn->query('select * from roles');
 //echo $row->fetch(PDO::FETCH_NUM)[0] != '';
-//foreach($row->fetch(PDO::FETCH_ASSOC) as $key => $value)
-//{
-//    echo(json_encode($value['session']));
-//    echo('</br>');
-//}
+foreach($row->fetchAll(PDO::FETCH_ASSOC) as $key => $value)
+{
+    echo($value);
+    echo('</br>');
+}
 
+echo('looooooooooooool');
+*/
 
+//new SessionManager(function(){ echo 'looooooooooool'; });
 
+//$k = new RolesVerifier();
+new SetAllowedRoles();
+//echo($k->checkIfAllowedPage());
+//echo('run force<br/>');
+//print_r([5,6,7,4,3,8,9]);
+var_dump($_SESSION);
 
 ?>
 

@@ -57,7 +57,17 @@ if (isset($SESSION['user'])) {
                       <input id="password" class="form-control" type="password" name="password" placeholder="password"/>
                   </div>
              </div>
-                  <input id="submit" class="btn btn-primary form-control" type="button" value="Sign In"/>
+                 <div class="row">
+                   <div class="col-md-3">
+                   </div>
+                   <div class="col-md-3">
+                       
+                   </div>
+                   <div class="col-md-6">
+                        <input id="submit" class="btn btn-primary form-control" type="button" value="Sign In"/>
+                   </div>
+                 </div>
+                  
              </form>
              
            </div>

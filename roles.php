@@ -1,9 +1,10 @@
 <?php
+/*
 session_start();
 if(!isset($_SESSION['user']))
 {
   header('Location:login.php');
-}
+}*/
 include_once('top.php');
 ?>
 <script type="text/javascript">
@@ -13,7 +14,9 @@ $('#rolesTab').addClass("active");
 </script>
 <!-- content area -->
 <!-- content header -->
-
+<script src="myjs/jquery.bootstrap-duallistbox.min.js"></script>
+<link rel="stylesheet" type="text/css" href="myjs/bootstrap-duallistbox.min.css">
+<link rel="stylesheet" type="text/css" href="role.css">
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <div class="row top-header container-fluid">
    <div class="col-sm-6">
@@ -29,6 +32,7 @@ $('#rolesTab').addClass("active");
 </div>
 <div class="col-sm-6">
      <div>Changing permissions for User >> </div>
+     <div class="loader"></div>
 </div>
 </div>
 <hr />
@@ -47,8 +51,7 @@ $('#rolesTab').addClass("active");
 
 
 <!-- end of content area-->
-<script src="myjs/jquery.bootstrap-duallistbox.min.js"></script>
-<link rel="stylesheet" type="text/css" href="myjs/bootstrap-duallistbox.min.css">
+
 <script type="text/javascript" src="pagesjs/shared.js"></script>
 <script type="text/javascript" src="pagesjs/role.js"></script>
 <script type="text/javascript" src="myjs/notify.min.js"></script>

@@ -1,13 +1,14 @@
 <?php
-session_start();
+
 require_once('includes/dbconnection.php');
+require_once('aside/sessionsmanager.php');
 $conn = DbConnector::returnconnection();
-$referrer = $_SERVER['HTTP_REFERER'];
-$regex = '/\w*\.php$/';
-preg_match($regex, $referrer, $array);
+//$referrer = $_SERVER['HTTP_REFERER'];
+//$regex = '/\w*\.php$/';
+//preg_match($regex, $referrer, $array);
 //separate the loggin in with logout-check which page requested validate.php
-$pgs = array('index.php','tenant.php','apartment.php','profile.php','users.php');
-if (in_array($array[0], $pgs))
+$page = isset($_GET['page']) ? $_GET['page'] : '';
+if (CheckScreens::returnScreenStatus($page))
   { 
     //register logging out
     function logOutUser()
@@ -35,7 +36,7 @@ else
 	  if(!empty($_POST['username']) && !empty($_POST['password']))
 	   {
 		    $usrname = $_POST['username'];
-        $pssword = $_POST['password'];
+            $pssword = $_POST['password'];
         
         $sql = 'select userid, username, password from users where username ='.'"'.$usrname.'"';
         // $sql= "select * from tablename where id = ? and name = ?
@@ -78,7 +79,9 @@ else
             }
            }
            	//echo 'new setting '.session_id();
+            
             logLogin();
+            new SetAllowedRoles();
            	echo '200';
            	//header('Location:index.php');
             //exit;
