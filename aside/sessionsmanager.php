@@ -51,18 +51,16 @@ class RolesVerifier extends DatabaseHandler
     }
     public function checkIfAllowedPage()
     {
-        $allowedpgs = array();
-        $stmt = 'select id from screens where name= "'.$this->currentpage.'" and langtype = "'.$this->langtypeext.'"';
-        $getter  = $this->returnSelectData($stmt);
-        $screenrecord = $getter->fetch(PDO::FETCH_ASSOC);
-        $id = isset($screenrecord['id']) ? $screenrecord['id'] : '';
+        //$allowedpgs = array();
+        //$stmt = 'select id from screens where name= "'.$this->currentpage.'" and langtype = "'.$this->langtypeext.'"';
+        //$getter  = $this->returnSelectData($stmt);
+        //$screenrecord = $getter->fetch(PDO::FETCH_ASSOC);
+        //$id = isset($screenrecord['id']) ? $screenrecord['id'] : '';
         if(isset($_SESSION['userroles']))
         {
-            if($id != '')
-            {
     
-                $this->pgallowed = in_array($ideal , $_SESSION['userroles']);
-            }
+                $this->pgallowed = array_key_exists($this->currentpage, $_SESSION['userroles']);
+    
 
         }
         return $this->pgallowed; 
@@ -76,14 +74,15 @@ class SetAllowedRoles extends DatabaseHandler
     function __construct()
     {
         parent::__construct();
-        $stmt = 'select screenid from roles where userid ="'.$_SESSION['userid'].'"';
+        $stmt = 'select b.desc, b.name from roles a left join screens b on a.screenid = b.id where userid ="'.$_SESSION['userid'].'" and allowed = 1';
         $getdata = $this->returnSelectData($stmt);
         unset($_SESSION['userroles']);
         foreach($getdata->fetchAll(PDO::FETCH_NUM) as $key => $val)
         {
-            $_SESSION['userroles'][] = $val[0];
+            $_SESSION['userroles'][$val[1]] = $val[0];
             
         }
+        //var_dump($_SESSION);
                 //array_push(, $rolesarray);
      
     } 

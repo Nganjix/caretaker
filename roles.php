@@ -31,8 +31,8 @@ $('#rolesTab').addClass("active");
 <div id="requiredError" data-role="popup" ></div>     
 </div>
 <div class="col-sm-6">
-     <div>Changing permissions for User >> </div>
-     <div class="loader"></div>
+     <div id="changingperm" class="alert alert-info" ></div>
+     <!-- <div class="loader"></div> -->
 </div>
 </div>
 <hr />

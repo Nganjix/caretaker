@@ -1,14 +1,13 @@
 <?php
 require_once('aside/sessionsmanager.php');
 $page = $_SERVER['SCRIPT_FILENAME'];$regex = '/\w*\.php$/';preg_match($regex, $page, $pagearray);
- $finalpg = trim(explode('.', $pagearray[0])[0]); 
+$finalpg = trim(explode('.', $pagearray[0])[0]); 
  if($finalpg != 'default')
  {
   
   $sessionHandler = new SessionManager();
   $sessionHandler->runForce();  
  }
- echo('blah');
   
 ?>
 <!DOCTYPE html>
@@ -88,6 +87,39 @@ $page = $_SERVER['SCRIPT_FILENAME'];$regex = '/\w*\.php$/';preg_match($regex, $p
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
+            <?php 
+            if(isset($_SESSION['userroles']))
+            {
+               $togglepgs = array('paymentperiods','users', 'company', 'notifications','notificationtemplates');
+               $allpagescount  = count($_SESSION['userroles']);
+               $settingspgs = '';
+               $i =0;
+               foreach($_SESSION['userroles'] as $key => $val)
+               {
+                  $pageid  = $key.'Tab';
+                  $pagename = $key.'.php';
+                  if(in_array($key, $togglepgs))
+                  {
+                     $settingspgs .= "<li id='$pageid'><a href='$pagename'> $val <span class='sr-only'>(current)</span></a></li>";
+                    
+                  }
+                  else
+                  {
+                    echo("<li id='$pageid'><a href='$pagename'> $val <span class='sr-only'>(current)</span></a></li>");
+                  }
+                  if($i == $allpagescount - 1 && $settingspgs != '')
+                  {
+                      echo("<li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href=''>Configurations <span class='caret'></span></a>
+                <ul class='dropdown-menu'>".$settingspgs. "</ul></li>");
+                  }
+                  $i++;
+                  
+               }  
+            }
+            
+            
+            ?>
+            <!--
             <li id="indexTab"><a href="index.php">Overview <span class="sr-only">(current)</span></a></li>
             <li class="divider"></li>
             <li id="transTab"><a href="transactions.php">Transactions<span class="sr-only">(current)</span></a></li>
@@ -100,20 +132,21 @@ $page = $_SERVER['SCRIPT_FILENAME'];$regex = '/\w*\.php$/';preg_match($regex, $p
             <li id="blocksTab"><a href="blocks.php">Blocks<span class="sr-only">(current)</span></a></li>
             <li id="reportsTab"><a href="reports.php">Reports<span class="sr-only">(current)</span></a></li>
             <li class="dropdown">
-               <a class="dropdown-toggle" data-toggle="dropdown" href="">Miscellenous <span class="caret"></span></a>
+               <a class="dropdown-toggle" data-toggle="dropdown" href="">Configurations <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="">Payment Periods</a></li>
+                  <li><a href="paymentperiods.php">Payment Periods</a></li>
                   <li class="divider"></li>
                   <li><a href="users.php" id="users">Users</span></a></li>
                   <li class="divider"></li>
                   <li><a href="company.php" id="company">Company</li>
                   <li class="divider"></li>
-                  <li id="notificationsTab"><a href="">Notifications</a></li>
+                  <li id="notificationsTab" href='notifications.php'><a href="">Notifications</a></li>
                   <li class="divider"></li>
-                  <li><a href="">Notification Templates</a></li>
+                  <li><a href="notificationtemplates.php">Notification Templates</a></li>
 
                 </ul>
              </li>
+             -->
           </ul>
           
         </div>   

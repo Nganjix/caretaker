@@ -46,10 +46,16 @@ if(isset($_GET) && !empty($_GET))
     public function returnBlocksSql()
     {
         return 'select blockName, blockDesc, estateId from blocks where blockId ="'.$this->varID.'"';
-    }  
-      
+    } 
+    public function returnRolesScreen()
+    {
+       return 'select id, name from screens where allowed  = 1'; 
     }
-    
+    public function returnUsersRoles()
+    {
+        return 'select screenid from roles where userid = (select userid from users where username="'.$this->varID.'")';
+    }
+}    
     class SendBackData
     {
         //senddata back
@@ -71,10 +77,11 @@ if(isset($_GET) && !empty($_GET))
             }
             if($arraytosend != [])
               {
-               echo json_encode($arraytosend);
-               }
-               else{
-                echo '300'; //data not found
+                echo json_encode($arraytosend);
+              }
+              else
+              {
+                 echo '300'; //data not found
                }
             }
             catch (exception $e){
@@ -212,6 +219,35 @@ if(isset($_GET) && !empty($_GET))
             $newSendData->returnJsonData();
         }
         
+    }
+    if($_GET['page'] == 'roles')
+    {
+        //have to create separate db connection - different data requirements
+        global $connector;
+        $datasent = array();
+        //print_r($_REQUEST);
+        if($_GET['q'] == 'allpages')
+        {
+            
+            $newGetter = $connector->query($newTableSetup->returnRolesScreen());
+            foreach($newGetter->fetchAll(PDO::FETCH_NUM) as $key => $val)
+            {
+                $datasent[] = $val;
+                
+            }
+            
+            
+        }
+        if($_GET['q'] == 'onlyusers')
+        {
+            $newuserpagesgetter = $connector->query($newTableSetup->returnUsersRoles());
+            foreach($newuserpagesgetter->fetchAll(PDO::FETCH_NUM) as $key => $val)
+            {
+                $datasent[] = $val;
+                
+            }
+        }
+        echo(json_encode($datasent));
     }
     
 }

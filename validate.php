@@ -52,8 +52,8 @@ else
            	//$_SESSION['userid'] += $data['userid'];
            	//$_SESSION['user'] += $data['username'];
            	//echo 'already set '.session_id();
-           	echo '200';
-            //header('Location:index.php');
+           	
+            header('Location:index.php');
             
            }
            else {
