@@ -96,17 +96,30 @@ if(isset($_GET['page']) && !empty($_GET['page']))
     {
         if(isset($_GET['term']))
         {
-            $essqlstmt = 'select blockId, blockName from blocks where blockName like "%'.$termRequest.'%" order by blockName asc limit 10';
-            $estatesarray = array();
-            $estatesdtvar = getTermInDb($essqlstmt);
-            while($row = $estatesdtvar->fetch())
+            $blsqlstmt = 'select blockId, blockName from blocks where blockName like "%'.$termRequest.'%" order by blockName asc limit 10';
+            $blocksarray = array();
+            $blocksdtvar = getTermInDb($blsqlstmt);
+            while($row = $blocksdtvar->fetch())
             {
-                array_push($estatesarray, $row[0].' '.$row[1]);
+                array_push($blocksarray, $row[0].' '.$row[1]);
             }
-            echo json_encode($estatesarray);
+            echo json_encode($blocksarray);
         }
     }  
-    
+    if($_GET['page'] == 'accounts')
+    {
+        if(isset($_GET['term']))
+        {
+            $accsqlstmt = 'select accName from accounts where accName like "%'.$termRequest.'%" order by accName asc limit 10';
+            $accountsarray = array();
+            $accountsdtvar = getTermInDb($accsqlstmt);
+            while($row = $accountsdtvar->fetch())
+            {
+                array_push($accountsarray, $row[0]);
+            }
+            echo json_encode($accountsarray);
+        }
+    }  
     
            
     }

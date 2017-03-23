@@ -78,6 +78,56 @@ class Block
         return 'delete from blocks where blockId = "'.$this->blockid.'"';
     }
 }
+class Role
+{
+    var $usernm;
+    var $dtarr;
+    function __construct($user, $dtarray)
+    {
+        $this->usernm = $user;
+        $this->dtarr = $dtarray;
+    }
+    function returnRolesStmt()
+    {
+        $rolestr = '';
+        if(isset($this->dtarr))
+        {
+            $countofpost = count($this->dtarr) ; 
+            
+           
+                $i = 0;
+                foreach($this->dtarr as $key => $val)
+                {
+                    if($i != $countofpost - 1 && $countofpost > 1)
+                    {
+                        $rolestr .= $val.', ';
+                    }
+                    else
+                    {
+                        $rolestr .= $val;
+                    }
+                    
+                    $i++;
+                }
+            
+          
+        }
+        return 'delete from roles where screenid in ('.$rolestr.') and userid =(select userid from users where username = "'.$this->usernm.'")';
+    }
+    
+}
+class Account
+{
+    var $accid;
+    function __construct($id)
+    {
+        $this->accid = $id;
+    }
+    function returnAccSqlstmt()
+    {
+        return 'delete from accounts where accName = "'.$this->accid.'"';
+    }
+}
 class DeleteItem
 {
     function delete($sql)
@@ -147,7 +197,18 @@ if($_REQUEST['page'] == 'blocks')
     $newBlockDel = new Block($getId);
     sendObjToDelete($newBlockDel->returnBlockSqlstmt());
 }
-
+if($_REQUEST['page'] == 'roles')
+{
+    
+    $newRoleDel = new Role($getId, $_POST);
+    sendObjToDelete($newRoleDel->returnRolesStmt());
+}
+if($_REQUEST['page'] == 'accounts')
+{
+    
+    $newAccDel = new Account($getId);
+    sendObjToDelete($newAccDel->returnAccSqlstmt());
+}
 
 
 

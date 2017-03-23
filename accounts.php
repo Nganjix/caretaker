@@ -39,11 +39,35 @@ $('#accountsTab').addClass("active");
 </div>
 <hr />
 <!-- end header -->
-
+<div class="row">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
+    <div class="form form-group">
+      <label>Account Name</label>
+      <input type="text" name="accname" id="accname" class="form form-control"/>    
+    </div>
+    
+    <div class="form form-group">
+      <label>Account Description</label>
+      <textarea id="accdesc" class="form form-control"></textarea>   
+    </div>
+    
+    <div class="form form-group">
+      <label>Account Status</label>
+      <input type="checkbox" id="accstatus" class="form form-control"/>   
+    </div>
+    
+     
+  </div>
+  <div class="col-md-4">
+  </div>
+</div>
 
 
 
 <!-- end of content area-->
+<script type="text/javascript" src="pagesjs/account.js"></script>
 <script type="text/javascript" src="pagesjs/shared.js"></script>
 <script type="text/javascript" src="myjs/notify.min.js"></script>
 <?php

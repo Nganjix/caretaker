@@ -1,26 +1,42 @@
 $(document).ready(function(){
-    callPopulate();
+    callPopulate(); //populates values to select
 
     var rolesList;
+    var newarraydt; //all pages indexes
     var currentselectuser = '';
+    var activepages = [];
     autocompleter('userp', 'autocomplete.php?page=users', setPages);
     function setPages(event, ui)
     {
-    	//load permit and non permitted pages
+    	//load permited and non permitted pages
     	currentselectuser = ui.item.value;
         $('#changingperm').html('User >> '+currentselectuser + ' << Selected');
-        rolesajax('sendBackStuff.php?page=roles&q=onlyusers&id='+currentselectuser, populateSelectList, 'select');
+        var selectednouser = $('#roleslistbox').val();
+        if(selectednouser)
+        {
+            for(var i = 0; i < selectednouser.length; i++ )
+        {
+            $("#roleslistbox option[value='" + selectednouser[i] + "']").prop("selected", false);
+        }
+        rolesList.bootstrapDualListbox('refresh', true);
+        }
+        
+        rolesajax('sendBackStuff.php?page=roles&q=onlyusers&id='+currentselectuser,'', populateSelectList, 'select');
 
     }
     function callPopulate()
     {
-        rolesajax('sendBackStuff.php?page=roles&q=allpages&id=none', populateSelectList, 'all');
+        rolesajax('sendBackStuff.php?page=roles&q=allpages&id=none','',populateSelectList, 'all');
     }
     function populateSelectList(receiveddata, sts)
     {
-        var newarraydt = JSON.parse(receiveddata);
+        newarraydt = JSON.parse(receiveddata);
         var selectstr = '';
-        for(i = 0; i < newarraydt.length; i++)
+        if(sts != 'all')
+        {
+            activepages = [];
+        }
+        for(var i = 0; i < newarraydt.length; i++)
         {
             if(sts == 'all')
             {
@@ -28,7 +44,9 @@ $(document).ready(function(){
             }
             else
             {
+                
                 $("#roleslistbox option[value='" + newarraydt[i][0] + "']").prop("selected", true);
+                activepages.push(newarraydt[i][0]);
                 //$('#roleslistbox').val(newarraydt[i][0]);
                 
             }
@@ -41,18 +59,20 @@ $(document).ready(function(){
         else
         {
             rolesList.bootstrapDualListbox('refresh', true);
+            $('#save').prop('disabled', false);
         }
         
     }
-    function rolesajax(calledurl, callbackfunc, status)
+    function rolesajax(calledurl,dt, callbackfunc, status)
     {
         $.ajax(
         {
             url : calledurl, 
             type : 'POST',
+            data : dt,
             success : function(dt)
             {
-                console.log(dt);
+                
                 callbackfunc(dt, status);
             },
             error : function(error)
@@ -64,9 +84,51 @@ $(document).ready(function(){
         
     }
     $('#save').click(function(event){
-         $('#changingperm').html('');
-         currentselectuser = '';
+        // $('#changingperm').html('');
+         var selectedroles = $('#roleslistbox').val();
+         var addeditems = selectedroles  ? compareArrays(selectedroles, activepages) : {};
+         var removeditems = activepages  ? compareArrays(activepages, selectedroles):  {};
+         console.log(removeditems);
+         if(Object.keys(addeditems).length > 0 && currentselectuser != '')
+         {
+            
+            rolesajax('insertStuff.php?page=roles&id='+currentselectuser, addeditems, notifyStatus ,'Permission Update');
+            
+         }
+         if(Object.keys(removeditems).length  > 0 && currentselectuser != '')
+         {
+            rolesajax('deleteStuff.php?page=roles&id='+currentselectuser, removeditems,notifyStatus ,'Permission Delete');
+            
+         }
+         
+         
     });
+    function notifyStatus(dt, status)
+    {
+        console.log(dt);
+        if(dt == 200)
+        {
+            
+            rolesajax('sendBackStuff.php?page=roles&q=onlyusers&id='+currentselectuser,'', populateSelectList, 'select');
+        }
+        defineErrorCodes(dt, status);
+    }
+    //return items in first array not in second
+    function compareArrays(arrr1, arrr2)
+    {
+        var addarr = {};
+        for(var i= 0;i < arrr1.length;i++)
+         {
+            if($.inArray(arrr1[i], arrr2) == -1)
+            {
+                addarr[i] = arrr1[i];
+                    
+            }
+            
+            
+         }
+         return addarr;
+    }
     function setDualList()
     {
        rolesList = $('select[name="roleslistbox"]').bootstrapDualListbox(

@@ -16,7 +16,7 @@ $('#rolesTab').addClass("active");
 <!-- content header -->
 <script src="myjs/jquery.bootstrap-duallistbox.min.js"></script>
 <link rel="stylesheet" type="text/css" href="myjs/bootstrap-duallistbox.min.css">
-<link rel="stylesheet" type="text/css" href="role.css">
+<!-- <link rel="stylesheet" type="text/css" href="role.css"> -->
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <div class="row top-header container-fluid">
    <div class="col-sm-6">
@@ -25,7 +25,7 @@ $('#rolesTab').addClass("active");
            <input type="text" name="userp" id="userp" class="form form-control" placeholder="search or type user to change permissions for" />
         </div>
         <div>
-           <button id="save" class="btn btn-success glyphicon glyphicon-save"> Save </button>
+           <button id="save" class="btn btn-success glyphicon glyphicon-save" disabled="true"> Save </button>
         </div>
    </div>
 <div id="requiredError" data-role="popup" ></div>     

@@ -49,11 +49,15 @@ if(isset($_GET) && !empty($_GET))
     } 
     public function returnRolesScreen()
     {
-       return 'select id, name from screens where allowed  = 1'; 
+       return 'select id, screenDesc from screens where allowed  = 1'; 
     }
     public function returnUsersRoles()
     {
-        return 'select screenid from roles where userid = (select userid from users where username="'.$this->varID.'")';
+        return 'select a.screenid from roles a left join screens b on a.screenid = b.id  where a.userid = (select userid from users where username="'.$this->varID.'")';
+    }
+    public function returnAccSql()
+    {
+        return 'select accName, accDesc, active from accounts';
     }
 }    
     class SendBackData
@@ -248,6 +252,19 @@ if(isset($_GET) && !empty($_GET))
             }
         }
         echo(json_encode($datasent));
+    }
+    if($_GET['page'] == 'accounts')
+    {
+        if(isset($_REQUEST['statusPN']))
+        {
+            
+        }
+        else
+        {
+            $newSendData = new SendBackData($newTableSetup->returnAccSql());
+            $newSendData->returnJsonData();
+        }
+        
     }
     
 }

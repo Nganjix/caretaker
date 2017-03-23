@@ -128,6 +128,18 @@ $conn =  DbConnector::returnconnection();
             return $this->blockMapping;
         }
     }
+    class Account
+    {
+        var $accmappings;
+        function __construct()
+        {
+            $this->accmappings = array('accName' => 'accname', 'accDesc' => 'accdesc', 'active' => 'accstatus');
+        }
+        function returnAccMapings()
+        {
+            return $this->accmappings;
+        }
+    }
     class Update
     {
         var $sqlstmt;
@@ -159,6 +171,7 @@ $conn =  DbConnector::returnconnection();
         
         
     }
+
     class ProcessUpdateRequest
     {
         var $wholesqlstr;
@@ -270,6 +283,11 @@ $conn =  DbConnector::returnconnection();
         {
           $blockObj = new Block();
           executeUpdate($blockObj->returnBlockFields(), 'blockId');
+        }
+        if($page == 'accounts')
+        {
+          $accObj = new Account();
+          executeUpdate($accObj->returnAccMapings(), 'accName');
         }
      }
      

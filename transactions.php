@@ -13,7 +13,12 @@ $('#transTab').addClass("active");
 
 </script>
 <!-- content area-->
-
+ --- assign apartment
+ --- reconcile payments i.e assign mpesa payments without known user to a tenant
+ -- reverse payment
+ --- create a payment from the online system
+ --- view all payments
+ ---  
 
 <!-- end of content area-->
 <script type="text/javascript" src="pagesjs/shared.js"></script>

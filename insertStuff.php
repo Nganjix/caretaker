@@ -288,6 +288,70 @@ class Blocks
         new InsertData($this->blocksSqlStmt(), [$this->blockName, $this->blockDesc, $this->estateid], '');
     }
 }
+class Role
+{
+    //customized
+    function runRoles()
+    {
+        
+        if(isset($_POST) && isset($_GET['id']))
+        {
+        global $tenantconn;
+        $usergetter = $tenantconn->query('select userid from users where username = "'.$_GET['id'].'"');
+        $userid = $usergetter->fetch(PDO::FETCH_NUM); 
+        $countofpost = count($_POST) ; 
+        $rolestr = '';
+        $dtarray = array(); 
+        $i = 0;
+        $tenantconn->beginTransaction();
+        $stmt = 'insert into roles (userid, screenid) values (:usrid, :screenid)'; 
+        foreach($_POST as $key => $val)
+        {
+            $usrid = $userid[0];
+            $screenid = $val;
+            $usrprepared = $tenantconn->prepare($stmt);
+            $usrprepared->bindParam(':usrid', $usrid);
+            $usrprepared->bindParam(':screenid', $screenid);
+            if($usrprepared->execute())
+            {
+                echo '200';
+            }
+            else 
+            {
+                echo '300';
+            }
+          
+        }
+        
+        $tenantconn->commit();
+    
+        }
+
+     }
+    
+}
+class Account
+{
+    var $acc;
+    var $accdesc;
+    var $isactive;
+    function __construct()
+    {
+      if(isset($_POST))
+      {
+        $this->acc =  isset($_POST['accname']) ? $_POST['accname'] : '';
+        $this->accdec =  isset($_POST['accdesc']) ? $_POST['accdesc'] : '';
+        $this->isactive =  $_POST['accstatus'];
+      }
+    }
+    function runAccounts()
+    {
+        $stmt = 'insert into accounts (accName, accDesc, active) values (?, ?, ?)';
+        new InsertData($stmt, [$this->acc, $this->accdesc, $this->isactive]);
+    }
+    
+    
+}
 if(isset($_GET['page']) && !empty($_GET['page']))
 {
     $verifyData = new VerifyFormData($_POST);
@@ -326,6 +390,18 @@ if(isset($_GET['page']) && !empty($_GET['page']))
             
             $newblock = new Blocks();
             $newblock->runBlocks();
+         }
+         if($_GET['page'] == 'roles')
+         {
+            
+            $newrole = new Role();
+            $newrole->runRoles();
+         }
+         if($_GET['page'] == 'accounts')
+         {
+            
+            $newaccount = new Account();
+            $newaccount->runAccounts();
          }
     }
     else
