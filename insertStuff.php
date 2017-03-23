@@ -347,7 +347,7 @@ class Account
     function runAccounts()
     {
         $stmt = 'insert into accounts (accName, accDesc, active) values (?, ?, ?)';
-        new InsertData($stmt, [$this->acc, $this->accdesc, $this->isactive]);
+        new InsertData($stmt, [$this->acc, $this->accdesc, $this->isactive], '');
     }
     
     

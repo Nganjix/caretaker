@@ -112,7 +112,7 @@ function ajaxSendReceive(urlname, info, datastatus, deletecallback)
                         else
                         {
                             console.log(datar);
-                          //msgNotifier('error', 'unknown error:'+dtstatus);
+                          msgNotifier('error', 'unknown error:'+dtstatus);
                         }
                         
                       }

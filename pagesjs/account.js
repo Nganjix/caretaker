@@ -59,7 +59,7 @@ function()
             else
             {
                 //insert
-                ajaxSendReceive(urlname, info, datastatus, deletecallback);
+               
                 var useractive = $('#accstatus').prop(':checked') ? 1 : 0;
                 var sendData = { 'accname' : $('#accname').val(), 'accdesc' : $('#accdesc').val(), 'accstatus' : useractive};
                 ajaxSendReceive('insertStuff.php?page=accounts', sendData, 'Insert', '');
@@ -90,6 +90,8 @@ function()
         $('#accstatus').prop('checked', false);
         setFieldStatus(accountsfields, false);
         loadButtonStatuses(true);
+        accountsdataset = [];
+        currentAcc = '';
     }
     $('#accname').click(function(event)
     {
