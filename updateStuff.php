@@ -26,6 +26,7 @@ $conn =  DbConnector::returnconnection();
                     'nextOfKinIdNo'=>'kinIdNo',
                     'nextOfKinPhoneId'=>'kinPhoneNo',
                     'depositNumber'=>'tenantDepositAmt',
+                    'graceperiod'=>'graceperiod'
        );   
     }
    public function returnFieldsObjects()
@@ -155,8 +156,11 @@ $conn =  DbConnector::returnconnection();
             try
             {
               $querystmt = $conn->query($this->sqlstmt);
-              $querystmt->execute();
-              echo '200';
+              if($querystmt->execute())
+              {
+                echo '200';
+              }
+              
               if($this->profimg != '' && isset($_FILES['filename']['name']))
                {           
                  $imgprocess = new ProcessImage($_FILES, $this->profimg, './images/profile/');

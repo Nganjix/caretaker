@@ -10,7 +10,7 @@ function genValidateFields(genFields){
     var isRequiredEmpty = false;
     $.each(genFields, function(key, value)
     {
-        if(($('#'+key).val() == '' || $('#'+key).val() == 'None') && value != 'notrequired')
+        if(value != 'notrequired' && ($('#'+key).val() == '' || $('#'+key).val() == 'None'))
         {
             isRequiredEmpty = true;
              $('#'+key).addClass('alert alert-danger');
@@ -72,10 +72,10 @@ function autocompleter(tagname, geturl, callbackfunction)
 //general ajax works
 function ajaxSendReceive(urlname, info, datastatus, deletecallback)
     {
-        var sendtype = datastatus == 'Update' ? 'GET' : 'POST';
+        //var sendtype = datastatus == 'Update' ? 'GET' : 'POST';
         $.ajax({
              url : urlname,
-             type : sendtype,
+             type : 'POST',
              data : info,
              success : function(datar)
                  {

@@ -47,11 +47,18 @@ $('#ProfileTab').addClass("active");
         <br />
         <div id="imgmessage" class="text-warning"></div>
 	</div>
+    <hr />
+    <label>Phone *</label>
+        <div class="form form-group">
+	  	<input type="number" name="phoneno" id='phoneno' class="form form-control "/>
+	  </div>
 	
 	</div>
 	<div class="col-md-8">
 	  <div class="row">
 	  <div class="col-md-6">
+      <h4>Personal Infomation</h4>
+       <hr />
 	  <div class="form form-group">
 	  	<label>First Name *</label>
 	  	<input type="text" name="firstName" id='fname' class="form form-control "/>
@@ -68,12 +75,19 @@ $('#ProfileTab').addClass("active");
 	    <label>Email* </label>
 	  	<input type="email" name="email" id='email' class="form form-control "/>
 	  </div>
-	  <div class="form form-group">
-	    <label>Phone *</label>
-	  	<input type="number" name="phoneno" id='phoneno' class="form form-control "/>
-	  </div>
+      <div class="form form-group">
+	           <div class="row">
+	            <div class="col-md-8"><label>Active</label> 
+                </div>
+                <div class="col-md-4">
+	      	         <input type="checkbox" name="useractive" id='useractive' class="form form-control "/>
+   	            </div>
+	            </div>	      		   
+      </div>
 	 </div>
 	 <div class="col-md-6">
+        <h4>Address Information</h4>
+       <hr />
 	 	<div class="form form-group">
 	  	  <label>Postal Address</label>
 	  	  <input type="text" name="postaladdr" id='postaladdr' class="form form-control "/>
@@ -109,18 +123,11 @@ $('#ProfileTab').addClass("active");
 	    </div>
 	    
 	 </div>
-	         <div class="form form-group">
-	           <div class="row">
-	            <div class="col-md-8">
-	        	<label>Active</label>
-	             </div>
-	              <div class="col-md-4">
-	      	    <input type="checkbox" name="useractive" id='useractive' class="form form-control "/>
-	      	</div>
-	    </div>	      		   
+	    
+	         
+	      </div>		
 	</div>
-	  </div>		
-	</div>
+</div>
 </div>
 <!--
 <div class="row">

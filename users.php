@@ -9,10 +9,10 @@ include_once('top.php');
 ?>
 <script type="text/javascript">
 
-$('#users').addClass("active"); 
+$('#headtoggle').addClass("active"); 
 
 </script>
-</script>
+
 <link href="apartment.css" rel="stylesheet"/>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <div class="row top-header container-fluid">

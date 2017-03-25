@@ -267,6 +267,10 @@ $('#save').click(function(event)
 $('#new').click(function(event){
     setFieldStatus(profilefields, false);
     clearProfile();
+    validimg = false; 
+    curdataid = '';//set unique id
+    profcurrentdataset = [];
+    currentprofimg  = '';
     
 });
 function clearProfile()

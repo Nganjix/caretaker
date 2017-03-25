@@ -2,12 +2,10 @@
 require_once('aside/sessionsmanager.php');
 $page = $_SERVER['SCRIPT_FILENAME'];$regex = '/\w*\.php$/';preg_match($regex, $page, $pagearray);
 $finalpg = trim(explode('.', $pagearray[0])[0]); 
- if($finalpg != 'default')
- {
-  
-  $sessionHandler = new SessionManager();
-  $sessionHandler->runForce();  
- }
+$sessionHandler = new SessionManager();
+$sessionHandler->runForce();  
+ 
+
   
 ?>
 <!DOCTYPE html>
@@ -67,7 +65,8 @@ $finalpg = trim(explode('.', $pagearray[0])[0]);
             <li><a href="index.php">Dashboard</a></li>
             <li><a href="#">Settings</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo ' '.$_SESSION['user'].'   ' ?>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <?php echo ' '.$_SESSION['user'].'  '; ?>
               <span class="badge">4</span>
             </a>
                <ul class="dropdown-menu">
@@ -109,7 +108,7 @@ $finalpg = trim(explode('.', $pagearray[0])[0]);
                   }
                   if($i == $allpagescount - 1 && $settingspgs != '')
                   {
-                      echo("<li class='dropdown'><a class='dropdown-toggle' data-toggle='dropdown' href=''>Configurations <span class='caret'></span></a>
+                      echo("<li class='dropdown' id='headtoggle'><a class='dropdown-toggle'  data-toggle='dropdown' href=''>Configurations <span class='caret'></span></a>
                 <ul class='dropdown-menu'>".$settingspgs. "</ul></li>");
                   }
                   $i++;

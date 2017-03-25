@@ -21,7 +21,7 @@ if(isset($_GET) && !empty($_GET))
     {
         //tenant
         return "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount from ".$this->tablename." where id=".$this->varID;
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$this->tablename." where id=".$this->varID;
     }
     public function returnApartmentsSql()
     {
@@ -57,7 +57,7 @@ if(isset($_GET) && !empty($_GET))
     }
     public function returnAccSql()
     {
-        return 'select accName, accDesc, active from accounts';
+        return 'select accName, accDesc, active from accounts where accname ="'.$this->varID.'"';
     }
 }    
     class SendBackData
@@ -116,7 +116,7 @@ if(isset($_GET) && !empty($_GET))
                 if ($_GET['statusPN'] == 'Next')
                 {
                 $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount from ".$_GET['page']." where id > ".$_GET['id']." order by id limit 1";
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$_GET['page']." where id > ".$_GET['id']." order by id limit 1";
              
                   
                 }
@@ -124,7 +124,7 @@ if(isset($_GET) && !empty($_GET))
                {
                 //else return previous record
                 $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount from ".$_GET['page']." where id < ".$_GET['id']." order by id limit 1";
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$_GET['page']." where id < ".$_GET['id']." order by id limit 1";
         
                }
         
@@ -133,7 +133,7 @@ if(isset($_GET) && !empty($_GET))
             //else return 1st record
             
                $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount from ".$_GET['page']." order by id limit 1";
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$_GET['page']." order by id limit 1";
                   
              }
              runQueries($seltedqry);

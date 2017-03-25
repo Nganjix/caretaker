@@ -13,20 +13,18 @@ function()
         {
         if(datareceiv)
         {
+            console.log(datareceiv);
             $('#accname').val(datareceiv[0]);
             $('#accdesc').val(datareceiv[1]);
             $('#accstatus').prop('checked', datareceiv[2] == '1' ? true : false);
             accountsdataset = datareceiv;
             setFieldStatus(accountsfields, true);
             loadButtonStatuses(false);
+            $('searchaccounts').val('');
 
         }
-        
-        
-    }      
-        
-        
-        );
+              
+    });
     }
     //events
     
@@ -37,7 +35,7 @@ function()
             {
                 //update
                 accountstoupdate = {};
-                var usractiv = $('#accstatus').prop(':checked') ? 1 : 0;
+                var usractiv = $('#accstatus').prop('checked') ? 1 : 0;
                 if($('#accname').val() != accountsdataset[0])
                 {
                     accountstoupdate['accname'] = $('#accname').val();
@@ -52,7 +50,10 @@ function()
                 }
                 if(Object.keys(accountstoupdate).length > 0)
                 {
+                    accountstoupdate['id'] = currentAcc;
+                    
                     ajaxSendReceive('updateStuff.php?page=accounts', accountstoupdate, 'Update', '');
+                    
                 }
                 
             }
@@ -69,6 +70,7 @@ function()
     });
     $('#edit').click(function(event){
         setFieldStatus(accountsfields, false);
+        $('searchaccounts').val('');
         
     });
     $('#new').click(function(event){
@@ -78,8 +80,10 @@ function()
         loadButtonStatuses(true);
     });
     $('#delete').click(function(event){
+        $('searchaccounts').val('');
         if(currentAcc != '')
         {
+            
            deleteRecord('deleteStuff.php?page=accounts', currentAcc, afterDelete);
         }
         

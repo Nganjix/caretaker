@@ -30,6 +30,7 @@ var $nextOfKinSname;
 var $nextOfKinIdNo;
 var $nextOfKinPhoneId;
 var $depositNumber;
+var $graceperiod;
 //var $currentAmount;
 //var $address;
 //var $pinvatno;
@@ -53,16 +54,17 @@ function __construct($formData)
     $this -> nextOfKinIdNo = $formData['kinIdNo'];
     $this -> nextOfKinPhoneId = $formData['kinPhoneNo'];
     $this -> depositAmount = ($formData['tenantDepositAmt'] != null && $formData['tenantDepositAmt'] != "") ? $formData['tenantDepositAmt']: 0 ; //optional
+    $this->graceperiod = $formData['graceperiod'];
     }
 function insertTenantSql()
 {
     $sqlstmt = "insert into tenant (firstName,secondName,idNumber,gender,isActive,email,boardingDate,
 paymentPhoneNo1,paymentPhoneNo2,nextOfKinFname,nextOfKinSname, nextOfKinIdNo,
-nextOfKinPhoneId,depositNumber) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+nextOfKinPhoneId,depositNumber, graceperiod) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 return $sqlstmt;
 }
 function getData(){
-    return array($this ->firstName, $this ->secondName, $this ->idNumber, $this ->gender, $this ->isActive, $this ->email, $this ->boardingDate,$this ->paymentPhoneNo1, $this ->paymentPhoneNo2, $this ->nextOfKinFname, $this ->nextOfKinSname, $this ->nextOfKinIdNo, $this ->nextOfKinPhoneId, $this ->depositAmount);
+    return array($this ->firstName, $this ->secondName, $this ->idNumber, $this ->gender, $this ->isActive, $this ->email, $this ->boardingDate,$this ->paymentPhoneNo1, $this ->paymentPhoneNo2, $this ->nextOfKinFname, $this ->nextOfKinSname, $this ->nextOfKinIdNo, $this ->nextOfKinPhoneId, $this ->depositAmount, $this->graceperiod);
 }  
 function runTenant()
 {
@@ -300,8 +302,6 @@ class Role
         $usergetter = $tenantconn->query('select userid from users where username = "'.$_GET['id'].'"');
         $userid = $usergetter->fetch(PDO::FETCH_NUM); 
         $countofpost = count($_POST) ; 
-        $rolestr = '';
-        $dtarray = array(); 
         $i = 0;
         $tenantconn->beginTransaction();
         $stmt = 'insert into roles (userid, screenid) values (:usrid, :screenid)'; 
@@ -314,12 +314,17 @@ class Role
             $usrprepared->bindParam(':screenid', $screenid);
             if($usrprepared->execute())
             {
-                echo '200';
+                if($i == $countofpost - 1)
+                {
+                    echo '200';
+                }
+                
             }
             else 
             {
                 echo '300';
             }
+            $i++;
           
         }
         

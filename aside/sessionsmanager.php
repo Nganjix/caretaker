@@ -118,6 +118,7 @@ class SessionManager
 {
     var $userset;
     var $pageallowed;
+    var $curpage;
     public function __construct()
     {
 
@@ -125,6 +126,7 @@ class SessionManager
         //check if user authorized to access this page
         $verifierobj = new RolesVerifier();
         $this->pageallowed = $verifierobj->checkIfAllowedPage();
+        $this->curpage = $verifierobj->currentpage;
     
         
     }
@@ -146,8 +148,16 @@ class SessionManager
         }
         else if($this->userset && $this->pageallowed == false)
         {
+            if($this->curpage == 'default')
+            {
+                
+            }
+            else
+            {
+                header('Location:default.php');
+            }
             
-            header('Location:default.php');
+            
         }
         else
         {

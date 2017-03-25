@@ -54,7 +54,8 @@ $('#tenantTab').addClass("active");
 <label>Gender*: </label>
 <!-- <input type="select" name="gender" class="form-control"/> -->
 <select class="form-control" id="gender">
-<option  value="1" selected>Male</option>
+<option  value="None" selected>None</option>
+<option  value="1">Male</option>
 <option value="0">Female</option>
 </select>
 </div>
@@ -84,6 +85,10 @@ $('#tenantTab').addClass("active");
 <div class="col-sm-4 column3">
 <h4>Payment details</h4>
 <hr />
+<label>Grace Period</label>
+<div class="form form-group">
+ <input type="number"  class="form form-control" id="graceperiod"/>
+</div>
 <label>Deposit Amount:</label>
 <div class="input-group">
 <span class="input-group-addon">KSH</span>
@@ -110,7 +115,8 @@ $('#tenantTab').addClass("active");
 </div>
 </div>
 
-<script type="text/javascript" src="tenant.js"></script>
+<script type="text/javascript" src="pagesjs/tenant.js"></script>
+<script type="text/javascript" src="pagesjs/shared.js"></script>
 <script type="text/javascript" src="myjs/notify.min.js"></script>
 
 <?php

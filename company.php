@@ -8,7 +8,7 @@ if(!isset($_SESSION['user']))
 include_once('top.php');
 ?>
 <script>
-$('#dropdown').addClass("active"); 
+$('#headtoggle').addClass("active"); 
 </script>
 
 <!-- content area-->

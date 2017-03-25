@@ -7,7 +7,11 @@ if(!isset($_SESSION['user']))
 }*/
 include_once('top.php');
 ?>
+<script type="text/javascript">
 
+$('#headtoggle').addClass("active"); 
+
+</script>
 <!-- content area-->
 
 
