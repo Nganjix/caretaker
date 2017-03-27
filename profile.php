@@ -9,7 +9,7 @@ include_once('top.php');
 ?>
 <script type="text/javascript">
 
-$('#ProfileTab').addClass("active"); 
+$('#profileTab').addClass("active"); 
 
 </script>
 <link href="apartment.css" rel="stylesheet"/>
@@ -96,7 +96,7 @@ $('#ProfileTab').addClass("active");
 	  	  <label>ID No</label>
 	  	  <input type="number" name="idno" id='idno' class="form form-control "/>
 	    </div>
-	    <div class="form form-group">
+	   <!-- <div class="form form-group">
 	  	  <label>Role *</label>
 	  	  <div class="row">
 	  	    <div class="col-md-10">
@@ -108,7 +108,7 @@ $('#ProfileTab').addClass("active");
 	  	     </div>
 	  	  
 	  	  </div>
-	    </div>
+	    </div> -->
 	    <div class="form form-group">
 	  	  <label>User *</label>
 	  	  <div class="row">

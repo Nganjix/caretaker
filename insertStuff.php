@@ -200,7 +200,7 @@ class Profile
     var $dataarray = array();
     var $fieldsarray = array();
     var $profilephoto;
-    var $profilemappings = array('fname'=>'firstName','sname'=>'secondName','lname'=>'lastName','email'=>'email','phoneno'=>'phone','postaladdr'=>'postalAddress','idno'=>'idNo','roleid'=>'roleId','userid'=>'userID','useractive'=>'isActive');
+    var $profilemappings = array('fname'=>'firstName','sname'=>'secondName','lname'=>'lastName','email'=>'email','phoneno'=>'phone','postaladdr'=>'postalAddress','idno'=>'idNo','userid'=>'userID','useractive'=>'isActive');
     function __construct()
     {
          

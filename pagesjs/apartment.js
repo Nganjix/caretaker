@@ -1,5 +1,6 @@
 
 $(document).ready( function(){
+    
 //autocomplete for page dropdowns
 var url = "dropdowns.php";
 var currentDataSet = [];//stores current array dataset
@@ -10,8 +11,9 @@ var implementautocomplete = function(event, ui)
 {
     $.ajax({
             url: 'sendBackStuff.php?page=apartments&id='+getID(ui.item.value),
+            dataType : 'json',
             success: function(data){ 
-                setValueInFields(data);
+                setValueInFields(data, '');
              
             } 
             
@@ -19,11 +21,14 @@ var implementautocomplete = function(event, ui)
 }
 autocompleter('searchApartment','autocomplete.php?page=apartments', implementautocomplete);// call autocompletion code
 
-
+//insert default values to dropdown
 $.each(dropdowns, function(key, val)
 {
     callEachDropdown(key, val);
 });
+
+
+
 $('#apartmentacc, #apartmentbill, #apartmentname').click(function(event){ if($('#apartmentacc, #apartmentbill, #apartmentname').hasClass('alert alert-danger'))
 {
     $('#apartmentacc, #apartmentbill, #apartmentname').removeClass('alert alert-danger');
@@ -203,8 +208,9 @@ function PrevNextBtns(Statuses)
     var currID = currentDataSet[0] ? currentDataSet[0] : 'NoID';
     $.ajax({
             url: 'sendBackStuff.php?page=apartments&statusPN='+Statuses+'&id='+currID,
+            dataType : 'json',
             success: function(data){
-                setValueInFields(data);
+                setValueInFields(data, '');
                 if(data == '300')
                 {
                     $.notify('couldnt get more data', 'Warning');
@@ -248,10 +254,9 @@ function getID(idWithName)
 
 
 //display
-function setValueInFields(dat)
+function setValueInFields(newArray, id)
 {
     i = 0;
-    var newArray = JSON.parse(dat);
     if(newArray)
     {
     $.each(apartmentfields, function(key, value){                                     
@@ -272,7 +277,7 @@ function setValueInFields(dat)
           $('#'+key).val(newArray[i]);
           i++;  
         }
-        if(dat)
+        if(newArray)
         {
             currentDataSet = newArray; //set current data set
             $("#searchApartment").val("");
@@ -360,6 +365,8 @@ function sendGetData(url, info, datastatus)
    
 
 }
+insertFromQuery('apartments', setValueInFields);
+
 
 //.done(function(data) { console.log("success"); }).fail(function() { console.log("error"); })
 

@@ -97,7 +97,7 @@ $conn =  DbConnector::returnconnection();
         var $profilemappings;
         function __construct()
         {
-            $this->profilemappings = array('firstName'=>'fname','secondName'=>'sname','lastName'=>'lname','email'=>'email','phone'=>'phoneno','postalAddress'=>'postaladdr','idNo'=>'idno','roleId'=>'roleid','userID'=>'userid','isActive'=>'useractive', 'profilePhoto'=> 'profPhoto');
+            $this->profilemappings = array('firstName'=>'fname','secondName'=>'sname','lastName'=>'lname','email'=>'email','phone'=>'phoneno','postalAddress'=>'postaladdr','idNo'=>'idno','userID'=>'userid','isActive'=>'useractive', 'profilePhoto'=> 'profPhoto');
         }
         function returnProfileFields()
         {

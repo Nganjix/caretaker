@@ -16,9 +16,10 @@ function callSetValues(event, ui)
 {
     $.ajax({
             url: 'sendBackStuff.php?page=tenant&id='+getID(ui.item.value),
+            dataType : 'json',
             success: function(data){
-                console.log(data);
-                setValueInFields(data);
+
+                setValueInFields(data, ui.item.value);
                 
              
             } 
@@ -39,9 +40,7 @@ $("#save").click(function(event) {
               var tenStatus = $('#tenantStatus').prop('checked') ? 1 : 0;
               var graceperiod  = $('#graceperiod').val();
               var boardingdt = dateToInt($("#boardingDate").val());
-              console.log(tenStatus);
-              console.log(graceperiod);
-              console.log(boardingdt);
+
               $.each(everyField, function(key, val){
                     
                     if($.inArray(key, ['tenantStatus', 'boardingDate', 'graceperiod']) != -1)
@@ -201,10 +200,9 @@ function getID(idWithName)
 }
 
 //set values in fields
-function setValueInFields(data){
-    if(data)
+function setValueInFields(parsedArray, id){
+    if(parsedArray)
     {
-        var parsedArray = JSON.parse(data);
         tenantID = parsedArray[0];
         tenantdataset = parsedArray;
         var i = 1;
@@ -251,6 +249,7 @@ function prevNextBtn(statusPrev)
         $.ajax(
         {
            url: 'sendBackStuff.php?page=tenant&id='+id+'&'+'statusPN='+statusPrev,
+           dataType : 'json',
            success : function(data)
            {
             if(data == '300')
@@ -274,6 +273,7 @@ function prevNextBtn(statusPrev)
     }
     
 }
+insertFromQuery('tenant', setValueInFields);
 $('#fname,#sname,#idnum, #gender, #ownerEmail,#boardingDate, #pnumber1, #kinfName,#kinSName,#kinIdNo,#kinPhoneNo,#tenantDepositAmt').click(function(event){
     if($('#'+event.target.id).hasClass('alert alert-danger'))
     {

@@ -78,26 +78,31 @@ autocompleter('searchEstate', 'autocomplete.php?page=estates', setFieldValues);
 function setFieldValues(event, ui)
 {
     var idget = (ui.item.value).split(' ')[0];
-    estateId = idget;
     
     $.getJSON('sendBackStuff.php?page=estates', {'id' : idget}, function(datareceiv){
         
-        estateDataSet = datareceiv;
-        $('#estateName').val(datareceiv[0]);
-        $('#estateDesc').val(datareceiv[1]);
-        $('#location').val(datareceiv[2]);
+        setValuesInFields(datareceiv, idget);
+        
+    });
+}
+function setValuesInFields(datareceived, id)
+{
+        estateDataSet = datareceived;
+        estateId = id;
+        $('#estateName').val(estateDataSet[0]);
+        $('#estateDesc').val(estateDataSet[1]);
+        $('#location').val(estateDataSet[2]);
         setFieldStatus(estatefields, true);
         loadButtonStatuses(false);
         $('#requiredError').html('');
         $('#searchEstate').val('');
-        
-    });
+    
 }
 function clearFields()
 {
     $('#estateName,#estateDesc, #location').val('');
 }
-
+insertFromQuery('estates', setValuesInFields);
 $('#estateName, #location').click(function(event){
    if($('#'+event.target.id).hasClass('alert alert-danger'))
             {

@@ -83,10 +83,14 @@ function()
     function setBlockValues(event, ui)
     {
         var idget = (ui.item.value).split(' ')[0];
-         blockid = idget;
     
-    $.getJSON('sendBackStuff.php?page=blocks', {'id' : idget}, function(blockdatareceiv){
-        
+    $.getJSON('sendBackStuff.php?page=blocks', {'id' : idget}, function(blockdatareceived){ 
+        setValueBlocks(blockdatareceived, idget);
+    });   
+    }
+    function setValueBlocks(blockdatareceiv, id)
+    {
+        blockid = id;
         blockdataset = blockdatareceiv;
         $('#blockname').val(blockdatareceiv[0]);
         $('#blockdesc').val(blockdatareceiv[1]);
@@ -95,12 +99,6 @@ function()
         loadButtonStatuses(false);
         $('#requiredError').html('');
         $('#searchblocks').val('');
-        
-    });
-        
-        
-        
-        
     }
     
     $('#edit').click(function(event){
@@ -130,6 +128,7 @@ function deleteBlock()
     setFieldStatus(blockfields, false);
     
 }
+insertFromQuery('blocks', setValueBlocks);
 $('#blockname, #estateid').click(function(event){
    if($('#'+event.target.id).hasClass('alert alert-danger'))
             {

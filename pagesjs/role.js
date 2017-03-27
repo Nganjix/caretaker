@@ -10,7 +10,7 @@ $(document).ready(function(){
     {
     	//load permited and non permitted pages
     	currentselectuser = ui.item.value;
-        $('#changingperm').html('User >> '+currentselectuser + ' << Selected');
+        
         var selectednouser = $('#roleslistbox').val();
         if(selectednouser)
         {
@@ -28,9 +28,9 @@ $(document).ready(function(){
     {
         rolesajax('sendBackStuff.php?page=roles&q=allpages&id=none','',populateSelectList, 'all');
     }
-    function populateSelectList(receiveddata, sts)
+    function populateSelectList(newarraydt, sts)
     {
-        newarraydt = JSON.parse(receiveddata);
+         
         var selectstr = '';
         if(sts != 'all')
         {
@@ -58,6 +58,7 @@ $(document).ready(function(){
         }
         else
         {
+            $('#changingperm').html('User >> '+currentselectuser + ' << Selected');
             rolesList.bootstrapDualListbox('refresh', true);
             $('#save').prop('disabled', false);
         }
@@ -70,6 +71,7 @@ $(document).ready(function(){
             url : calledurl, 
             type : 'POST',
             data : dt,
+            dataType : 'json',
             success : function(dt)
             {
                 
@@ -105,7 +107,7 @@ $(document).ready(function(){
     });
     function notifyStatus(dt, status)
     {
-        console.log(dt);
+
         if(dt == 200)
         {
             
@@ -139,6 +141,32 @@ $(document).ready(function(){
     		selectorMinimalHeight : 250
     	}); 
     }
+    insertRoleInRequest();
+    function insertRoleInRequest()
+    {
+    var paramData = purl();
+    var getData = paramData.attr('query');
     
+    if(getData != '' && getData != undefined)
+    {
+        var matchpat = new RegExp('id=');
+        if(matchpat.test(getData))
+        {   var getId = getData.split('&');
+            var paramValue = getId[0].split('=');
+            if(paramValue[1] != '')
+            {
+                var currentpgid = paramValue[1];
+                currentselectuser = currentpgid;
+                rolesajax('sendBackStuff.php?page=roles&q=onlyusers&id='+currentpgid,'', populateSelectList, 'select');
+                
+            }
+            
+            /*
+            */
+        }
+        
+    }
+    
+}
 
 });

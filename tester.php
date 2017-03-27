@@ -21,18 +21,64 @@ echo('looooooooooooool');
 //echo($k->checkIfAllowedPage());
 //echo('run force<br/>');
 //print_r([5,6,7,4,3,8,9]);
-var_dump($_SESSION);
-echo(sessiom_id());
+//var_dump($_SESSION);
+//echo(sessiom_id());
 
 ?>
+<!DOCTYPE html>
+<html >
+<head>
+<title>
+</title>
+</head>
+<body>
+<script src="js/vendor/jquery.min.js"></script>
+<script src="myjs/purl.js"></script>
+<script>
+    var paramData = purl();
+    var getData = paramData.attr('query');
+    
+    if(getData != '' && getData != undefined)
+    {
+        var matchpat = new RegExp('id=');
+        if(matchpat.test(getData))
+        {   var getId = getData.split('&');
+            var paramValue = getId[0].split('=');
+            if(paramValue[1] != '')
+            {
+                console.log('sendBackStuff.php?page=apartments&'+paramValue[0]+'='+paramValue[1].trim());
+                $.ajax({
+                    url: 'sendBackStuff.php?page=apartments&'+paramValue[0]+'='+paramValue[1].trim(),
+                     success: function(data){ 
+                               console.log('pap'+ data);
+             
+            } 
+            
+            });
+            
+            }
+            
+            /*
+            */
+        }
+        
+    }
+</script>
 
+
+
+
+
+
+</body>
+</html>
 
 <!--
 pisa reg details<div id="txt"></div>
 <input type="file" name="filen" id="filename">
 <button id="submit" >submit</button>
 -->
-
+<!--
 <script type="text/javascript">
 	/*$(document).ready(function(){
         $('#filename').bind('change', function()
@@ -63,4 +109,4 @@ pisa reg details<div id="txt"></div>
 	});
 */
 </script>
-
+-->

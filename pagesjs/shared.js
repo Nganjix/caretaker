@@ -155,3 +155,37 @@ function deleteRecord(delurl,currid, deletecallback)
     });
   } );
 }
+function insertFromQuery(page, setvaluecallback)
+{
+    var paramData = purl();
+    var getData = paramData.attr('query');
+    
+    if(getData != '' && getData != undefined)
+    {
+        var matchpat = new RegExp('id=');
+        if(matchpat.test(getData))
+        {   var getId = getData.split('&');
+            var paramValue = getId[0].split('=');
+            if(paramValue[1] != '')
+            {
+                var currentpgid = paramValue[1];
+                $.ajax({
+                    url: 'sendBackStuff.php?page='+page+'&'+paramValue[0]+'='+paramValue[1].trim(),
+                    dataType : 'json',
+                     success: function(data){ 
+                        setvaluecallback(data, currentpgid);
+                               
+             
+            } 
+            
+            });
+            
+            }
+            
+            /*
+            */
+        }
+        
+    }
+    
+}

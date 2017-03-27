@@ -20,6 +20,7 @@
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="bootstrap/assets/js/vendor/holder.min.js"></script>
+    <script src="myjs/purl.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <script src="js/tooltip.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

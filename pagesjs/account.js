@@ -7,13 +7,19 @@ function()
     accountsfields = {'accname': 'required', 'accdesc': 'notrequired', 'accstatus' : 'notrequired'};
     function setAccounts(event, ui)
     {
-        currentAcc = ui.item.value;
-        $.getJSON('sendBackStuff.php', {'page' : 'accounts', 'id' : currentAcc}, 
-        function (datareceiv)
+        $.getJSON('sendBackStuff.php', {'page' : 'accounts', 'id' : ui.item.value}, 
+        function (datareceived)
         {
+             setValueInFields(datareceived, ui.item.value);
+              
+    });
+    }
+    //events
+    function setValueInFields(datareceiv, id)
+    {
         if(datareceiv)
         {
-            console.log(datareceiv);
+            currentAcc = id;
             $('#accname').val(datareceiv[0]);
             $('#accdesc').val(datareceiv[1]);
             $('#accstatus').prop('checked', datareceiv[2] == '1' ? true : false);
@@ -23,10 +29,7 @@ function()
             $('searchaccounts').val('');
 
         }
-              
-    });
     }
-    //events
     
     $('#save').click(function(event){
         if(!genValidateFields(accountsfields))
@@ -71,6 +74,8 @@ function()
     $('#edit').click(function(event){
         setFieldStatus(accountsfields, false);
         $('searchaccounts').val('');
+        console.log(accountsdataset);
+        console.log(currentAcc);
         
     });
     $('#new').click(function(event){
@@ -105,6 +110,6 @@ function()
           $('#accname').removeClass('alert alert-danger');  
         }
     })
-
+insertFromQuery('accounts', setValueInFields);
 
 });

@@ -37,7 +37,7 @@ if(isset($_GET) && !empty($_GET))
     }
     public function returnProfileSql()
     {
-        return 'select firstName,secondName,lastName,email,phone,postalAddress,idNo,roleId,userID,isActive, profilePhoto from userdetails where detailsid = "'.$this->varID.'"';
+        return 'select firstName,secondName,lastName,email,phone,postalAddress,idNo,userID,isActive, profilePhoto from userdetails where detailsid = "'.$this->varID.'"';
     }
     public function returnEstatesSql()
     {
@@ -58,6 +58,10 @@ if(isset($_GET) && !empty($_GET))
     public function returnAccSql()
     {
         return 'select accName, accDesc, active from accounts where accname ="'.$this->varID.'"';
+    }
+    public function returnPeriodsSql()
+    {
+        return 'select periodName, periodDesc, startDay, lastDay from paymentperiods';
     }
 }    
     class SendBackData
@@ -263,6 +267,22 @@ if(isset($_GET) && !empty($_GET))
         {
             $newSendData = new SendBackData($newTableSetup->returnAccSql());
             $newSendData->returnJsonData();
+        }
+        
+    }
+    if($_GET['page'] == 'paymentperiods')
+    {
+        if(isset($_REQUEST['statusPN']))
+        {
+            
+        }
+        else
+        { 
+            $sendarray = array();
+            //custom for payment periods 
+            $getquery = $connector->query($newTableSetup->returnPeriodsSql());
+            echo(json_encode($getquery->fetch(PDO::FETCH_ASSOC)));
+            
         }
         
     }

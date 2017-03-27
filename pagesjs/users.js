@@ -26,11 +26,11 @@ function()
     //set value on fields on search
     function setValueFields(event, ui)
     {
+
         $.getJSON(
             'sendBackStuff.php?page=users', {'id' : ui.item.value}, function(data){
-                $('#password1').val(data[1].substring(0,10));
-                $('#confirmpassrd').val(data[1].substring(0,10));
-                currentdataset.name = ui.item.value;
+               setValueInFields(data, ui.item.value);
+                
 
             }
             );
@@ -38,7 +38,13 @@ function()
         loadButtonStatuses(false)
     }
 
-
+    function setValueInFields(data, id)
+    {
+         currentdataset.name = id;
+         $('#usernm').val(data[0]);
+         $('#password1').val(data[1].substring(0,10));
+         $('#confirmpassrd').val(data[1].substring(0,10));
+    }
 
     $('#confirmpassrd').on('blur',function(){ 
         
@@ -144,7 +150,8 @@ function()
      });
      //new
      $('#new').click(function(event){
-        $('#password1, #confirmpassrd').val('');
+        $('#usernm, #password1, #confirmpassrd').val('');
+        $('#usernm, #password1').prop('disabled', false);
      });
      //functions  save, update, delete data
      function confirmUserDel()
@@ -170,7 +177,7 @@ function()
         usrfields['confirmpassrd'] = $('#confirmpassrd').val();
         return usrfields;
      }
-     
+insertFromQuery('users', setValueInFields);     
     
 
     

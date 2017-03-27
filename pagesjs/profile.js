@@ -3,9 +3,9 @@ var validimg = false;
 var curdataid = '';//set unique id
 var profcurrentdataset = [];
 var currentprofimg  = '';
-var dropdowns = {'roleid' : '', 'userid' : ''};
+var dropdowns = {'userid' : ''};
 var profilefields = { 'fname' : 'required', 'sname' : 'notrequired', 'lname' : 'required', 'email' : 'required', 'phoneno' : 'required',
-'postaladdr' : 'notrequired', 'idno' : 'notrequired', 'roleid' : 'notrequired', 'userid' : 'required', 'useractive' : 'notrequired'}
+'postaladdr' : 'notrequired', 'idno' : 'notrequired', 'userid' : 'required', 'useractive' : 'notrequired'}
 populateDropdowns();
 //code for checking inserted img
 $('#uploadprofileimg').bind('change', function(event){
@@ -48,14 +48,9 @@ function populateDropdowns()
               {
                 if(i == 0)
                 {
-                    if(key == 'roleid')
-                    {
-                        options += '<option value="1" selected>Guest</option>'+'<option value="'+val[0]+'">'+val[1]+'</option>';
-                    }
-                    else
-                    {
+                   
                         options += '<option value="None" selected>None</option>'+'<option value="'+val[0]+'">'+val[1]+'</option>';
-                    }                  
+                                     
                 }
                 else
                 {
@@ -68,15 +63,8 @@ function populateDropdowns()
             }
             else
             {
-                if(key == 'roleid')
                 
-                {
-                   $('#'+key).append('<option value="1" selected>Guest</option>');
-                }
-                else
-                {
                     $('#'+key).append('<option value="None" selected>None</option>');
-                }
             }
             
           });
@@ -158,17 +146,18 @@ autocompleter('searchProfile','autocomplete.php?page=profile', receiveId)
 function receiveId(event, ui)
 {
     
-     curdataid = ((ui.item.value).trim()).split(' ')[0];
+
      $.getJSON('sendBackStuff.php?page=profile', {'id' : curdataid}, function(receiveddata)
      {
-        setValueInFields(receiveddata);
+        setValueInFields(receiveddata, ((ui.item.value).trim()).split(' ')[0]);
      }
     );
      
     
 }
-function setValueInFields(datareceived)
+function setValueInFields(datareceived,  id)
 {
+    curdataid =id;
     $('#searchProfile').val('');
     var i = 0;
     $.each(profilefields, function(key, value)
@@ -284,10 +273,6 @@ function clearProfile()
         {
             $('#'+key).prop('checked', false);
         }
-        if(key == 'roleid')
-        {
-            $('#'+key).val('1');
-        }
         if(key == 'userid')
         {
            $('#'+key).val('None'); 
@@ -348,8 +333,7 @@ $('#clearimg').click(function(event)
 {
     $('#imgplace').attr('src', 'images/profileplaceholder.png');
 });
-
-$('#addRole').click(function(event){  openWindow('roles.php'); });
+insertFromQuery('profile', setValueInFields);
 $('#addUser').click(function(event){  openWindow('users.php'); });
 $('#userid, #fname, #lname, #email, #phoneno').click(
 function(event)

@@ -27,19 +27,22 @@ $('#headtoggle').addClass("active");
       <table id="periodstb" class="table table-striped table-bordered" cellspacing= "0" width="100%">
         <thead>
            <tr>
-             <th>test 1</th>
-             <th>test 2</th>
+             <th>Period Name</th>
+             <th>Period Desc</th>
+             <th>Start Day</th>
+             <th>Last Day</th>
            </tr>
         </thead>
         <tfoot>
         <tr>
-           <th>test 1</th>
-           <th>test 2</th>
+              <th>Period Name</th>
+             <th>Period Desc</th>
+             <th>Start Day</th>
+             <th>Last Day</th>
         </tr>
         </tfoot>
         <tbody>
-          <tr><td>bap</td><td>bapo</td></tr>
-          <tr><td>dap</td><td>dapo</td></tr>
+          
         </tbody>
       </table>
   </div>
