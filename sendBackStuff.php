@@ -61,7 +61,7 @@ if(isset($_GET) && !empty($_GET))
     }
     public function returnPeriodsSql()
     {
-        return 'select periodName, periodDesc, startDay, lastDay from paymentperiods';
+        return 'select case when periodName < 10 then concat(0, periodName) else periodName end as periodName, periodDesc, startDay, lastDay from paymentperiods';
     }
 }    
     class SendBackData
@@ -279,9 +279,11 @@ if(isset($_GET) && !empty($_GET))
         else
         { 
             $sendarray = array();
-            //custom for payment periods 
+            //custom for payment periods
+            
             $getquery = $connector->query($newTableSetup->returnPeriodsSql());
-            echo(json_encode($getquery->fetch(PDO::FETCH_ASSOC)));
+            $sendarray['data'] = $getquery->fetchAll(PDO::FETCH_ASSOC);            
+            echo(json_encode($sendarray));
             
         }
         

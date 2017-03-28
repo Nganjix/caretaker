@@ -8,7 +8,8 @@ $(document).ready(function()
     });
    $('#periodstb').DataTable(
    {
-    ajax : { url : 'sendBackStuff.php?page=paymentperiods&id=none', dataSrc:"" }
+    ajax : { url : 'sendBackStuff.php?page=paymentperiods&id=none', dataSrc:"data" },
+    columns : [{data : 'periodName'}, {data : 'periodDesc'},{data : 'startDay'} , {data : 'lastDay'}]
    }
    );
   ; 

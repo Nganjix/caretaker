@@ -18,16 +18,19 @@ $('#headtoggle').addClass("active");
      <div class="col-md-4">
      </div>
      <div class="col-md-4">
-        <h4>Payment Periods</h4>
+        <h3>Payment Periods</h3>
+        
      </div>
      <div class="col-md-4">
      </div>
+    
   </div>
   <div class="row">
-      <table id="periodstb" class="table table-striped table-bordered" cellspacing= "0" width="100%">
+      <hr />
+      <table id="periodstb" class="table display table-striped table-bordered" cellspacing= "0" width="100%">
         <thead>
            <tr>
-             <th>Period Name</th>
+             <th >Period Name</th>
              <th>Period Desc</th>
              <th>Start Day</th>
              <th>Last Day</th>
@@ -35,7 +38,7 @@ $('#headtoggle').addClass("active");
         </thead>
         <tfoot>
         <tr>
-              <th>Period Name</th>
+              <th contenteditable>Period Name</th>
              <th>Period Desc</th>
              <th>Start Day</th>
              <th>Last Day</th>
