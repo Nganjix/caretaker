@@ -9,42 +9,57 @@ include_once('top.php');
 ?>
 <script type="text/javascript">
 
-$('#transTab').addClass("active"); 
+$('#transactionsTab').addClass("active"); 
 
 </script>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <div class="row top-header container-fluid">
 <div class="col-sm-6">
-<button id="new" class="btn btn-success glyphicon glyphicon-plus-sign"> New</button>
-<button id="edit" class="btn btn-success glyphicon glyphicon-open" disabled="true"> Edit</button>
-<button id="save" class="btn btn-success glyphicon glyphicon-save"> Save</button>
-<button id="refresh" class="btn btn-info glyphicon glyphicon-refresh"> Refresh</button>
-<button id="delete" class="btn btn-danger glyphicon glyphicon-trash" disabled="true"> Delete</button>
-<div id="requiredError" data-role="popup" ></div>     
-</div>
-<div id="dialog-confirm" title="Deleting Record" style="display: none;">
-  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Are you sure you want to delete this record ?</p>
+<button id="newPayment" class="btn btn-info glyphicon glyphicon-plus-sign"> Add New Payment </button>
+<button id="recalc" class="btn btn-info glyphicon glyphicon-refresh"> Recalculate Balances </button>
 </div>
 <div class="col-sm-6">
-<div class="input-group">
-    <div class="ui-widget">
-         <input type="text" id="searchTenant" class="form-control" placeholder="Enter first name to search tenant"/>
-    </div>
-<span class="input-group-btn">
-        <button id= "search" class="btn btn-default" type="button" disabled="true">Search</button>
-</span>
-</div>
+
 </div>
 </div>
 <hr />
- assign apartment
- reconcile payments i.e assign mpesa payments without known user to a tenant
- reverse payment
- create a payment from the online system
- view all payments
+ <div class="table-responsive">
+ <table id="trans" class="table display table-striped table-bordered" cellspacing= "0" width="100%">
+    <thead>
+       <tr>
+         <th>Ref. ID</th>
+         <th>Trans. Type</th>
+         <th>Account Name</th>
+         <th>Tenant</th>
+         <th>Phone No.</th>
+         <th>Amount</th>
+         <th>Status</th>
+         <th>Payment Periods</th>
+       </tr>
+    </thead>
+    <tfoot>
+      <tr>
+         <th>Ref. ID</th>
+         <th>Trans. Type</th>
+         <th>Account Name</th>
+         <th>Tenant</th>
+         <th>Phone No.</th>
+         <th>Amount</th>
+         <th>Status</th>
+         <th>Payment Periods</th>
+      </tr>
+    </tfoot>
+    <tbody>
+    </tbody>
+ </table>
+ </div>
 
 
 <!-- end of content area-->
+<link rel="stylesheet" href="myjs/dataTables.bootstrap.min.css"/>
+<script type="text/javascript" src="myjs/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="myjs/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="pagesjs/transactions.js"></script>
 <script type="text/javascript" src="pagesjs/shared.js"></script>
 <script type="text/javascript" src="myjs/notify.min.js"></script>
 <?php

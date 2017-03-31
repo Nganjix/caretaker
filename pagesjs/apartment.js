@@ -130,15 +130,18 @@ function getFormData(Objdata)
 
 //events part
 $('#editacc').click(function(event){
-    openWindow('accounts.php');
+    var accurl = $('#apartmentacc').val() != 'None' ? 'accounts.php?id='+$('#apartmentacc').val() :  'accounts.php';
+    openWindow(accurl);
 });
 $('#edittenant').click(function(event){
 
-    openWindow('tenant.php');
+    var tenurl = $('#tenantname').val() != 'None' ? 'tenant.php?id='+$('#tenantname').val() :  'tenant.php';
+    openWindow(tenurl);
     
 });
 $('#editblock').click(function(event){
-    openWindow('blocks.php');
+    var blockurl = $('#blockname').val() != 'None' ? 'blocks.php?id='+$('#blockname').val() :  'blocks.php';
+    openWindow(blockurl);
     
 });
 //toggle delete, edit and save buttons 

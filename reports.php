@@ -9,7 +9,7 @@ include_once('top.php');
 ?>
 <script type="text/javascript">
 
-$('#reportssTab').addClass("active"); 
+$('#reportsTab').addClass("active"); 
 
 </script>
 <!-- content area-->
