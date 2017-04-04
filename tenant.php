@@ -70,7 +70,7 @@ $('#tenantTab').addClass("active");
 <hr />
 <label>Email:</label><input type="email" id="ownerEmail" class="tenant-col1-items form-control"/>
 
-<label>Boarding Date:</label><input id="boardingDate" class="tenant-col1-items form-control"/>
+<label>Boarding Date:</label><div class="input input-group"><input id="boardingDate" class="tenant-col1-items form-control"/><span class="input input-group-addon glyphicon glyphicon-calendar"></span></div>
 <label>Phone No. 1:</label><input type="number" id="pnumber1" class="tenant-col1-items form-control" data-toggle="tooltip" data-placement="top" title="Payment Number"/>
 <label>Phone No. 2:</label><input type="number" id="pnumber2" class="tenant-col1-items form-control" data-toggle="tooltip" data-placement="top" title="Alternative Payment Number"/>
 </div>
@@ -87,7 +87,7 @@ $('#tenantTab').addClass("active");
 <hr />
 <label>Grace Period</label>
 <div class="form form-group">
- <input type="number"  class="form form-control" id="graceperiod"/>
+ <input type="number"  class="form form-control" id="graceperiod" data-toggle="tooltip", title="number of days after which the tenant is in arrear" />
 </div>
 <label>Deposit Amount:</label>
 <div class="input-group">

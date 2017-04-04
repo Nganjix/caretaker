@@ -4,7 +4,7 @@ if(isset($_SESSION))
 {
  class CheckImgType
  {
-    var $allowtypes = array('image/png',  'image/jpg', 'image/jpg');
+    var $allowtypes = array('image/png',  'image/jpg', 'image/jpeg');
     var $imgtype;
     function __construct($imgt)
     {
@@ -28,7 +28,7 @@ if(isset($_SESSION))
     }
     function isValidSize()
     {
-        return round($this->uploadedimgsize/$this->kilobytesnum) < 100; //image should less than 100 kb
+        return round($this->uploadedimgsize/$this->kilobytesnum) < 500; //image should less than 500 kb
     }
     
  }
@@ -55,11 +55,11 @@ if(isset($_SESSION))
         {
             if(!($imgsizeobj->isValidSize()))
             {
-                echo 'image size exceeds maximum. a less than 100 kb image required';
+                echo 'image size exceeds maximum. a less than 500 kb image required';
             }
             if(!($imgtypeobj->isValidImg()))
             {
-                echo 'only PNG, JPG, JPEG can be uploaded';
+                echo 'Only PNG, JPG, JPEG can be uploaded';
             }
            
             
@@ -67,7 +67,7 @@ if(isset($_SESSION))
     }
     
  }
- if(isset($_FILES))
+ if(isset($_FILES) && isset($_FILES['filename']))
  {
     if($_FILES['filename']['name'] != '')
     {
@@ -78,7 +78,7 @@ if(isset($_SESSION))
  }
  else
  {
-    echo 'error: invalid image';
+    echo ' ';
  }
     
 }

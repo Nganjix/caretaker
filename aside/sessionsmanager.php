@@ -74,7 +74,7 @@ class SetAllowedRoles extends DatabaseHandler
     function __construct()
     {
         parent::__construct();
-        $stmt = 'select b.screenDesc, b.name from roles a left join screens b on a.screenid = b.id where a.userid ="'.$_SESSION['userid'].'" and b.allowed = 1';
+        $stmt = 'select b.screenDesc, b.name from roles a left join screens b on a.screenid = b.id where a.userid ="'.$_SESSION['userid'].'" and b.allowed = 1 order by b.sortorder';
         $getdata = $this->returnSelectData($stmt);
         unset($_SESSION['userroles']);
         foreach($getdata->fetchAll(PDO::FETCH_NUM) as $key => $val)

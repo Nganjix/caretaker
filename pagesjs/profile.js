@@ -174,13 +174,13 @@ function setValueInFields(datareceived,  id)
            if(datareceived[datalength].length != 0 )
            {
             $('#imgplace').attr('src', './images/profile/'+datareceived[datalength]);
-            currentprofimg = './images/profile/'+datareceived[datalength];
+            currentprofimg = './images/profile/'+datareceived[datalength]; //set current image
            
            }
            else
            {
             $('#imgplace').attr('src', './images/profileplaceholder.png');
-            currentprofimg = './images/profileplaceholder.png';
+            currentprofimg = './images/profileplaceholder.png'; //if no image exists set placeholder
            }
          
         
@@ -296,9 +296,9 @@ function profCustomeAjax(profurl, formdatat, status)
             {
                 defineErrorCodes(datat, status);
             },
-            error : function(error)
+            error : function(errr)
             {
-                defineErrorCodes(datat, status);
+                defineErrorCodes(errr, status);
                 
             }
             

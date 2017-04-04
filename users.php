@@ -43,7 +43,7 @@ $('#headtoggle').addClass("active");
 
     <div class="form-group">
        <label>Username: </label>
-        <input id="usernm" class="form-control" type="text" placeholder="type to search.." value=" " >
+        <input id="usernm" class="form-control" type="text" placeholder="type to search user.." value=" " >
     </div>
     <div class="form-group">
        <label>Password: </label>

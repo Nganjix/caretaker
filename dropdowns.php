@@ -56,7 +56,8 @@ if(isset($_SESSION['user']))
         function returnAccounts()
         {
             $field = 'accId, accName';
-            $db = new databaseops($this->dropdown, $field, 'None');
+            $param = ' active = 1';
+            $db = new databaseops($this->dropdown, $field, $param);
             echo(json_encode($db->returnData()));
             
         } 
@@ -73,7 +74,8 @@ if(isset($_SESSION['user']))
         function returnTenant()
         {
             $field = 'id, firstName, secondName';
-            $db = new databaseops($this->dropdown, $field, 'None');
+            $param = ' isActive = 1';
+            $db = new databaseops($this->dropdown, $field, $param);
             echo(json_encode($db->returnData())); 
             
         }   
@@ -141,11 +143,26 @@ if(isset($_SESSION['user']))
             
         } 
     }
+    class Periods
+    {
+        var $tablename;
+        function __construct()
+        {
+            $this->tablename = 'paymentperiods';
+        }
+        function returnPeriods()
+        {
+            $fields = 'Id, periodName, periodDesc';
+            $db = new databaseops($this->tablename, $fields, 'None');
+            echo(json_encode($db->returnData()));
+        }
+    }
+
     if(!empty($_REQUEST["page"]) && isset($_REQUEST["page"]))
     {
         if(isset($_REQUEST['dropdownid']) && !empty($_REQUEST['dropdownid']))
         {
-            $pagesarray = array('apartments', 'profile', 'blocks');
+            $pagesarray = array('apartments', 'profile', 'blocks', 'payment');
             if(in_array($_REQUEST["page"],$pagesarray))
             {
                 if($_REQUEST["dropdownid"] == 'accounts')
@@ -181,7 +198,13 @@ if(isset($_SESSION['user']))
                     
                     $estate = new Estates();
                     $estate->returnEstates();
-                }    
+                } 
+                if($_REQUEST["dropdownid"] == 'periods')
+                {
+                    
+                    $period = new Periods();
+                    $period ->returnPeriods();
+                }      
                 
             }
             

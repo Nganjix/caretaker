@@ -63,6 +63,14 @@ if(isset($_GET) && !empty($_GET))
     {
         return 'select case when periodName < 10 then concat(0, periodName) else periodName end as periodName, periodDesc, startDay, lastDay from paymentperiods';
     }
+    public function returnPaymentStatusFieldSql($pg, $field)
+    {
+        return 'select  checked from tickedsettings where page = "'.$pg.'" and field = "'.$field.'" limit 1';
+    }
+    public function returnPaymentReferenceSql()
+    {
+        return 'select paymentsId from payments order by paymentsid desc limit 1';
+    }
 }    
     class SendBackData
     {
@@ -288,6 +296,43 @@ if(isset($_GET) && !empty($_GET))
         }
         
     }
+    if($_GET['page'] == 'payment')
+    {
+        if($_GET['qfield'] == 'referenceid')
+        {
+            
+            //custom for the payments screen
+            $getfieldstatus = $connector->query($newTableSetup->returnPaymentStatusFieldSql('addpayments', 'referenceid'));
+            $getstatus = $getfieldstatus->fetch(PDO::FETCH_NUM);
+            if($getstatus && $getstatus[0] == true)
+            {
+                $getnextref = $connector->query($newTableSetup->returnPaymentReferenceSql());
+                $getref = $getnextref->fetch(PDO::FETCH_NUM);
+                if($getref)
+                {
+                    function createzeros($numero)
+                    {
+                        //add zeroes to number
+                        $n = str_repeat('0', 8 - strlen($numero));
+                        return $n.$numero;
+                    }
+                    echo json_encode([createzeros($getref[0]+1)]);
+                }
+                else
+                {
+                    echo(json_encode(['00000001']));// sent when no records exist in payments table but reference set to automatic
+                }
+            }
+            else
+            {
+                echo(json_encode(['false'])); //page and field not set user has to enter the reference number manually
+            }
+        }
+       
+        
+    }
+
+    
     
 }
 }

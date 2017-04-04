@@ -19,7 +19,7 @@ $sessionHandler->runForce();
     <meta name="author" content="">
     <link rel="icon" href="bootstrap/favicon.ico">
 
-    <title>Dashboard - Caretaker</title>
+    <title><?php echo $_SESSION['userroles'][$finalpg].' - Caretaker'; ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +47,7 @@ $sessionHandler->runForce();
   <body>
   <script type="text/javascript" src="myjs/jquery-ui.js"></script>
 <link href="main.css" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="myjs/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="myjs/jquery-ui.css"/>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">

@@ -43,6 +43,7 @@ $('#profileTab').addClass("active");
 	<div class="col-md-3">
 	<div class="form-group">
 		<img id= 'imgplace' src="images/profileplaceholder.png" width="172" height="215" class="img-rounded"></img>
+        <br />
 		<input type="file" name="uploadprofileimg" id="uploadprofileimg" class="form form-control"/><br /><button id="clearimg">Clear Img</button>
         <br />
         <div id="imgmessage" class="text-warning"></div>

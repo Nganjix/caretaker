@@ -357,6 +357,14 @@ class Account
     
     
 }
+class Payment
+{
+    function __construct()
+    {
+        
+    }
+    
+}
 if(isset($_GET['page']) && !empty($_GET['page']))
 {
     $verifyData = new VerifyFormData($_POST);
