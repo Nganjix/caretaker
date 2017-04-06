@@ -27,6 +27,7 @@ $('#headtoggle').addClass("active");
   </div>
   <div class="row">
       <hr />
+      <div class="table-responsive">
       <table id="periodstb" class="table display table-striped table-bordered" cellspacing= "0" width="100%">
         <thead>
            <tr>
@@ -48,6 +49,7 @@ $('#headtoggle').addClass("active");
           
         </tbody>
       </table>
+      </div>
   </div>
 
 <!-- end of content area-->

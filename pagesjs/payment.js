@@ -78,8 +78,7 @@ $(document).ready(function(){
    //save
    $('#save').click(function(event)
    {
-      console.log($('#transdate').val());
-       //saveUpdate();
+       saveUpdate();
    });
   
    function saveUpdate()
@@ -104,7 +103,7 @@ $(document).ready(function(){
                paymentinsertobj.append('filename', $('#filecopy')[0].files[0]);
             }
            
-           paymentAjax(paymentinsertobj, 'insertStuff.php?page=payments', messageAfterInsert);
+           if(paymentinsertobj) paymentAjax(paymentinsertobj, 'insertStuff.php?page=payments', messageAfterInsert);
            
          }
     }

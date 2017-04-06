@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if(isset($_SESSION['user']) && !empty($_SESSION['user']))
 {
@@ -7,7 +6,54 @@ if(isset($_SESSION['user']) && !empty($_SESSION['user']))
 require_once('includes/dbconnection.php');
 require_once('includes/processimage.php');
 $tenantconn = DbConnector::returnconnection();
-
+class GetDataNFields
+{
+	//implemented later, sets and returns data and fields arrays, other classes that have many fields should use this
+	var $dtarray;
+	var $fieldsarray;
+    function setFieldDataArrays($getallrrays, $profname = '')
+	{
+		    if (isset($_REQUEST))
+			{
+				foreach($getallrrays as $key => $val)
+				{
+			       if(!empty($_REQUEST[$val]))
+				   {
+					   array_push($this->fieldsarray, $key);
+					   if($key == 'paymentDate')
+					   {
+						   //convert date field before insert, should apply to all dt functions
+						   array_push($this->dtarray, time($_REQUEST[$val]));
+					   }
+					   else
+					   {
+						  array_push($this->dtarray, $_REQUEST[$val]); 
+					   }
+					   
+				   }
+				}
+				if(!empty($_FILES['filename']['name']) && $profname != '')
+				{
+					array_push($this->fieldsarray, 'documentname');
+					array_push($this->dtarray, $profname);
+				}
+				
+		    }
+	}
+	function returnQMarks()
+	{
+		//returns the question marks for insert statement
+		return join(str_split(str_repeat('?', count($this->dtarray))), ',');
+	}
+	function returnDtArray()
+	{
+		return $this->dtarray;
+	}
+	function returnFieldsArray()
+	{
+		return $this->fieldsarray;
+	}
+}
 class Tenant
 {
 //mapping of the database fields 
@@ -357,12 +403,26 @@ class Account
     
     
 }
-class Payment
+class Payment extends GetDataNFields
 {
+	var $paymentfields;
+    var $docname;
     function __construct()
     {
-        
-    }
+       $this->paymentfields = array('transId'=> 'refid', 'tranDesc'=> 'pmethodselect' , 'accid'=> 'accselect' , 'tenantId'=> 'tenantselect', 'phoneNo'=> 'phoneno', 'paymentAmount'=> 'amount', 
+	   'Status'=> 'statusselect' , 'paymentPeriod'=> 'paymentprds', 'paymentDate' => 'transdate', 'waterbill'=>'waterbill', 'elecbill'=>'elecbill', 'extracosts'=>'addcbill');
+       $this->docname = isset($_FILES['filename']['name']) && $_FILES['filename']['name'] != '' ? time().'_'.str_replace(' ', '_',$_FILES['filename']['name']) : '';	   
+    }   
+	function insertPayments()
+	{
+		if(isset($_REQUEST))
+		{
+			$this->setFieldDataArrays($this->paymentfields, $this->docname);
+			$stmt = 'insert into ('.join($this->returnFieldsArray()).' values ('.$this->returnQMarks().')';
+			new InsertData($stmt, $this->returnDtArray(), $this->docname);
+			//returnDtArray(), returnFieldsArray(), returnQMarks()
+		}
+	}
     
 }
 if(isset($_GET['page']) && !empty($_GET['page']))
@@ -415,6 +475,12 @@ if(isset($_GET['page']) && !empty($_GET['page']))
             
             $newaccount = new Account();
             $newaccount->runAccounts();
+         }
+		 if($_GET['page'] == 'payments')
+         {
+            
+            $newpayment = new Payment();
+            $newpayment->insertPayments();
          }
     }
     else

@@ -91,6 +91,7 @@ function ajaxSendReceive(urlname, info, datastatus, deletecallback)
   }
   function defineErrorCodes(datar, dtstatus, deletecallback)
   {
+	  console.log(datar);
                       if(datar == '200')
                       {
                         msgNotifier('success', dtstatus+' operation successful');
@@ -111,7 +112,7 @@ function ajaxSendReceive(urlname, info, datastatus, deletecallback)
                         }
                         else
                         {
-                            console.log(datar);
+                            
                           msgNotifier('error', 'unknown error:'+dtstatus);
                         }
                         
