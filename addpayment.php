@@ -14,13 +14,15 @@ $('#addpaymentTab').addClass("active");
 <!-- content area-->
 <!-- header -->
 <link href="myjs/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+<link href="myjs/remodal-default-theme.css" rel="stylesheet"/>
+<link href="myjs/remodal.css" rel="stylesheet"/>
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <div class="row top-header container-fluid">
 <div class="col-sm-8">
 <button id="new" class="btn btn-success glyphicon glyphicon-plus-sign" disabled="true"> New </button>
 <button id="save" class="btn btn-success glyphicon glyphicon-floppy-disk" > Save </button>
 <button id="cancel" class="btn btn-danger glyphicon glyphicon-remove" disabled="true"> Cancel Payment </button>
-<button id="approve" class="btn btn-success glyphicon glyphicon-save"> Approve Payment </button>
+<button id="approve" class="btn btn-success glyphicon glyphicon-save" disabled="true"> Approve Payment </button>
 
 <div id="requiredError" data-role="popup" ></div>     
 </div>
@@ -30,7 +32,7 @@ $('#addpaymentTab').addClass("active");
 <div class="col-sm-4">
 <div class="input-group">
     <div class="ui-widget">
-         <input type="text" id="searchblocks" class="form-control" placeholder="search with name.."/>
+         <input type="text" id="searchpayment" class="form-control" placeholder="search by ref number.."/>
     </div>
 <span class="input-group-btn">
         <button id= "search" class="btn btn-default" type="button" disabled="true">Search</button>
@@ -43,7 +45,7 @@ $('#addpaymentTab').addClass("active");
 <div class="row">
    <div class="col-md-3">
       <div class="form form-group">
-        <label>Reference ID</label>
+        <label>Reference ID *</label>
         <input type="text" class="form form-control" id="refid" data-toggle="tooltip" title="Enter receipt or cheque no. else leave as default" />
       </div>
    </div>
@@ -57,7 +59,7 @@ $('#addpaymentTab').addClass("active");
    </div>
    <div class="col-md-3">
       <div class="form-group">
-      <label>Tenant </label>
+      <label>Tenant *</label>
           <select id="tenantselect" class="form form-control">
              <option value="None" selected="true">None</option>
            </select>
@@ -81,7 +83,7 @@ $('#addpaymentTab').addClass("active");
 <div class="row">
 <div class="col-md-4">
    <div class="form form-group">
-        <label>Payment Method</label>
+        <label>Payment Method *</label>
         <select class="form form-control" id="pmethodselect">
            <option value="None" selected="true">None
            </option>
@@ -95,7 +97,7 @@ $('#addpaymentTab').addClass("active");
         
       </div>
    <div class="form-group">
-      <label>Account </label>
+      <label>Account *</label>
       <div class="row">
         <div class="col-md-10">
           <select id="accselect" class="form form-control">
@@ -109,20 +111,20 @@ $('#addpaymentTab').addClass("active");
    </div>
    
    <div class="form form-group">
-        <label>Phone No</label>
+        <label>Phone No *</label>
         <input type="number" class="form form-control" id="phoneno"/>
    </div>
 </div>
 <div class="col-md-4">
    <div class="form form-group">
-        <label>Amount Tendered:</label>
+        <label>Amount Tendered: *</label>
      <div class="input input-group">
         <input type="number" class="form form-control" id="amount"/>
         <span class="input input-group-addon">.00</span>
      </div>
    </div>
    <div class="form form-group">
-        <label>Transaction Date:</label>
+        <label>Transaction Date: *</label>
         <div class="input-group date" id="dt" data-provide="datepicker" data-date-format="dd MM yyyy">
             <input type="text" class="form form-control" id="transdate"/>
             <span class="input-group-addon">
@@ -138,7 +140,7 @@ $('#addpaymentTab').addClass("active");
           <input type="file" id="filecopy" class="form form-control" data-toggle="tooltip" title="Only PNG, JPEG, JPG allowed"/>
         </div>
         <div class="col-md-4">
-            <button class="btn btn-info glyphicon glyphicon-eye-open"> View </button>
+            <button class="btn btn-info glyphicon glyphicon-eye-open" id="viewbtn"> View </button>
         </div>
        
      </div>
@@ -149,21 +151,21 @@ $('#addpaymentTab').addClass("active");
    <div class="form form group">
      <label>Electricity Bill</label>
      <div class="input input-group">
-         <input type="number" class="form form-control" id="elecbill"/>
+         <input type="number" class="form form-control" id="elecbill" value="0.00"/>
          <span class="input input-group-addon">.00</span>
      </div>
    </div>
    <div class="form form group">
      <label>Water Bill</label>
      <div class="input input-group">
-       <input type="number" class="form form-control" id="waterbill"/>
+       <input type="number" class="form form-control" id="waterbill" value="0.00"/>
        <span class="input input-group-addon">.00</span>
      </div>
    </div>
    <div class="form form group">
      <label>Extra Costs</label>
      <div class="input input-group">
-         <input type="number" class="form form-control" id="addcbill"/>
+         <input type="number" class="form form-control" id="addcbill" value="0.00"/>
      <span class="input input-group-addon">.00</span>
      </div>
    </div>
@@ -172,7 +174,18 @@ $('#addpaymentTab').addClass("active");
 
 
 </div>
-
+<!-- code for confirmation modal window -->
+<div data-remodal-id="modal">
+  <button data-remodal-action="close" class="remodal-close"></button>
+  <h1 id="modalheader"></h1>
+  <hr />
+  <p id="modalinfo">
+     
+  </p>
+  <hr />
+  <button data-remodal-action="cancel" class="remodal-cancel"> Close </button>
+  <button data-remodal-action="confirm" class="remodal-confirm" id="modalconfirm">  </button>
+</div>
 
 
 
@@ -183,6 +196,7 @@ $('#addpaymentTab').addClass("active");
 <script type="text/javascript" src="myjs/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="pagesjs/shared.js"></script>
 <script type="text/javascript" src="myjs/notify.min.js"></script>
+<script type="text/javascript" src="myjs/remodal.min.js"></script>
 <?php
 
 

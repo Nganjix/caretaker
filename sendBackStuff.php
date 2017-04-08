@@ -71,6 +71,10 @@ if(isset($_GET) && !empty($_GET))
     {
         return 'select paymentsId from payments order by paymentsid desc limit 1';
     }
+    public function returnPaymentData()
+    {
+        return 'select transId, paymentPeriod, tenantId, Status,tranDesc,  accid, phoneNo, paymentAmount, from_unixtime(paymentDate, "%d/%m/%y") as paymentDate, elecbill,waterbill,extracosts, documentname from payments where transId = "'.$this->varID.'"';
+    }
 }    
     class SendBackData
     {
@@ -91,14 +95,14 @@ if(isset($_GET) && !empty($_GET))
             {
                 $arraytosend = $row;
             }
-            if($arraytosend != [])
-              {
+            if(count($arraytosend) > 0)
+            {
                 echo json_encode($arraytosend);
-              }
-              else
-              {
-                 echo '300'; //data not found
-               }
+            }
+            else
+            {
+                echo '300'; //data not found
+            }
             }
             catch (exception $e){
                 echo($e);
@@ -298,9 +302,9 @@ if(isset($_GET) && !empty($_GET))
     }
     if($_GET['page'] == 'payment')
     {
-        if($_GET['qfield'] == 'referenceid')
+        if($_GET['qfield'] == 'referenceid' && $_GET['id'] == 'none')
         {
-            
+            //have to create separate db connection - different data requirements
             //custom for the payments screen
             $getfieldstatus = $connector->query($newTableSetup->returnPaymentStatusFieldSql('addpayments', 'referenceid'));
             $getstatus = $getfieldstatus->fetch(PDO::FETCH_NUM);
@@ -327,6 +331,23 @@ if(isset($_GET) && !empty($_GET))
             {
                 echo(json_encode(['false'])); //page and field not set user has to enter the reference number manually
             }
+        }
+        if(isset($_GET['id']) && !empty($_GET['id']))
+        {
+            if($_GET['id'] != 'none')
+            {
+                if(isset($_REQUEST['statusPN']))
+                {
+            
+                }
+                else
+                { 
+                    $newSendData = new SendBackData($newTableSetup->returnPaymentData());
+                    $newSendData->returnJsonData();
+            
+               }
+            }
+            
         }
        
         

@@ -1,8 +1,8 @@
 <?php
-require_once('aside/sessionsmanager.php');
-$str = '90';
- $n = str_repeat('0', 8 - strlen($str));
- echo $str + 6;
+
+
+
+
 /*
 include_once('includes/dbconnection.php');                                                                                                                                                                                  
 $conn = Dbconnector::returnconnection();
@@ -113,7 +113,3 @@ pisa reg details<div id="txt"></div>
 */
 </script>
 -->
-<br />
-<font size='1'><table class='xdebug-error xe-parse-error' dir='ltr' border='1' cellspacing='0' cellpadding='1'>
-<tr><th align='left' bgcolor='#f57900' colspan="5"><span style='background-color: #cc0000; color: #fce94f; font-size: x-large;'>( ! )</span> Parse error: syntax error, unexpected '$this' (T_VARIABLE), expecting function (T_FUNCTION) in C:\wamp\www\caretaker\insertStuff.php on line <i>405</i></th></tr>
-</table></font>

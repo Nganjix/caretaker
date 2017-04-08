@@ -11,6 +11,11 @@ class GetDataNFields
 	//implemented later, sets and returns data and fields arrays, other classes that have many fields should use this
 	var $dtarray;
 	var $fieldsarray;
+    function __construct()
+    {
+        $this->dtarray = array();
+        $this->fieldsarray = array();
+    }
     function setFieldDataArrays($getallrrays, $profname = '')
 	{
 		    if (isset($_REQUEST))
@@ -138,7 +143,7 @@ class VerifyFormData
 }
 class InsertData
 {
-    function __construct($stmt, $data, $profileimg){
+    function __construct($stmt, $data, $profileimg, $imgpath=''){
         global $tenantconn;
         $query = $tenantconn->prepare($stmt);
         try{
@@ -146,7 +151,7 @@ class InsertData
         echo '200';
         if($profileimg != '' && isset($_REQUEST['page']))
         {           
-           $imgprocess = new ProcessImage($_FILES, $profileimg, './images/profile/');
+           $imgprocess = new ProcessImage($_FILES, $profileimg, $imgpath);
            $imgprocess->moveImg(); 
         }
         
@@ -274,7 +279,7 @@ class Profile
         $stmt = 'insert into userdetails ( '.$fieldstr.' ) values ( '.createInsertQuestionMarks($this->dataarray).', ?)';
         array_push($this->dataarray, $this->profilephoto);
         
-        new InsertData($stmt, $this->dataarray, $this->profilephoto);
+        new InsertData($stmt, $this->dataarray, $this->profilephoto, './images/profile/');
     }
     
 }
@@ -409,6 +414,7 @@ class Payment extends GetDataNFields
     var $docname;
     function __construct()
     {
+        parent::__construct();
        $this->paymentfields = array('transId'=> 'refid', 'tranDesc'=> 'pmethodselect' , 'accid'=> 'accselect' , 'tenantId'=> 'tenantselect', 'phoneNo'=> 'phoneno', 'paymentAmount'=> 'amount', 
 	   'Status'=> 'statusselect' , 'paymentPeriod'=> 'paymentprds', 'paymentDate' => 'transdate', 'waterbill'=>'waterbill', 'elecbill'=>'elecbill', 'extracosts'=>'addcbill');
        $this->docname = isset($_FILES['filename']['name']) && $_FILES['filename']['name'] != '' ? time().'_'.str_replace(' ', '_',$_FILES['filename']['name']) : '';	   
@@ -418,8 +424,8 @@ class Payment extends GetDataNFields
 		if(isset($_REQUEST))
 		{
 			$this->setFieldDataArrays($this->paymentfields, $this->docname);
-			$stmt = 'insert into ('.join($this->returnFieldsArray()).' values ('.$this->returnQMarks().')';
-			new InsertData($stmt, $this->returnDtArray(), $this->docname);
+			$stmt = 'insert into payments ('.join($this->returnFieldsArray(), ',').') values ('.$this->returnQMarks().')';
+			new InsertData($stmt, $this->returnDtArray(), $this->docname, './images/documents/');
 			//returnDtArray(), returnFieldsArray(), returnQMarks()
 		}
 	}

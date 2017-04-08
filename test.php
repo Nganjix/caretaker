@@ -1,4 +1,6 @@
 <?php
+phpinfo();
+/*
 echo __dir__;
 echo('helllo');
 $_SERVER['DOCUMENT_ROOT'];
@@ -26,4 +28,5 @@ if($_FILES)
     
     echo $_REQUEST['dope'];
 }
+*/
 ?>

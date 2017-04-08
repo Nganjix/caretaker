@@ -156,6 +156,7 @@ function deleteRecord(delurl,currid, deletecallback)
     });
   } );
 }
+//handles setting details from url values
 function insertFromQuery(page, setvaluecallback)
 {
     var paramData = purl();

@@ -119,11 +119,25 @@ if(isset($_GET['page']) && !empty($_GET['page']))
             }
             echo json_encode($accountsarray);
         }
-    }  
+    }
+    if($_GET['page'] == 'payments')
+    {
+        if(isset($_GET['term']))
+        {
+            $paysqlstmt = 'select transId from payments where transId like "%'.$termRequest.'%" order by transId asc limit 20';
+            $paymentsarray = array();
+            $paydtvar = getTermInDb($paysqlstmt);
+            while($row = $paydtvar->fetch())
+            {
+                array_push($paymentsarray, $row[0]);
+            }
+            echo json_encode($paymentsarray);
+        }
     
            
     }
     
+}
 }
 
 ?>

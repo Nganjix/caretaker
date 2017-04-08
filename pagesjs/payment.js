@@ -2,21 +2,82 @@ $(document).ready(function(){
     
     var paymentdataset = [];
     var paymentid = '';
+    var docpath = './images/documents/';
+    var docname = '';
     
     var paymentfields = { 'refid' : 'required', 'paymentprds' : 'notrequired', 'tenantselect' : 'required', 'statusselect' : 'notrequired',
     'pmethodselect' : 'required' , 'accselect' : 'required', 'phoneno' : 'required', 'amount' : 'required', 'transdate' : 'required',
      'elecbill' : 'notrequired', 'waterbill' : 'notrequired', 'addcbill' : 'notrequired'
         
-    };
-    
-    
-    
-   $(function () { $('#dt').datetimepicker({format: 'dd/mm/yyyy', startView : 2, minView : 2}); }); 
+    }; 
+  $(function () { $('#dt').datetimepicker({format: 'dd/mm/yyyy', startView : 2, minView : 2}); }); 
    
    populatePeriods();
    populateTenant();
    populateAccounts();
    setReferenceID();
+   autocompleter('searchpayment', 'autocomplete.php?page=payments', paymentsGetID);
+   function paymentsGetID(event, ui)
+   {
+      $.ajax({
+            url: 'sendBackStuff.php?qfield=none&page=payment&id='+ui.item.value,
+            dataType : 'json',
+            success: function(data){ 
+
+                setPaymentValues(data, ui.item.value);             
+             
+            } 
+            
+    });
+   }
+   function setPaymentValues(dtarray, pgid)
+   {
+      $('#imgmessage').html('');
+      $('#attachmessage').html('Attach scanned copy');
+      $('#displayimg').attr('src', '');
+      docname = '';
+      paymentdataset = dtarray;
+      paymentid = dtarray[0];
+      
+      if(paymentdataset.length > 0)
+      {
+        var docstatus = 0;
+        var i =0;
+        $.each(paymentfields, function(key, val){
+            paymentdataset[i] != null && paymentdataset[i] != '' ?  $('#'+key).val(paymentdataset[i]) : '' ;
+            key == 'statusselect' ? docstatus = paymentdataset[i] : null;
+            i++;
+            
+        });
+      $('#refid, #tenantselect, #pmethodselect, #accselect, #phoneno, #amount, #transdate').trigger('click');
+       toggleBtns(false);
+       var tmpdocname = paymentdataset[paymentdataset.length - 1];
+       if(tmpdocname != '' && tmpdocname != null)
+       {
+          docname = tmpdocname;
+          $('#imgmessage').html('');
+          $('#attachmessage').html('Attached (1)');
+          $('#displayimg').attr('src', docpath+docname);
+          
+       }
+       //toggle field status with regards to document status
+       if(docstatus == 0)
+       {
+          setFieldStatus(paymentfields, false);
+         $('#viewbtn, #filecopy').prop('disabled', false);
+         toggleBtns(false)
+       }
+       else
+       {
+          setFieldStatus(paymentfields, true);
+         $('#viewbtn, #filecopy, #save').prop('disabled', true);
+         toggleBtns(true)
+       }
+       
+
+      }
+    
+   }
    $('#accbtn').click(function(event){
       var url = $('#accselect').val() != 'none' ? 'accounts.php?id='+$('#accselect').val() :  'accounts.php';
       openWindow(url);
@@ -28,7 +89,7 @@ $(document).ready(function(){
        
         var options = '';
          $.each(dt, function(key, val){
-            options += '<option value="'+val[1]+'">'+val[1]+'</option>'
+            options += '<option value="'+val[0]+'">'+val[1]+'</option>'
          });
          $('#accselect').append(options);
        });
@@ -44,6 +105,7 @@ $(document).ready(function(){
        });
      
    }
+   //set values on the periods page
    function populatePeriods()
    {
       $.getJSON('dropdowns.php', {'page' : 'payment', 'dropdownid' : 'periods'}, function(dt){
@@ -83,31 +145,52 @@ $(document).ready(function(){
   
    function saveUpdate()
    {
-    if(genValidateFields(paymentfields))
+    if(!genValidateFields(paymentfields))
     {
+        var paymentinsertobj = new FormData();
+        var updatable = false;
+        if($('#filecopy').val() != '')
+        {
+               paymentinsertobj.append('filename', $('#filecopy')[0].files[0]);
+               updatable = true;
+        }
         if(paymentdataset.length > 0 && paymentid != '')
          { 
            //update
+           var i = 0;
+           $.each(paymentfields, function(key, val){
+            if($('#'+key).val() != paymentdataset[i])
+            {
+                paymentinsertobj.append(key, $('#'+key).val());
+                updatable = true;
+            }
+            i++;
+           });
+           
+           
+           if(updatable)
+           {
+               paymentAjax(paymentinsertobj, 'updateStuff.php?page=payments&id='+paymentid, messageAfterUpdate);
+           }       
          }
          else
          {
            //insert
-           var paymentinsertobj = new FormData();
+           
            $.each(paymentfields, function(key, value){
               
-              paymentinsertobj[key] = $('#'+key).val();
+              paymentinsertobj.append(key, $('#'+key).val());
             
            });
-           if($('#filecopy').val() != '')
-           {
-               paymentinsertobj.append('filename', $('#filecopy')[0].files[0]);
-            }
-           
-           if(paymentinsertobj) paymentAjax(paymentinsertobj, 'insertStuff.php?page=payments', messageAfterInsert);
+           paymentAjax(paymentinsertobj, 'insertStuff.php?page=payments', messageAfterInsert);
            
          }
     }
     
+   }
+   function messageAfterUpdate(dt)
+   {
+      defineErrorCodes(dt, 'Update', '');
    }
    function messageAfterInsert(dt)
    {
@@ -132,8 +215,65 @@ $(document).ready(function(){
            });       
    }
    //cancel
-   //edit
+   $('#cancel').click(function(event){
+      var confirmmodal = $('[data-remodal-id=modal]').remodal();
+      modaldetails('Cancellation Confirmation', 'Do you wish to cancel this payment? kindly note that once cancelled it will be set to read-only and cannot be reverted.', 'Confirm');
+      confirmmodal.open();
+      $(document).on('confirmation', '.remodal', function () {
+           $('#statusselect').val('2');
+           setFieldStatus(paymentfields, true);
+           $('#viewbtn, #filecopy, #save').prop('disabled', true);
+           toggleBtns(true);
+           saveUpdate();
+       });
+
+     /* $(document).on('cancellation', '.remodal', function () {
+           console.log('Cancel button is clicked');
+       });*/
+   });
    //approve
+   $('#approve').click(function(event){
+      var confirmmodal = $('[data-remodal-id=modal]').remodal();
+      modaldetails('Approve Document', 'Kindly note that once approved the document will be set as Read Only and cannot be changed. ', 'Approve');
+      confirmmodal.open();
+      $(document).on('confirmation', '.remodal', function () {
+           $('#statusselect').val('1');
+           setFieldStatus(paymentfields, true);
+           $('#viewbtn, #filecopy, #save').prop('disabled', true);
+           toggleBtns(true);
+           saveUpdate();
+   });
+   });
+   function modaldetails(header, messagedet, buttonst)
+   {
+       $('h1#modalheader').html(header);
+       $('p#modalinfo').html(messagedet);
+       $('#modalconfirm').html(buttonst);
+   }
+   //new
+   $('#new').click(function(event){
+      $('#refid, #tenantselect, #pmethodselect, #accselect, #phoneno, #amount, #transdate').trigger('click'); //remove fields with red
+      $.each(paymentfields, function(key, val){
+        if($.inArray(key, ['paymentprds','tenantselect','statusselect','pmethodselect', 'accselect']) != -1)
+        {
+            $.inArray(key, ['paymentprds','statusselect']) == -1 ? $('#'+key).val('None') : null;
+        }
+        else
+        {
+            $('#'+key).val('');
+        }
+        
+      });
+      $('#imgmessage').html('');
+      $('#attachmessage').html('Attach scanned copy');
+      $('#displayimg').attr('src', '');
+      toggleBtns(true);
+      paymentdataset = [];
+      paymentid = '';
+      docname = '';
+      setFieldStatus(paymentfields, false);
+   });
+
    $('#refid, #tenantselect, #pmethodselect, #accselect, #phoneno, #amount, #transdate').click(
    function(event){
         if($('#'+event.target.id).hasClass('alert alert-danger'))
@@ -143,9 +283,14 @@ $(document).ready(function(){
         }
    });
    
+   function toggleBtns(status)
+   {
+      $('#new, #approve, #cancel').prop('disabled', status);
+      //$('').prop('disabled', status);
+      //$('').prop('disabled', status);
+   }
    
-   
-   //validate uploaded img
+   //validate uploaded img/doc
     $('#filecopy').bind('change', function(event){
            var formData = new FormData();
            formData.append('filename', $('#filecopy')[0].files[0]);
@@ -158,15 +303,15 @@ $(document).ready(function(){
                 {
                     $('#imgmessage').html(data);
                      $('#filecopy').val('');
-                     $('#attachmessage').html('Attach scanned copy')
+                     $('#attachmessage').html('Attach scanned copy');
                 } 
                 else
                 {
-                    validimg = true;
                     $('#imgmessage').html('');
-                    $('#attachmessage').html('Attached (1)')
+                    $('#attachmessage').html('Attached (1)');
                 }
                 
     }
+    insertFromQuery('payment&qfield=none', setPaymentValues);
    
 });

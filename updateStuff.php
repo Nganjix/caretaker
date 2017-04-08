@@ -141,14 +141,30 @@ $conn =  DbConnector::returnconnection();
             return $this->accmappings;
         }
     }
+    class Payments
+    {
+        var $paymentfields;
+        function __construct()
+        {
+           $this->paymentfields = array('transId'=> 'refid', 'tranDesc'=> 'pmethodselect' , 'accid'=> 'accselect' , 'tenantId'=> 'tenantselect', 'phoneNo'=> 'phoneno', 'paymentAmount'=> 'amount', 
+	   'Status'=> 'statusselect' , 'paymentPeriod'=> 'paymentprds', 'paymentDate' => 'transdate', 'waterbill'=>'waterbill', 'elecbill'=>'elecbill', 'extracosts'=>'addcbill');
+       	   
+        }
+        function returnPaymentMappings()
+        {
+            return $this->paymentfields;
+        }
+    }
     class Update
     {
         var $sqlstmt;
         var $profimg;
-        function __construct($sqlscript, $profileimgname)
+        var $docpath;
+        function __construct($sqlscript, $profileimgname, $docpath='')
         {
             $this->sqlstmt = $sqlscript;
             $this->profimg = $profileimgname;
+            $this->docpath = $docpath;
         }
         function inserttodb()
         {
@@ -163,7 +179,7 @@ $conn =  DbConnector::returnconnection();
               
               if($this->profimg != '' && isset($_FILES['filename']['name']))
                {           
-                 $imgprocess = new ProcessImage($_FILES, $this->profimg, './images/profile/');
+                 $imgprocess = new ProcessImage($_FILES, $this->profimg, $this->docpath);
                  $imgprocess->moveImg(); 
                 }      
               }
@@ -181,7 +197,7 @@ $conn =  DbConnector::returnconnection();
         var $wholesqlstr;
         var $fieldmappings;
         var $profileimg = '';
-        function __construct($getDbFields, $primarycd)
+        function __construct($getDbFields, $primarycd, $fieldname = '')
         {
             $this->fieldmappings = $getDbFields;
             if(!empty($_REQUEST))
@@ -216,17 +232,17 @@ $conn =  DbConnector::returnconnection();
                       
                    }
                    //append photphane to the values to be updated
-                   if(isset($_FILES['filename']['name']) && $_REQUEST['page'] == 'userdetails')
+                   if(isset($_FILES['filename']['name']) && ($_REQUEST['page'] == 'userdetails' ||  $_REQUEST['page'] == 'payments'))
                    {
                      $profilephoto = $_FILES['filename']['name'] != '' ? time().'_'.str_replace(' ', '_',$_FILES['filename']['name']) : '';
                      $this->profileimg = $profilephoto;
                      if(count($_REQUEST) == 2)
                      {
-                        $vals .= " profilePhoto ='".$this->profileimg."'";
+                        $vals .= $fieldname." ='".$this->profileimg."'";
                       }
                       else
                      { 
-                       $vals .= ", profilePhoto ='".$this->profileimg."'";
+                       $vals .= ", ".$fieldname." ='".$this->profileimg."'";
                       }
                    }
                    
@@ -249,10 +265,10 @@ $conn =  DbConnector::returnconnection();
      //dashboard
      if(isset($_REQUEST['page']))
      {
-        function executeUpdate($executeObj, $primarykey)
+        function executeUpdate($executeObj, $primarykey, $fieldn= '', $docpath='')
         {
-            $processObj = new ProcessUpdateRequest($executeObj, $primarykey);
-            $updateObj = new Update($processObj->returnSqlQuery(), $processObj->returnProfileImgName());
+            $processObj = new ProcessUpdateRequest($executeObj, $primarykey,$fieldn );
+            $updateObj = new Update($processObj->returnSqlQuery(), $processObj->returnProfileImgName(), $docpath);
             $updateObj->inserttodb();
         }
         $page = $_REQUEST['page'];
@@ -276,7 +292,7 @@ $conn =  DbConnector::returnconnection();
         {
           
           $profileObj = new Profile();
-          executeUpdate($profileObj->returnProfileFields(), 'detailsId');
+          executeUpdate($profileObj->returnProfileFields(), 'detailsId', 'profilePhoto', './images/profile/');
         }
         if($page == 'estates')
         {
@@ -292,6 +308,11 @@ $conn =  DbConnector::returnconnection();
         {
           $accObj = new Account();
           executeUpdate($accObj->returnAccMapings(), 'accName');
+        }
+        if($page == 'payments')
+        {
+          $payObj = new Payments();
+          executeUpdate($payObj->returnPaymentMappings(), 'transId', 'documentname', './images/documents/');
         }
      }
      
