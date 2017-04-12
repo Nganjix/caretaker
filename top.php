@@ -89,7 +89,7 @@ $sessionHandler->runForce();
             <?php 
             if(isset($_SESSION['userroles']))
             {
-               $togglepgs = array('paymentperiods','users', 'company', 'notifications','notificationtemplates');
+               $togglepgs = array('paymentperiods','users', 'company', 'notifications','notificationtemplates','settings');
                $allpagescount  = count($_SESSION['userroles']);
                $settingspgs = '';
                $i =0;

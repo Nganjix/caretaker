@@ -2,6 +2,7 @@
 session_start();
 if(isset($_SESSION['userid']))
 {
+$_SESSION['logintime'] = time();
 require_once('includes/dbconnection.php');
 $conn = DbConnector::returnconnection();
 //separate for each delete

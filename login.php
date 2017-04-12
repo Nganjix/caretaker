@@ -13,10 +13,11 @@ if (isset($SESSION['user'])) {
 <meta name="viewport" content="width=device-width initial-scale=1">
 <meta name="description" content="">
 <meta name="nganj" content="">
+<script src="js/vendor/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="sticky-footer.css">
 <link rel="stylesheet" type="text/css" href="login.css">
-<script src="js/vendor/jquery.min.js"></script>
+
 <script type="text/javascript" src="main.js"></script>
     <link rel="icon" href="../../favicon.ico">
 	<title> Login Page</title>
@@ -67,6 +68,13 @@ if (isset($SESSION['user'])) {
                         <input id="submit" class="btn btn-primary form-control" type="button" value="Sign In"/>
                    </div>
                  </div>
+                 <div class="row">
+                 
+                    <div class="col-md-12">
+                    <br />
+                    <div  id="timeoutmessage"></div></div>
+                   
+                 </div>
                   
              </form>
              
@@ -79,7 +87,32 @@ if (isset($SESSION['user'])) {
      </div>	
 </div>
 <script src="dist/js/bootstrap.min.js" ></script>
-
+<script src="myjs/purl.js"></script>
 <script src="js/vendor/holder.min.js"></script>
+<script  type="text/javascript">
+     var paramData = purl();
+    var getData = paramData.attr('query');
+    
+    if(getData != '' && getData != undefined)
+    {
+        var matchpat = new RegExp('q=');
+        if(matchpat.test(getData))
+        {   var getId = getData.split('&');
+            var getTime= getId[1];
+            var paramValue = getId[0].split('=');
+            if(paramValue[1] == 'timeout')
+            {
+                $('#timeoutmessage').addClass("alert alert-danger");
+                $('#timeoutmessage').html('Session Expired: More than '+ (getTime.split('=')[1])/60+ ' minutes of inactivity, please login again');
+            }
+            
+            /*
+            */
+        }
+        
+    }
+</script>
+
+
 </body>
 </html>

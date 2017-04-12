@@ -19,7 +19,7 @@ $('#addpaymentTab').addClass("active");
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 <div class="row top-header container-fluid">
 <div class="col-sm-8">
-<button id="new" class="btn btn-success glyphicon glyphicon-plus-sign" disabled="true"> New </button>
+<button id="new" class="btn btn-success glyphicon glyphicon-plus-sign"> New </button>
 <button id="save" class="btn btn-success glyphicon glyphicon-floppy-disk" > Save </button>
 <button id="cancel" class="btn btn-danger glyphicon glyphicon-remove" disabled="true"> Cancel Payment </button>
 <button id="approve" class="btn btn-success glyphicon glyphicon-save" disabled="true"> Approve Payment </button>

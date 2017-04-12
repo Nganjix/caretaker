@@ -3,7 +3,7 @@ $(document).ready(function() {
 var tenantdataset = [];
 var tenantID = "";
 var everyField = {'fname' : 'required','sname' : 'required','idnum' : 'required', 'gender' : 'required', 'tenantStatus' : 'notrequired', 'ownerEmail' : 'required', 'boardingDate' : 'required', 'pnumber1' : 'required', 'pnumber2' : 'notrequired',
-'kinfName' : 'required','kinSName' : 'required','kinIdNo' : 'required','kinPhoneNo' : 'required','tenantDepositAmt' : 'required', 'graceperiod' : 'notrequired'};
+'kinfName' : 'required','kinSName' : 'required','kinIdNo' : 'required','kinPhoneNo' : 'required','tenantDepositAmt' : 'required', 'graceperiod' : 'notrequired', 'tenantMonthlyRent' : 'required'};
  //store all the required class fields which are empty 
  //store all class fields that have values
 //code for search//in edit mode stores all the fields that have been updated
@@ -216,10 +216,6 @@ function setValueInFields(parsedArray, id){
               var convertedDate = intToDate(parsedArray[i]);
                $('#boardingDate').datepicker('setDate', convertedDate);
             }
-            else if(key == 'graceperiod')
-            {
-               $('#graceperiod').val(parsedArray[parsedArray.length - 1]); 
-            }
             else
             {
                 $('#'+key).val(parsedArray[i]);
@@ -274,7 +270,7 @@ function prevNextBtn(statusPrev)
     
 }
 insertFromQuery('tenant', setValueInFields);
-$('#fname,#sname,#idnum, #gender, #ownerEmail,#boardingDate, #pnumber1, #kinfName,#kinSName,#kinIdNo,#kinPhoneNo,#tenantDepositAmt').click(function(event){
+$('#fname,#sname,#idnum, #gender, #ownerEmail,#boardingDate, #pnumber1, #kinfName,#kinSName,#kinIdNo,#kinPhoneNo,#tenantDepositAmt, #tenantMonthlyRent').click(function(event){
     if($('#'+event.target.id).hasClass('alert alert-danger'))
     {
         $('#'+event.target.id).removeClass('alert alert-danger');

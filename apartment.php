@@ -75,33 +75,7 @@ $('#apartmentTab').addClass("active");
       </div>
       
 </div>
-<div class="row">
-      <div class="col-sm-2">
-         <label>Mpesa Account:</label>
-      </div>
-       <div class="col-sm-4">
-          <div class="row">
-              <div class="col-sm-10">
-                   <select class="form-control"  id="apartmentacc">
-                   </select>
-               </div>
-               <div class="col-sm-2">
-                  <button class="glyphicon glyphicon-edit" id="editacc"></button>
-                </div>
-           </div>
-      </div>
-      <div class="col-sm-2">
-         <label>Electrical Bill:</label>
-      </div>
-      <div class="col-sm-4">
-           <div class="input-group">
-             <span class="input-group-addon">Ksh</span>
-             <input class="form-control" id="apartmentelecbill" type="number" disabled="true"/>
-             <span class="input-group-addon">.00</span>
-           </div>
-      </div>
-      
-</div>
+
 <div class="row">
       <div class="col-sm-2">
          <label>Tenant Name:</label>
@@ -118,15 +92,16 @@ $('#apartmentTab').addClass("active");
              
       </div>
       <div class="col-sm-2">
-         <label>Additional Cost:</label>
+         <label>Electrical Bill:</label>
       </div>
       <div class="col-sm-4">
-         <div class="input-group"> 
-            <span class="input-group-addon">Ksh</span>
-            <input class="form-control" id="additonalcost" type="number"/>
-            <span class="input-group-addon">.00</span>
-         </div>
+           <div class="input-group">
+             <span class="input-group-addon">Ksh</span>
+             <input class="form-control" id="apartmentelecbill" type="number" disabled="true"/>
+             <span class="input-group-addon">.00</span>
+           </div>
       </div>
+      
       
 </div>
 <div class="row">
@@ -141,6 +116,16 @@ $('#apartmentTab').addClass("active");
              <div class="col-sm-2">
                 <button class="glyphicon glyphicon-edit" id="editblock"></button>
              </div>
+         </div>
+      </div>
+      <div class="col-sm-2">
+         <label>Additional Cost:</label>
+      </div>
+      <div class="col-sm-4">
+         <div class="input-group"> 
+            <span class="input-group-addon">Ksh</span>
+            <input class="form-control" id="additonalcost" type="number" disabled="true"/>
+            <span class="input-group-addon">.00</span>
          </div>
       </div>
       

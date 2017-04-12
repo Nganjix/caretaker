@@ -4,8 +4,8 @@ $(document).ready( function(){
 //autocomplete for page dropdowns
 var url = "dropdowns.php";
 var currentDataSet = [];//stores current array dataset
-var dropdowns = {'#apartmentacc':'accounts', "#tenantname":"tenant", "#blockname":"blocks"};
-var dropdownnames = ['apartmentacc','tenantname','blockname']; 
+var dropdowns = { "#tenantname":"tenant", "#blockname":"blocks"};
+var dropdownnames = ['tenantname','blockname']; 
 
 var implementautocomplete = function(event, ui)
 {
@@ -29,9 +29,9 @@ $.each(dropdowns, function(key, val)
 
 
 
-$('#apartmentacc, #apartmentbill, #apartmentname').click(function(event){ if($('#apartmentacc, #apartmentbill, #apartmentname').hasClass('alert alert-danger'))
+$('#apartmentbill, #apartmentname').click(function(event){ if($('#apartmentbill, #apartmentname').hasClass('alert alert-danger'))
 {
-    $('#apartmentacc, #apartmentbill, #apartmentname').removeClass('alert alert-danger');
+    $('#apartmentbill, #apartmentname').removeClass('alert alert-danger');
 }
 });
 function callEachDropdown(key, val){
@@ -81,9 +81,7 @@ var apartmentfields = {
 	apartmentname : "required",
 	apartmentbill : "required",
 	apartmentdesc : "notrequired",
-	apartmentacc : "required",
 	tenantname :  "notrequired",
-	additonalcost : "notrequired",
 	blockname :  "notrequired"
 
 }
@@ -129,10 +127,6 @@ function getFormData(Objdata)
 
 
 //events part
-$('#editacc').click(function(event){
-    var accurl = $('#apartmentacc').val() != 'None' ? 'accounts.php?id='+$('#apartmentacc').val() :  'accounts.php';
-    openWindow(accurl);
-});
 $('#edittenant').click(function(event){
 
     var tenurl = $('#tenantname').val() != 'None' ? 'tenant.php?id='+$('#tenantname').val() :  'tenant.php';

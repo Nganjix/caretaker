@@ -86,8 +86,11 @@ $('#tenantTab').addClass("active");
 <h4>Payment details</h4>
 <hr />
 <label>Grace Period</label>
-<div class="form form-group">
- <input type="number"  class="form form-control" id="graceperiod" data-toggle="tooltip", title="number of days after which the tenant is in arrear" />
+<div class="input-group">
+   <div class="form form-group">
+      <input type="number"  class="form form-control" id="graceperiod" data-toggle="tooltip", title="number of days after which the tenant is in arrear" />
+    </div>
+    <span class="input-group-addon">Days</span>
 </div>
 <label>Deposit Amount:</label>
 <div class="input-group">
@@ -95,10 +98,10 @@ $('#tenantTab').addClass("active");
 <input type="text" id="tenantDepositAmt" class="tenant-col1-items form-control"/>
 <span class="input-group-addon">.00</span>
 </div>
-<label>Current Amount:</label>
+<label>Monthly Rent:</label>
 <div class="input-group">
 <span class="input-group-addon">KSH</span>
-<input type="text" id="tenantCurrentAmt" class="tenant-col1-items form-control" disabled="true"/>
+<input type="text" id="tenantMonthlyRent" class="tenant-col1-items form-control" />
 <span class="input-group-addon">.00</span>
 </div>
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('includes/dbconnection.php');
+
+include_once('includes/dbconnection.php');
 
 class DatabaseHandler
 {
@@ -119,6 +120,8 @@ class SessionManager
     var $userset;
     var $pageallowed;
     var $curpage;
+    var $timeexpired = false;
+    public static $EXPIRETIME = 600;
     public function __construct()
     {
 
@@ -127,33 +130,36 @@ class SessionManager
         $verifierobj = new RolesVerifier();
         $this->pageallowed = $verifierobj->checkIfAllowedPage();
         $this->curpage = $verifierobj->currentpage;
+        $this->timeexpired = time() - $_SESSION['logintime']  > self::$EXPIRETIME;
     
         
     }
     function runForce($callbackfunction = NULL)
     {
-        if($this->userset && $this->pageallowed)
+        if($this->userset && $this->pageallowed && !$this->timeexpired)
         {
             if(!$callbackfunction)
             {
-                
+                $_SESSION['logintime'] = time();
             }
             else
             {
                 //will call the main function for each page after validation has been done
+                $_SESSION['logintime'] = time();
                 $callbackfunction();
             }
             
             
         }
-        else if($this->userset && $this->pageallowed == false)
+        else if($this->userset && $this->pageallowed == false && !$this->timeexpired)
         {
             if($this->curpage == 'default')
             {
-                
+                $_SESSION['logintime'] = time();
             }
             else
             {
+                $_SESSION['logintime'] = time();
                 header('Location:default.php');
             }
             
@@ -161,7 +167,8 @@ class SessionManager
         }
         else
         {
-            header('Location:login.php');
+            $url = $this->timeexpired ?  'Location:validate.php?page=default&q=timeout&t='.self::$EXPIRETIME: 'Location:login.php';
+            header($url);
         }
         
         

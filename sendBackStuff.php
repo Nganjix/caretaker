@@ -1,7 +1,8 @@
 <?php
 session_start();
 if(isset($_SESSION['user'])){
-include_once('includes/dbconnection.php');
+$_SESSION['logintime'] = time();
+require_once('includes/dbconnection.php');
 $connector = DbConnector::returnconnection();
 //echo $_GET['page'].' '.$_GET['id'];
 if(isset($_GET) && !empty($_GET))
@@ -21,7 +22,7 @@ if(isset($_GET) && !empty($_GET))
     {
         //tenant
         return "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$this->tablename." where id=".$this->varID;
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,graceperiod, monthlyrent from ".$this->tablename." where id=".$this->varID;
     }
     public function returnApartmentsSql()
     {
@@ -29,7 +30,7 @@ if(isset($_GET) && !empty($_GET))
         a left join accounts b on a.accId = b.accId left join tenant c on a.tenantId = c.Id left join blocks d on a.blockId = d.blockId where a.aprtName
          = '".$this->varID."'"; */
      
-        return "select aprtName, costPerMonth, aprtDesc,accId, tenantId, additionalCost, blockId from apartment where aprtName = '".$this->varID."'";
+        return "select aprtName, costPerMonth, aprtDesc, tenantId,  blockId from apartment where aprtName = '".$this->varID."'";
     }
     public function returnUsersSql()
     {
@@ -132,7 +133,7 @@ if(isset($_GET) && !empty($_GET))
                 if ($_GET['statusPN'] == 'Next')
                 {
                 $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$_GET['page']." where id > ".$_GET['id']." order by id limit 1";
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,graceperiod, monthlyrent from ".$_GET['page']." where id > ".$_GET['id']." order by id limit 1";
              
                   
                 }
@@ -140,7 +141,7 @@ if(isset($_GET) && !empty($_GET))
                {
                 //else return previous record
                 $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$_GET['page']." where id < ".$_GET['id']." order by id limit 1";
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,graceperiod, monthlyrent from ".$_GET['page']." where id < ".$_GET['id']." order by id limit 1";
         
                }
         
@@ -149,7 +150,7 @@ if(isset($_GET) && !empty($_GET))
             //else return 1st record
             
                $seltedqry = "select id, firstName,secondName,idNumber,gender,isActive,email,boardingDate,paymentPhoneNo1,paymentPhoneNo2,
-        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,currentAmount,graceperiod from ".$_GET['page']." order by id limit 1";
+        nextOfKinFname,nextOfKinSname, nextOfKinIdNo, nextOfKinPhoneId,depositNumber,graceperiod, monthlyrent from ".$_GET['page']." order by id limit 1";
                   
              }
              runQueries($seltedqry);
@@ -172,18 +173,18 @@ if(isset($_GET) && !empty($_GET))
             $selectedqry  = '';
             if($_GET['id'] == 'NoID')
             {
-                $selectedqry = 'select aprtName, costPerMonth, aprtDesc,accId, tenantId, additionalCost, blockId from apartment order by aprtName limit 1';
+                $selectedqry = 'select aprtName, costPerMonth, aprtDesc, tenantId,  blockId from apartment order by aprtName limit 1';
                 
             }
             else
             {
                 if($_GET['statusPN'] == 'Next')
                 {
-                    $selectedqry = "select aprtName, costPerMonth, aprtDesc,accId, tenantId, additionalCost, blockId from apartment where aprtName > '".$_GET['id']."' order by aprtName limit 1";
+                    $selectedqry = "select aprtName, costPerMonth, aprtDesc,tenantId,  blockId from apartment where aprtName > '".$_GET['id']."' order by aprtName limit 1";
                 }
                 else
                 {
-                    $selectedqry = "select aprtName, costPerMonth, aprtDesc,accId, tenantId, additionalCost, blockId from apartment where aprtName < '".$_GET['id']."'order by aprtName limit 1";
+                    $selectedqry = "select aprtName, costPerMonth, aprtDesc,tenantId, blockId from apartment where aprtName < '".$_GET['id']."'order by aprtName limit 1";
                 }
             }
             runQueries($selectedqry);

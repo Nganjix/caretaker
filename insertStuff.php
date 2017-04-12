@@ -2,7 +2,7 @@
 session_start();
 if(isset($_SESSION['user']) && !empty($_SESSION['user']))
 {
-
+$_SESSION['logintime'] = time();
 require_once('includes/dbconnection.php');
 require_once('includes/processimage.php');
 $tenantconn = DbConnector::returnconnection();
@@ -82,6 +82,7 @@ var $nextOfKinIdNo;
 var $nextOfKinPhoneId;
 var $depositNumber;
 var $graceperiod;
+var $monthrent;
 //var $currentAmount;
 //var $address;
 //var $pinvatno;
@@ -106,16 +107,19 @@ function __construct($formData)
     $this -> nextOfKinPhoneId = $formData['kinPhoneNo'];
     $this -> depositAmount = ($formData['tenantDepositAmt'] != null && $formData['tenantDepositAmt'] != "") ? $formData['tenantDepositAmt']: 0 ; //optional
     $this->graceperiod = $formData['graceperiod'];
+    $this->monthrent = $formData['tenantMonthlyRent'];
     }
 function insertTenantSql()
 {
     $sqlstmt = "insert into tenant (firstName,secondName,idNumber,gender,isActive,email,boardingDate,
 paymentPhoneNo1,paymentPhoneNo2,nextOfKinFname,nextOfKinSname, nextOfKinIdNo,
-nextOfKinPhoneId,depositNumber, graceperiod) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+nextOfKinPhoneId,depositNumber, graceperiod, monthlyrent) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 return $sqlstmt;
 }
 function getData(){
-    return array($this ->firstName, $this ->secondName, $this ->idNumber, $this ->gender, $this ->isActive, $this ->email, $this ->boardingDate,$this ->paymentPhoneNo1, $this ->paymentPhoneNo2, $this ->nextOfKinFname, $this ->nextOfKinSname, $this ->nextOfKinIdNo, $this ->nextOfKinPhoneId, $this ->depositAmount, $this->graceperiod);
+    return array($this ->firstName, $this ->secondName, $this ->idNumber, $this ->gender, $this ->isActive, $this ->email, 
+    $this ->boardingDate,$this ->paymentPhoneNo1, $this ->paymentPhoneNo2, $this ->nextOfKinFname, 
+    $this ->nextOfKinSname, $this ->nextOfKinIdNo, $this ->nextOfKinPhoneId, $this ->depositAmount, $this->graceperiod, $this->monthrent);
 }  
 function runTenant()
 {
@@ -187,8 +191,7 @@ function createInsertQuestionMarks($darray)
 
 class Apartment
 {
-    var $mappings = array("apartmentname"=>"aprtName", "apartmentbill"=>"costPerMonth", "apartmentdesc"=>"aprtDesc", "apartmentacc"=>"accId","tenantname"=>"tenantId", 
-	"additonalcost"=>"additionalCost", "blockname"=>"blockId");
+    var $mappings = array("apartmentname"=>"aprtName", "apartmentbill"=>"costPerMonth", "apartmentdesc"=>"aprtDesc", "tenantname"=>"tenantId",  "blockname"=>"blockId");
      var $datarray = array();
      var $fieldsarray = array(); 
     function __construct($formData)

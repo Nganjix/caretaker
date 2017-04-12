@@ -1,0 +1,9 @@
+->check if periodname, year and tenant id are set:
+->check if period in cumulative exists:
+    ->if doesnt exist, create new one and start populating depending on the amount tendered
+    ->if it exists, check if period is active:
+          -> if not active create a new one and start populating
+          -> if active, get existing amount, add it to given amount:
+                   ->if amount is less that rent append amount and exit
+                   ->if amount is equal to rent append amount set the period to inactive
+                   ->if amount is greater than rent append the amount close period and proceed to next period  

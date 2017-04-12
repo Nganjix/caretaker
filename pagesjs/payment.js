@@ -272,6 +272,8 @@ $(document).ready(function(){
       paymentid = '';
       docname = '';
       setFieldStatus(paymentfields, false);
+      $('#save').prop('disabled', false);
+      setReferenceID();
    });
 
    $('#refid, #tenantselect, #pmethodselect, #accselect, #phoneno, #amount, #transdate').click(
@@ -285,7 +287,7 @@ $(document).ready(function(){
    
    function toggleBtns(status)
    {
-      $('#new, #approve, #cancel').prop('disabled', status);
+      $('#approve, #cancel').prop('disabled', status);
       //$('').prop('disabled', status);
       //$('').prop('disabled', status);
    }

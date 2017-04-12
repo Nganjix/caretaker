@@ -1,6 +1,7 @@
 <?php
-
-
+include_once('aside/periodsgenerator.php');
+$t = new PeriodGenerator(2018);
+echo $t->createNewPeriods();
 
 
 /*

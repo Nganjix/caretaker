@@ -1,7 +1,9 @@
 <?php
 session_start();
 if (isset($_SESSION['user']) && !empty($_SESSION['user']))
-{  
+{ 
+$_SESSION['logintime'] = time();
+require_once('aside/paymentsmanager.php');
 require_once('includes/dbconnection.php');
 require_once('includes/processimage.php');
 $conn =  DbConnector::returnconnection();
@@ -26,7 +28,8 @@ $conn =  DbConnector::returnconnection();
                     'nextOfKinIdNo'=>'kinIdNo',
                     'nextOfKinPhoneId'=>'kinPhoneNo',
                     'depositNumber'=>'tenantDepositAmt',
-                    'graceperiod'=>'graceperiod'
+                    'graceperiod'=>'graceperiod',
+                    'monthlyrent'=>'tenantMonthlyRent'
        );   
     }
    public function returnFieldsObjects()
@@ -57,11 +60,9 @@ $conn =  DbConnector::returnconnection();
             $this->aprtmappings = array(
         'aprtName' => 'apartmentname',
         'aprtDesc' => 'apartmentdesc',
-        'accID' => 'apartmentacc',
         'tenantId' => 'tenantname',
         'blockId' => 'blockname',
-        'costPerMonth' => 'apartmentbill',
-        'additionalCost' => 'additonalcost'
+        'costPerMonth' => 'apartmentbill'
         );
                 /*$this->aprtName =$requestObj['apartmentname'];
                 $this->aprtDesc = $requestObj['apartmentdesc'];

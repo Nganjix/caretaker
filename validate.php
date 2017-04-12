@@ -26,7 +26,8 @@ if (CheckScreens::returnScreenStatus($page))
     logOutUser();
     session_unset();
     session_destroy();
-    header("Location:login.php");
+    $url2 = isset($_GET['q']) &&  isset($_GET['t']) ? 'Location:login.php?q='.$_GET['q'].'&t='.$_GET['t']  : 'Location:login.php';
+    header($url2);
   }
 
 else
@@ -64,8 +65,10 @@ else
            {
             global $conn;
             $loginTime = time();
+            $_SESSION['logintime'] = $loginTime;
             $useridf = $_SESSION['userid'];
             $useripaddr = $_SERVER['REMOTE_ADDR'];
+            session_regenerate_id(true);
             $sessid = session_id();
             $sqlstmt = "insert into login (loginDtstamp,userId,userIp,session) values (?, ?, ?, ?)";
             $querylogin  = $conn->prepare($sqlstmt);
